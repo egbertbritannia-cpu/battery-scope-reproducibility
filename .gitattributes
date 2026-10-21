@@ -1,0 +1,2 @@
+# Preserve exact artifact bytes so release hashes work on every platform.
+* -text

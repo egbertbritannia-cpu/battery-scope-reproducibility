@@ -1,0 +1,36 @@
+{
+  "scope": "Data files are not included. Obtain authorized versions matching these hashes; additional profile shards are indexed by the external cycle-store index.",
+  "config": {
+    "path": "phase2-ouput/batteryscope_corrected_inner_v2_kaggle/batteryscope_corrected_inner_v2/inner_config.frozen.json",
+    "bytes": 17978,
+    "sha256": "0e290d60d1e8207865ea6bd0e7dbb7fd48c7e27a381f5438daab9a248beec357"
+  },
+  "files": [
+    {
+      "path": "phase2-ouput/batteryscope_corrected_inner_v2_kaggle/batteryscope_corrected_inner_v2/phase2/feature_spec.json",
+      "bytes": 13292,
+      "sha256": "e385cb9c501c2303254f0d6cb91ed71cf669943ba3bd790f8fae4179b7ce68b5"
+    },
+    {
+      "path": "phase2-ouput/batteryscope_corrected_inner_v2_kaggle/batteryscope_corrected_inner_v2/phase2/sample_target_index.parquet",
+      "bytes": 14914579,
+      "sha256": "b04ea720a7e59e135a2d4c6a1dbef96fdc48d00025c6fd27d86d8fe86a50aa16"
+    },
+    {
+      "path": "phase2-ouput/batteryscope_corrected_inner_v2_kaggle/batteryscope_corrected_inner_v2/phase2/window_index.parquet",
+      "bytes": 19799437,
+      "sha256": "1651fe5f86f00782e96df39549349c6bd76a20245aef40cc5f1d5d92dd37d132"
+    },
+    {
+      "path": "phase2-ouput/batteryscope_corrected_inner_v2_kaggle/batteryscope_corrected_inner_v2/phase2/battery_phase2_fold_membership.parquet",
+      "bytes": 672571,
+      "sha256": "fa16d88c392707801edc8629ae1740c664e04ced57d4c091f9265cb9447980f3"
+    },
+    {
+      "path": "phase2-ouput/batteryscope_corrected_inner_v2_kaggle/batteryscope_corrected_inner_v2/phase2/multisensor_cycle_store_index.parquet",
+      "bytes": 160096,
+      "sha256": "e5d5fd8bb98c44f7a42683aa6c7078a7adc0c703feadb2347208f3b670989298"
+    }
+  ],
+  "no_credentials_required_for_package_inspection": true
+}

@@ -1,0 +1,152 @@
+{
+  "scope": "Post hoc SoH-only inner diagnostic; CALB excluded from training and validation. Fixed configurations; not equal hyperparameter search budgets.",
+  "specification": {
+    "schema": "common-sequence-scale-inner-v1",
+    "source_context": "CALB",
+    "role": "POST_OUTER_EXPLORATORY_INNER_ONLY",
+    "outer_scoring": false,
+    "calibration_scoring": false,
+    "replace_primary_comparison": false,
+    "independent_confirmation": false,
+    "common_input": [
+      30,
+      96
+    ],
+    "classical_input": "same tensor flattened to 2880; no engineered extras",
+    "capacity_channels": [
+      "discharge_ah",
+      "charge_ah",
+      "discharge_wh",
+      "charge_wh",
+      "cumulative_discharge_ah",
+      "cumulative_charge_ah",
+      "cumulative_absolute_energy_wh",
+      "current_mean_a",
+      "current_std_a",
+      "current_rms_a",
+      "current_median_abs_a",
+      "current_peak_abs_a",
+      "dqdv_peak1_magnitude",
+      "dqdv_peak2_magnitude",
+      "dqdv_area"
+    ],
+    "cap": 5.0,
+    "cap_scope": "train and validation",
+    "train_sample": "at most32 eligible SoH anchors/cell, rounded linspace positions; full cohort before fit",
+    "sample_weight": "inverse selected count/cell, normalized to mean1; identical objective in all families",
+    "cycle_scaler": "accepted train-only per-cell capped256 cycle reservoir, including full train profiles",
+    "target_scaler": "accepted train-only scaler; only SoH transform contributes to learning",
+    "labels_read": "existing inner multitask loader/scaler reads inner SoH/RUL; RUL has no loss or selection role",
+    "neural": {
+      "architectures": "accepted TCN and GRU",
+      "loss": "weighted absolute error in original SoH units",
+      "output": "SoH q50 only; inverse train mean/std before loss, no prediction bounds in loss",
+      "learning_rate": 0.001,
+      "weight_decay": 1e-05,
+      "optimizer": "AdamW",
+      "epochs": 30,
+      "micro_batch": 32,
+      "effective_batch": 256,
+      "gradient_clip_norm": 1.0,
+      "dtype": "float32",
+      "amp": false,
+      "tf32": false,
+      "epoch_order": "all selected anchors exactly once; per-epoch seeded permutation",
+      "stop": "logical patience5 prefix; continue to epoch30, never select beyond prefix",
+      "selection": "full validation MAE: mean cells within source then mean sources; min improvement1e-8"
+    },
+    "extra_trees": {
+      "n_estimators": 128,
+      "max_depth": 16,
+      "min_samples_leaf": 10,
+      "max_features": 0.7,
+      "criterion": "absolute_error",
+      "bootstrap": false,
+      "n_jobs": 2,
+      "checkpoint_trees": 16,
+      "warm_start": true
+    },
+    "validation": "all eligible SoH windows; raw predictions and same bounds[0,1.5] for scoring",
+    "seeds": [
+      2026,
+      2027,
+      2028
+    ],
+    "inner_folds": [
+      0,
+      1,
+      2
+    ],
+    "planned_fits": 54,
+    "interpretation": "paired preprocessing effect primary; family ranking secondary; not equal HPO/compute",
+    "chronology": "Designed after CALB outer inspection and fixed-model scale diagnosis; cap chosen post hoc."
+  },
+  "science_sha256": "2a071dcaf16e7a0732e3944d0a0effec78239118e34a737cecbcac2d0484c452",
+  "expected_environments": {
+    "gpu_neural": {
+      "cuda_available": true,
+      "cudnn_version": 91900,
+      "gpu_name": "Tesla T4",
+      "numpy": "2.1.3",
+      "pandas": "2.3.3",
+      "pyarrow": "23.0.1",
+      "python": "3.13.15",
+      "scikit_learn": "1.6.1",
+      "torch": "2.11.0+cu128",
+      "torch_cuda_version": "12.8"
+    },
+    "cpu_et": {
+      "python": "3.13.15",
+      "numpy": "2.1.3",
+      "pandas": "2.3.3",
+      "pyarrow": "23.0.1",
+      "scikit_learn": "1.6.1",
+      "cuda_available": false,
+      "gpu_name": null
+    }
+  },
+  "checkpoint": "all completed neural epochs and 16-tree groups; uncheckpointed work may repeat after interruption",
+  "external_input_files": {
+    "code/corrected_environment.py": {
+      "bytes": 6298,
+      "sha256": "9c1e1859993609beeb4263329249bbca228d7f55c097bb06274a1a364f2155d9"
+    },
+    "code/inner_recipe.json": {
+      "bytes": 66390,
+      "sha256": "82763759f01a452911599d5cdeddee2cec85149cbca9177f71f0b8d565921413"
+    },
+    "code/smoke_reference_runtime.py": {
+      "bytes": 19563,
+      "sha256": "b303f11f136ed9359a2aa79e5ab52996a10f4051b1b15a10de3a504a1e0a8cbf"
+    },
+    "inner_config.frozen.json": {
+      "bytes": 17978,
+      "sha256": "0e290d60d1e8207865ea6bd0e7dbb7fd48c7e27a381f5438daab9a248beec357"
+    },
+    "phase2/battery_phase2_fold_membership.parquet": {
+      "bytes": 672571,
+      "sha256": "fa16d88c392707801edc8629ae1740c664e04ced57d4c091f9265cb9447980f3"
+    },
+    "phase2/feature_spec.json": {
+      "bytes": 13292,
+      "sha256": "e385cb9c501c2303254f0d6cb91ed71cf669943ba3bd790f8fae4179b7ce68b5"
+    },
+    "phase2/multisensor_cycle_store_index.parquet": {
+      "bytes": 160096,
+      "sha256": "e5d5fd8bb98c44f7a42683aa6c7078a7adc0c703feadb2347208f3b670989298"
+    },
+    "phase2/sample_target_index.parquet": {
+      "bytes": 14914579,
+      "sha256": "b04ea720a7e59e135a2d4c6a1dbef96fdc48d00025c6fd27d86d8fe86a50aa16"
+    },
+    "phase2/tabular_feature_index.parquet": {
+      "bytes": 271836752,
+      "sha256": "49e97e38b1fecf14900943d63b190b0e94b220daa5c0354ef1a62fac2e052a7d"
+    },
+    "phase2/window_index.parquet": {
+      "bytes": 19799437,
+      "sha256": "1651fe5f86f00782e96df39549349c6bd76a20245aef40cc5f1d5d92dd37d132"
+    }
+  },
+  "reproduction_limit": "Supplied source aggregates can reproduce displayed summaries, not independent predictions or cell-level scoring. Native replay receipts cover the first validation batch only."
+}

@@ -1,0 +1,408 @@
+{
+  "schema": "bound-executed-inner-recipe-v1",
+  "root_definitions": [
+    "deterministic_fold_seed",
+    "fit_cycle_scaler",
+    "fit_target_scaler",
+    "load_multitask_window_targets",
+    "per_cell_error_table",
+    "predict_multitask_tcn",
+    "regression_metrics",
+    "select_tcn_inner_epoch",
+    "source_blocked_role_payload"
+  ],
+  "definitions": [
+    {
+      "name": "require",
+      "cell": 3,
+      "original_start_line": 34,
+      "source": "def require(condition: bool, message: str) -> None:\n    if not bool(condition):\n        raise RuntimeError(message)",
+      "source_sha256": "3d7a97e2a823cf6edc2fb9b3c387460e577baf13074372b6c3f1edf90eef1635"
+    },
+    {
+      "name": "canonical_json_bytes",
+      "cell": 3,
+      "original_start_line": 39,
+      "source": "def canonical_json_bytes(obj: Any) -> bytes:\n    return json.dumps(\n        obj,\n        sort_keys=True,\n        separators=(\",\", \":\"),\n        ensure_ascii=False,\n        allow_nan=False,\n    ).encode(\"utf-8\")",
+      "source_sha256": "a56de840df1cb9019fe7028f16fefe2d59701c37d8b58ea95e8a1be354dd22de"
+    },
+    {
+      "name": "sha256_json",
+      "cell": 3,
+      "original_start_line": 49,
+      "source": "def sha256_json(obj: Any) -> str:\n    return hashlib.sha256(canonical_json_bytes(obj)).hexdigest()",
+      "source_sha256": "d576e0938912eb2314c538a7b32e0d699d0a1393d3c22e6c5f1401aa1549f2a3"
+    },
+    {
+      "name": "sha256_file",
+      "cell": 3,
+      "original_start_line": 53,
+      "source": "def sha256_file(path: Path, chunk_bytes: int = 8 * 1024 * 1024) -> str:\n    digest = hashlib.sha256()\n    with path.open(\"rb\") as handle:\n        while True:\n            chunk = handle.read(chunk_bytes)\n            if not chunk:\n                break\n            digest.update(chunk)\n    return digest.hexdigest()",
+      "source_sha256": "af0022b5a89038f87a293ff5b8589287fdb1df8adb1a36eff776c04fa99da30c"
+    },
+    {
+      "name": "atomic_write_json",
+      "cell": 3,
+      "original_start_line": 64,
+      "source": "def atomic_write_json(path: Path, payload: dict[str, Any]) -> None:\n    path.parent.mkdir(parents=True, exist_ok=True)\n    temporary = path.with_suffix(path.suffix + \".partial\")\n    with temporary.open(\"w\", encoding=\"utf-8\") as handle:\n        json.dump(payload, handle, ensure_ascii=False, indent=2, sort_keys=True)\n    os.replace(temporary, path)",
+      "source_sha256": "36c3aec8dc45715d5695635701a4c6be494353c15aa1847598e029d0f901853d"
+    },
+    {
+      "name": "atomic_torch_save",
+      "cell": 3,
+      "original_start_line": 81,
+      "source": "def atomic_torch_save(payload: dict[str, Any], path: Path) -> None:\n    path.parent.mkdir(parents=True, exist_ok=True)\n    temporary = path.with_suffix(path.suffix + \".partial\")\n    torch.save(payload, temporary)\n    os.replace(temporary, path)",
+      "source_sha256": "967d35e2d5455d694f3ec78c68f6275b6d62db287e2c97912ac440f29fabbce7"
+    },
+    {
+      "name": "normalize_bool",
+      "cell": 3,
+      "original_start_line": 143,
+      "source": "def normalize_bool(series: pd.Series, name: str) -> pd.Series:\n    if pd.api.types.is_bool_dtype(series.dtype):\n        return series.fillna(False).astype(bool)\n    mapping = {\n        True: True, False: False, 1: True, 0: False,\n        \"1\": True, \"0\": False, \"true\": True, \"false\": False,\n        \"True\": True, \"False\": False, \"yes\": True, \"no\": False,\n    }\n    converted = series.map(mapping)\n    bad = series.notna() & converted.isna()\n    if bad.any():\n        examples = series.loc[bad].astype(str).unique()[:8].tolist()\n        raise RuntimeError(f\"Cannot normalize boolean column {name}; examples={examples}\")\n    return converted.fillna(False).astype(bool)",
+      "source_sha256": "a3df626fcf314044cb7d980cb478a929792fb63ed82487822caf426e9813a71d"
+    },
+    {
+      "name": "fold_for_job",
+      "cell": 7,
+      "original_start_line": 63,
+      "source": "def fold_for_job(evaluation_mode: str, outer_entity: str) -> pd.DataFrame:\n    fold = fold_membership.loc[\n        fold_membership[\"evaluation_mode\"].eq(evaluation_mode)\n        & fold_membership[\"outer_entity\"].eq(str(outer_entity))\n    ].copy()\n    require(not fold.empty, f\"No fold membership for {evaluation_mode}:{outer_entity}\")\n    require(fold[\"canonical_cell_id\"].is_unique, f\"Duplicate cell rows in {evaluation_mode}:{outer_entity}\")\n    return fold",
+      "source_sha256": "da65f1c24dc26c05e686de08acaa9e9e8bf748389aab08d5f2c7a196091c741d"
+    },
+    {
+      "name": "source_blocked_role_payload",
+      "cell": 7,
+      "original_start_line": 73,
+      "source": "def source_blocked_role_payload(evaluation_mode: str, outer_entity: str, inner_fold: int) -> dict[str, Any]:\n    require(evaluation_mode == \"LODO\", \"Revised Stage 6 accepts LODO jobs only\")\n    require(str(outer_entity) in STAGE6_ALL_OUTER_SOURCES, f\"Unknown outer source: {outer_entity}\")\n    require(int(inner_fold) in INNER_FOLDS, f\"Invalid source block: {inner_fold}\")\n    fold = fold_for_job(evaluation_mode, outer_entity)\n    development = fold.loc[fold[\"split\"].eq(\"development\")].copy()\n    test = fold.loc[fold[\"split\"].eq(\"test\")].copy()\n    forbidden = fold.loc[~fold[\"split\"].eq(\"development\")].copy()\n    family_partition_counts = fold.groupby(\"duplicate_family_id\")[\"split\"].nunique(dropna=False)\n    require(\n        family_partition_counts.eq(1).all(),\n        \"Duplicate family spans multiple fold partitions\",\n    )\n    require(not development.empty and not test.empty, \"Outer development/test partition is empty\")\n    outer_rows = fold.loc[fold[\"source\"].astype(str).eq(str(outer_entity))]\n    require(not outer_rows.empty, \"Outer source has no membership rows\")\n    require(outer_rows[\"split\"].eq(\"test\").all(), \"Not every outer-source cell is sealed in test\")\n    if \"direct_test_member\" in fold.columns:\n        direct_test = fold.loc[normalize_bool(fold[\"direct_test_member\"], \"direct_test_member\")]\n        require(set(direct_test[\"source\"].astype(str)) == {str(outer_entity)}, \"Direct test membership is not exactly the outer source\")\n    require(not development[\"source\"].astype(str).eq(str(outer_entity)).any(), \"Outer source leaked into development\")\n\n    expected_development_sources = set(STAGE6_ALL_OUTER_SOURCES) - {str(outer_entity)}\n    observed_development_sources = set(development[\"source\"].astype(str))\n    require(\n        observed_development_sources == expected_development_sources,\n        f\"Development source coverage mismatch for outer={outer_entity}: \"\n        f\"missing={sorted(expected_development_sources - observed_development_sources)}, \"\n        f\"extra={sorted(observed_development_sources - expected_development_sources)}\",\n    )\n\n    validation_sources = set(SOURCE_BLOCKS[int(inner_fold)]) - {str(outer_entity)}\n    expected_train_sources = expected_development_sources - validation_sources\n    require(3 <= len(validation_sources) <= 4, \"Validation must hold 3 or 4 complete sources\")\n    validation = development.loc[development[\"source\"].isin(validation_sources)].copy()\n    train_before_purge = development.loc[development[\"source\"].isin(expected_train_sources)].copy()\n    require(set(validation[\"source\"].astype(str)) == validation_sources, \"A held-out validation source lacks development cells\")\n    require(set(train_before_purge[\"source\"].astype(str)) == expected_train_sources, \"A training source lacks development cells\")\n\n    validation_families = set(validation[\"duplicate_family_id\"].astype(str))\n    purge_mask = train_before_purge[\"duplicate_family_id\"].astype(str).isin(validation_families)\n    purged = train_before_purge.loc[purge_mask].copy()\n    train = train_before_purge.loc[~purge_mask].copy()\n    require(not train.empty, \"Inner train is empty after cross-source duplicate-family purge\")\n    require(\n        set(train[\"source\"].astype(str)) == expected_train_sources,\n        \"Cross-source duplicate-family purge removed every cell from a training source\",\n    )\n\n    train_cells = set(train[\"canonical_cell_id\"].astype(str))\n    validation_cells = set(validation[\"canonical_cell_id\"].astype(str))\n    purged_cells = set(purged[\"canonical_cell_id\"].astype(str))\n    train_families = set(train[\"duplicate_family_id\"].astype(str))\n    forbidden_cells = set(forbidden[\"canonical_cell_id\"].astype(str))\n    source_overlap = set(train[\"source\"].astype(str)) & validation_sources\n    train_protocols = set(train[\"protocol_id\"].dropna().astype(str)) if \"protocol_id\" in train.columns else set()\n    validation_protocols = set(validation[\"protocol_id\"].dropna().astype(str)) if \"protocol_id\" in validation.columns else set()\n    require(not (train_cells & validation_cells), \"Cell leakage between inner train and validation\")\n    require(not (train_families & validation_families), \"Duplicate-family leakage after train-side purge\")\n    require(not source_overlap, \"Source leakage between inner train and validation\")\n    require(not ((train_cells | validation_cells) & forbidden_cells), \"Inner roles touched calibration/test cells\")\n    require(\n        train_cells | validation_cells | purged_cells == set(development[\"canonical_cell_id\"].astype(str)),\n        \"Train, validation, and explicit purge do not account for every development cell\",\n    )\n    require(\n        validation_cells == set(development.loc[development[\"source\"].isin(validation_sources), \"canonical_cell_id\"].astype(str)),\n        \"Validation is not the complete development subset of its held-out sources\",\n    )\n\n    return {\n        \"selection_train\": train_cells,\n        \"early_validation\": validation_cells,\n        \"purged_train_cells\": purged_cells,\n        \"train_sources\": set(train[\"source\"].astype(str)),\n        \"validation_sources\": validation_sources,\n        \"audit\": {\n            \"outer_entity\": str(outer_entity),\n            \"inner_fold\": int(inner_fold),\n            \"train_sources\": sorted(set(train[\"source\"].astype(str))),\n            \"validation_sources\": sorted(validation_sources),\n            \"train_cells\": len(train_cells),\n            \"validation_cells\": len(validation_cells),\n            \"purged_train_cells\": len(purged_cells),\n            \"purged_train_families\": int(purged[\"duplicate_family_id\"].astype(str).nunique()),\n            \"purged_train_cells_by_source\": {\n                str(key): int(value)\n                for key, value in purged.groupby(\"source\")[\"canonical_cell_id\"].nunique().sort_index().items()\n            },\n            \"cell_overlap\": len(train_cells & validation_cells),\n            \"family_overlap_after_purge\": len(train_families & validation_families),\n            \"source_overlap\": len(source_overlap),\n            \"forbidden_calibration_or_test_cells_touched\": len((train_cells | validation_cells) & forbidden_cells),\n            \"duplicate_family_single_partition\": True,\n            \"outer_test_family_spillover_sources\": sorted(set(test[\"source\"].astype(str)) - {str(outer_entity)}),\n            \"train_protocol_count\": len(train_protocols),\n            \"validation_protocol_count\": len(validation_protocols),\n            \"shared_protocol_count_diagnostic_only\": len(train_protocols & validation_protocols),\n            \"validation_is_complete_source_subset\": True,\n        },\n    }",
+      "source_sha256": "3edecc6ac4d8f5e9751ae579464d3bb116dab2253f47c0fca7da18770428424e"
+    },
+    {
+      "name": "parquet_columns",
+      "cell": 9,
+      "original_start_line": 15,
+      "source": "def parquet_columns(path: Path) -> list[str]:\n    return list(pq.read_schema(path).names)",
+      "source_sha256": "adc2896c885683e85916d0a839d9a0b2dcb6f3b3dd12eccae3dbba139495b449"
+    },
+    {
+      "name": "read_for_cells",
+      "cell": 9,
+      "original_start_line": 19,
+      "source": "def read_for_cells(path: Path, columns: list[str], cell_ids: set[str]) -> pd.DataFrame:\n    require(cell_ids, f\"Empty cell selection for {path.name}\")\n    available = set(parquet_columns(path))\n    missing = sorted(set(columns) - available)\n    require(not missing, f\"{path.name} is missing columns: {missing}\")\n    dataset = ds.dataset(str(path), format=\"parquet\")\n    table = dataset.to_table(\n        columns=columns,\n        filter=ds.field(\"canonical_cell_id\").isin(sorted(cell_ids)),\n    )\n    frame = table.to_pandas()\n    frame[\"canonical_cell_id\"] = frame[\"canonical_cell_id\"].astype(str)\n    return frame",
+      "source_sha256": "58a99625fa2c96362eafb1fa460fa899e606c0bd55ddceeee2a9b31e936c5263"
+    },
+    {
+      "name": "validate_numeric_frame",
+      "cell": 9,
+      "original_start_line": 34,
+      "source": "def validate_numeric_frame(frame: pd.DataFrame, columns: list[str], table_name: str) -> None:\n    non_numeric = [name for name in columns if not pd.api.types.is_numeric_dtype(frame[name].dtype)]\n    require(not non_numeric, f\"{table_name} contains non-numeric predictor columns: {non_numeric[:20]}\")\n    values = frame[columns].to_numpy(dtype=np.float64, copy=False)\n    require(not np.isinf(values).any(), f\"{table_name} contains infinite predictor values\")",
+      "source_sha256": "ab276162ccb6a42dde7590abc0cf9a43bdf4eb272744181d59b7a839c5b44d15"
+    },
+    {
+      "name": "resolve_cycle_shard",
+      "cell": 9,
+      "original_start_line": 118,
+      "source": "def resolve_cycle_shard(canonical_cell_id: str) -> Path:\n    require(cycle_store_index is not None, \"Cycle-store index has not been loaded\")\n    require(canonical_cell_id in cycle_store_index.index, f\"No cycle-store row for {canonical_cell_id}\")\n    row = cycle_store_index.loc[canonical_cell_id]\n    candidates: list[Path] = []\n    if \"shard_relpath\" in row.index and pd.notna(row[\"shard_relpath\"]):\n        candidates.append(PHASE2_DIR / str(row[\"shard_relpath\"]))\n    recorded = Path(str(row[\"shard_path\"]))\n    candidates.extend([recorded, MULTISENSOR_STORE_DIR / recorded.name])\n    existing = [path for path in candidates if path.is_file()]\n    require(existing, f\"Cannot resolve exact cycle shard for {canonical_cell_id}; checked={candidates}\")\n    return existing[0]",
+      "source_sha256": "b0d1e58a60216a269a041dfa84bc21066afb94ce11ef3cc7f4fa7baef7f7261e"
+    },
+    {
+      "name": "load_cycle_shard",
+      "cell": 9,
+      "original_start_line": 132,
+      "source": "def load_cycle_shard(canonical_cell_id: str) -> pd.DataFrame:\n    path = resolve_cycle_shard(canonical_cell_id)\n    columns = list(dict.fromkeys([\"canonical_cell_id\", \"cycle_index\", *VALUE_CHANNELS, *VALUE_MASK_COLUMNS]))\n    frame = pd.read_parquet(path, columns=columns)\n    require(frame[\"canonical_cell_id\"].astype(str).eq(canonical_cell_id).all(), f\"Shard identity mismatch: {path}\")\n    require(frame[\"cycle_index\"].is_unique, f\"Duplicate cycle_index in {path}\")\n    frame = frame.sort_values(\"cycle_index\", kind=\"mergesort\").reset_index(drop=True)\n    validate_numeric_frame(frame, VALUE_CHANNELS, path.name)\n    masks = frame[VALUE_MASK_COLUMNS].to_numpy(dtype=np.float64, copy=False)\n    require(np.isfinite(masks).all() and np.isin(masks, [0.0, 1.0]).all(), f\"Invalid cycle masks in {path}\")\n    values = frame[VALUE_CHANNELS].to_numpy(dtype=np.float64, copy=False)\n    require(np.array_equal(np.isfinite(values), masks.astype(bool)), f\"Cycle value/mask mismatch in {path}\")\n    return frame",
+      "source_sha256": "f652a330c242b55f4831ee749203ca9ee7aefc43e9d708b02816e2b05ddf528e"
+    },
+    {
+      "name": "wilson_interval",
+      "cell": 11,
+      "original_start_line": 2,
+      "source": "def wilson_interval(successes: int, total: int, z: float = 1.959963984540054) -> tuple[float, float]:\n    if total <= 0:\n        return np.nan, np.nan\n    proportion = successes / total\n    denominator = 1.0 + z * z / total\n    centre = (proportion + z * z / (2.0 * total)) / denominator\n    radius = z * math.sqrt(proportion * (1.0 - proportion) / total + z * z / (4.0 * total * total)) / denominator\n    return float(max(0.0, centre - radius)), float(min(1.0, centre + radius))",
+      "source_sha256": "0fed7e8ac3ce87bf910ab91214fada7218c931793ca9da9c6ce7254943322697"
+    },
+    {
+      "name": "regression_metrics",
+      "cell": 11,
+      "original_start_line": 12,
+      "source": "def regression_metrics(\n    frame: pd.DataFrame,\n    y_true: np.ndarray,\n    y_pred: np.ndarray,\n    lower: np.ndarray | None = None,\n    upper: np.ndarray | None = None,\n) -> dict[str, Any]:\n    y_true = np.asarray(y_true, dtype=np.float64)\n    y_pred = np.asarray(y_pred, dtype=np.float64)\n    valid = np.isfinite(y_true) & np.isfinite(y_pred)\n    if not valid.any():\n        return {\n            \"n_samples\": 0, \"n_cells\": 0, \"n_families\": 0, \"n_datasets\": 0,\n            \"mae\": np.nan, \"rmse\": np.nan, \"medae\": np.nan, \"r2\": np.nan,\n            \"signed_bias\": np.nan, \"macro_cell_mae\": np.nan, \"macro_cell_rmse\": np.nan,\n            \"macro_cell_rmsle\": np.nan, \"source_balanced_macro_cell_mae\": np.nan,\n            \"source_balanced_macro_cell_rmse\": np.nan, \"source_balanced_macro_cell_rmsle\": np.nan,\n            \"macro_family_mae\": np.nan,\n            \"coverage\": np.nan, \"mean_interval_width\": np.nan, \"median_interval_width\": np.nan,\n            \"interval_score\": np.nan, \"coverage_wilson_low\": np.nan, \"coverage_wilson_high\": np.nan,\n            \"p_y_le_q10\": np.nan, \"p_y_le_q50\": np.nan, \"p_y_le_q90\": np.nan,\n            \"cell_simultaneous_coverage\": np.nan, \"family_simultaneous_coverage\": np.nan,\n        }\n\n    selected_columns = [\"canonical_cell_id\"] + [\n        name for name in [\"duplicate_family_id\", \"source\"] if name in frame.columns\n    ]\n    evaluated = frame.loc[valid, selected_columns].copy()\n    evaluated[\"y_true\"] = y_true[valid]\n    evaluated[\"y_pred\"] = y_pred[valid]\n    evaluated[\"abs_error\"] = np.abs(evaluated[\"y_pred\"] - evaluated[\"y_true\"])\n    evaluated[\"signed_error\"] = evaluated[\"y_pred\"] - evaluated[\"y_true\"]\n    evaluated[\"squared_error\"] = (evaluated[\"y_pred\"] - evaluated[\"y_true\"]) ** 2\n    evaluated[\"log_squared_error\"] = np.nan\n    nonnegative = evaluated[\"y_true\"].ge(0.0) & evaluated[\"y_pred\"].ge(0.0)\n    evaluated.loc[nonnegative, \"log_squared_error\"] = (\n        np.log1p(evaluated.loc[nonnegative, \"y_pred\"])\n        - np.log1p(evaluated.loc[nonnegative, \"y_true\"])\n    ) ** 2\n    cell_mae = evaluated.groupby(\"canonical_cell_id\")[\"abs_error\"].mean()\n    cell_rmse = np.sqrt(evaluated.groupby(\"canonical_cell_id\")[\"squared_error\"].mean())\n    cell_rmsle = np.sqrt(evaluated.groupby(\"canonical_cell_id\")[\"log_squared_error\"].mean())\n    if \"source\" in evaluated:\n        source_cell = (\n            evaluated.groupby([\"source\", \"canonical_cell_id\"], as_index=False)\n            .agg(\n                cell_mae=(\"abs_error\", \"mean\"),\n                cell_mse=(\"squared_error\", \"mean\"),\n                cell_log_mse=(\"log_squared_error\", \"mean\"),\n            )\n            .assign(\n                cell_rmse=lambda table: np.sqrt(table[\"cell_mse\"]),\n                cell_rmsle=lambda table: np.sqrt(table[\"cell_log_mse\"]),\n            )\n        )\n        source_balanced_macro_cell_mae = float(source_cell.groupby(\"source\")[\"cell_mae\"].mean().mean())\n        source_balanced_macro_cell_rmse = float(source_cell.groupby(\"source\")[\"cell_rmse\"].mean().mean())\n        source_balanced_macro_cell_rmsle = float(source_cell.groupby(\"source\")[\"cell_rmsle\"].mean().mean())\n    else:\n        source_balanced_macro_cell_mae = float(cell_mae.mean())\n        source_balanced_macro_cell_rmse = float(cell_rmse.mean())\n        source_balanced_macro_cell_rmsle = float(cell_rmsle.mean())\n    family_mae = np.nan\n    if \"duplicate_family_id\" in evaluated:\n        family_mae = float(evaluated.groupby(\"duplicate_family_id\")[\"abs_error\"].mean().mean())\n\n    r2 = np.nan\n    if len(evaluated) >= 2 and float(np.var(evaluated[\"y_true\"].to_numpy())) > 0.0:\n        r2 = float(r2_score(evaluated[\"y_true\"], evaluated[\"y_pred\"]))\n\n    coverage = mean_width = median_width = interval_score = np.nan\n    coverage_wilson_low = coverage_wilson_high = np.nan\n    p_y_le_q10 = p_y_le_q50 = p_y_le_q90 = np.nan\n    cell_simultaneous = family_simultaneous = np.nan\n    if lower is not None and upper is not None:\n        lower = np.asarray(lower, dtype=np.float64)[valid]\n        upper = np.asarray(upper, dtype=np.float64)[valid]\n        interval_valid = np.isfinite(lower) & np.isfinite(upper) & (lower <= upper)\n        if interval_valid.any():\n            truth = evaluated[\"y_true\"].to_numpy()[interval_valid]\n            widths = upper[interval_valid] - lower[interval_valid]\n            covered = (truth >= lower[interval_valid]) & (truth <= upper[interval_valid])\n            coverage = float(np.mean(covered))\n            mean_width = float(np.mean(widths))\n            median_width = float(np.median(widths))\n            misses_low = np.maximum(lower[interval_valid] - truth, 0.0)\n            misses_high = np.maximum(truth - upper[interval_valid], 0.0)\n            interval_score = float(np.mean(widths + (2.0 / CQR_ALPHA) * (misses_low + misses_high)))\n            coverage_wilson_low, coverage_wilson_high = wilson_interval(int(covered.sum()), int(len(covered)))\n            p_y_le_q10 = float(np.mean(truth <= lower[interval_valid]))\n            p_y_le_q50 = float(np.mean(truth <= evaluated[\"y_pred\"].to_numpy()[interval_valid]))\n            p_y_le_q90 = float(np.mean(truth <= upper[interval_valid]))\n            interval_rows = evaluated.iloc[np.flatnonzero(interval_valid)].copy()\n            interval_rows[\"covered\"] = covered\n            cell_simultaneous = float(interval_rows.groupby(\"canonical_cell_id\")[\"covered\"].all().mean())\n            if \"duplicate_family_id\" in interval_rows:\n                family_simultaneous = float(interval_rows.groupby(\"duplicate_family_id\")[\"covered\"].all().mean())\n\n    return {\n        \"n_samples\": int(len(evaluated)),\n        \"n_cells\": int(evaluated[\"canonical_cell_id\"].nunique()),\n        \"n_families\": int(evaluated[\"duplicate_family_id\"].nunique()) if \"duplicate_family_id\" in evaluated else 0,\n        \"n_datasets\": int(evaluated[\"source\"].nunique()) if \"source\" in evaluated else 0,\n        \"mae\": float(evaluated[\"abs_error\"].mean()),\n        \"rmse\": float(np.sqrt(evaluated[\"squared_error\"].mean())),\n        \"medae\": float(evaluated[\"abs_error\"].median()),\n        \"r2\": r2,\n        \"signed_bias\": float(evaluated[\"signed_error\"].mean()),\n        \"macro_cell_mae\": float(cell_mae.mean()),\n        \"macro_cell_rmse\": float(cell_rmse.mean()),\n        \"macro_cell_rmsle\": float(cell_rmsle.mean()),\n        \"source_balanced_macro_cell_mae\": source_balanced_macro_cell_mae,\n        \"source_balanced_macro_cell_rmse\": source_balanced_macro_cell_rmse,\n        \"source_balanced_macro_cell_rmsle\": source_balanced_macro_cell_rmsle,\n        \"macro_family_mae\": family_mae,\n        \"coverage\": coverage,\n        \"mean_interval_width\": mean_width,\n        \"median_interval_width\": median_width,\n        \"interval_score\": interval_score,\n        \"coverage_wilson_low\": coverage_wilson_low,\n        \"coverage_wilson_high\": coverage_wilson_high,\n        \"p_y_le_q10\": p_y_le_q10,\n        \"p_y_le_q50\": p_y_le_q50,\n        \"p_y_le_q90\": p_y_le_q90,\n        \"cell_simultaneous_coverage\": cell_simultaneous,\n        \"family_simultaneous_coverage\": family_simultaneous,\n    }",
+      "source_sha256": "bec96634be5644a47e7d039a1361b3ed2d662c30971ebbd3956916c964f8b6ae"
+    },
+    {
+      "name": "per_cell_error_table",
+      "cell": 11,
+      "original_start_line": 145,
+      "source": "def per_cell_error_table(frame: pd.DataFrame, y_true: np.ndarray, y_pred: np.ndarray) -> pd.DataFrame:\n    y_true = np.asarray(y_true, dtype=np.float64)\n    y_pred = np.asarray(y_pred, dtype=np.float64)\n    valid = np.isfinite(y_true) & np.isfinite(y_pred)\n    required = [\"canonical_cell_id\", \"duplicate_family_id\", \"source\"]\n    require(set(required).issubset(frame.columns), f\"Per-cell metrics require columns: {required}\")\n    work = frame.loc[valid, required].copy()\n    work[\"abs_error\"] = np.abs(y_pred[valid] - y_true[valid])\n    work[\"squared_error\"] = (y_pred[valid] - y_true[valid]) ** 2\n    work[\"signed_error\"] = y_pred[valid] - y_true[valid]\n    work[\"log_squared_error\"] = np.nan\n    nonnegative = (y_true[valid] >= 0.0) & (y_pred[valid] >= 0.0)\n    work.loc[nonnegative, \"log_squared_error\"] = (\n        np.log1p(y_pred[valid][nonnegative]) - np.log1p(y_true[valid][nonnegative])\n    ) ** 2\n    return (\n        work.groupby(required, as_index=False)\n        .agg(\n            n_samples=(\"abs_error\", \"size\"),\n            cell_mae=(\"abs_error\", \"mean\"),\n            cell_mse=(\"squared_error\", \"mean\"),\n            cell_log_mse=(\"log_squared_error\", \"mean\"),\n            cell_signed_bias=(\"signed_error\", \"mean\"),\n        )\n        .assign(\n            cell_rmse=lambda table: np.sqrt(table[\"cell_mse\"]),\n            cell_rmsle=lambda table: np.sqrt(table[\"cell_log_mse\"]),\n        )\n        .drop(columns=[\"cell_mse\", \"cell_log_mse\"])\n    )",
+      "source_sha256": "6b279fe4fc0153c973a95170eb6a4673097d38c4ba4a07584513c706bc727a7c"
+    },
+    {
+      "name": "evenly_spaced_indices",
+      "cell": 15,
+      "original_start_line": 18,
+      "source": "def evenly_spaced_indices(length: int, maximum: int) -> np.ndarray:\n    require(length > 0 and maximum > 0, \"Reservoir length and maximum must be positive\")\n    if length <= maximum:\n        return np.arange(length, dtype=np.int64)\n    return np.unique(np.rint(np.linspace(0, length - 1, maximum)).astype(np.int64))",
+      "source_sha256": "8552dd357339deb67a61dcca45332f85f0f974b16c90ef4cc643bb6fe5fc89ad"
+    },
+    {
+      "name": "fit_cycle_scaler",
+      "cell": 15,
+      "original_start_line": 25,
+      "source": "def fit_cycle_scaler(train_cell_ids: set[str]) -> dict[str, Any]:\n    \"\"\"Fit value-channel state from a deterministic, per-cell capped train-only reservoir.\"\"\"\n    sums = np.zeros(48, dtype=np.float64)\n    squared_sums = np.zeros(48, dtype=np.float64)\n    counts = np.zeros(48, dtype=np.int64)\n    reservoir_rows = 0\n    for ordinal, cell_id in enumerate(sorted(train_cell_ids), start=1):\n        shard = load_cycle_shard(cell_id)\n        selected = evenly_spaced_indices(len(shard), TCN_SCALER_POINTS_PER_CELL)\n        values = shard.iloc[selected][VALUE_CHANNELS].to_numpy(dtype=np.float64, copy=False)\n        masks = shard.iloc[selected][VALUE_MASK_COLUMNS].to_numpy(dtype=np.uint8, copy=False).astype(bool)\n        valid = masks & np.isfinite(values)\n        safe = np.where(valid, values, 0.0)\n        sums += safe.sum(axis=0)\n        squared_sums += (safe * safe).sum(axis=0)\n        counts += valid.sum(axis=0)\n        reservoir_rows += len(selected)\n        del shard, values, masks, valid, safe\n        if ordinal % 100 == 0:\n            gc.collect()\n    inactive = counts == 0\n    if inactive.any():\n        print(\n            \"[WARN] Inner-train has no valid observations for optional channels; \"\n            \"their values remain zero and masks remain zero: \"\n            f\"{[VALUE_CHANNELS[index] for index in np.flatnonzero(inactive)]}\"\n        )\n    safe_counts = np.maximum(counts, 1)\n    mean = sums / safe_counts\n    variance = np.maximum(squared_sums / safe_counts - mean * mean, 0.0)\n    mean[inactive] = 0.0\n    std = np.sqrt(variance)\n    std = np.where(np.isfinite(std) & (std > 1e-8), std, 1.0)\n    return {\n        \"fit_role\": \"inner_train_cells_only\",\n        \"fit_cell_count\": len(train_cell_ids),\n        \"fit_cell_hash\": sha256_json(sorted(train_cell_ids)),\n        \"reservoir_rule\": f\"at_most_{TCN_SCALER_POINTS_PER_CELL}_evenly_spaced_cycles_per_cell\",\n        \"reservoir_rows\": int(reservoir_rows),\n        \"channels\": VALUE_CHANNELS,\n        \"mean\": mean.tolist(),\n        \"std\": std.tolist(),\n        \"count\": counts.tolist(),\n        \"inactive_channels\": [VALUE_CHANNELS[index] for index in np.flatnonzero(inactive)],\n    }",
+      "source_sha256": "6c718cdfc656704ee562965aeb1e8540aca11a2edcd0a97204ec09c713b2440b"
+    },
+    {
+      "name": "load_multitask_window_targets",
+      "cell": 15,
+      "original_start_line": 72,
+      "source": "def load_multitask_window_targets(cell_ids: set[str]) -> pd.DataFrame:\n    columns = list(dict.fromkeys(METADATA_COLUMNS + TARGET_COLUMNS))\n    targets = read_for_cells(TARGET_INDEX_PATH, columns, cell_ids)\n    eligible_any = pd.Series(False, index=targets.index, dtype=bool)\n    for target, spec in TARGET_SPECS.items():\n        values = pd.to_numeric(targets[spec[\"y_col\"]], errors=\"coerce\")\n        observed = normalize_bool(targets[spec[\"mask_col\"]], spec[\"mask_col\"]) & np.isfinite(values)\n        if target.startswith(\"rul\"):\n            require((values.loc[observed] >= 0.0).all(), f\"{target}: observed targets contain negative RUL\")\n        targets[spec[\"y_col\"]] = values.astype(np.float32)\n        targets[spec[\"mask_col\"]] = observed.astype(bool)\n        eligible_any |= observed\n    targets = targets.loc[eligible_any].copy()\n    require(not targets.empty, \"Selected inner role has no sample with any observed task\")\n    windows = read_for_cells(WINDOW_INDEX_PATH, [\"sample_id\", \"canonical_cell_id\", \"t_cycle\"], cell_ids)\n    require(windows[\"sample_id\"].is_unique, \"Selected window sample_id values are not unique\")\n    merged = targets.merge(\n        windows,\n        on=[\"sample_id\", \"canonical_cell_id\", \"t_cycle\"],\n        how=\"inner\",\n        validate=\"one_to_one\",\n    )\n    require(len(merged) == len(targets), f\"Multitask target/window join lost {len(targets) - len(merged)} rows\")\n    require(merged[\"sample_id\"].is_unique, \"Multitask target/window sample_id values are not unique\")\n    return merged.sort_values([\"canonical_cell_id\", \"t_cycle\"], kind=\"mergesort\").reset_index(drop=True)",
+      "source_sha256": "dac8e0813e2d0b40b09ab3a7e85ae3cb9915368c03f5af6a4788789a00b34679"
+    },
+    {
+      "name": "transform_target_array",
+      "cell": 15,
+      "original_start_line": 99,
+      "source": "def transform_target_array(values: np.ndarray, target: str) -> np.ndarray:\n    values = np.asarray(values, dtype=np.float64)\n    if TARGET_SPECS[target][\"transform\"] == \"log1p\":\n        require((values >= 0.0).all(), f\"{target}: log1p received negative observed targets\")\n        return np.log1p(values)\n    return values",
+      "source_sha256": "80c4eacdc624bbeedc28b2046757c74ab3219132c25b9807b302cc06c56712c6"
+    },
+    {
+      "name": "fit_target_scaler",
+      "cell": 15,
+      "original_start_line": 107,
+      "source": "def fit_target_scaler(train_rows: pd.DataFrame) -> dict[str, Any]:\n    state: dict[str, Any] = {\n        \"fit_role\": \"inner_train_observed_targets_only\",\n        \"fit_cell_hash\": sha256_json(sorted(train_rows[\"canonical_cell_id\"].astype(str).unique().tolist())),\n        \"reservoir_rule\": f\"at_most_{TCN_TARGET_POINTS_PER_CELL}_evenly_spaced_observed_targets_per_cell\",\n        \"targets\": {},\n    }\n    for target in TCN_TARGET_ORDER:\n        spec = TARGET_SPECS[target]\n        sampled: list[np.ndarray] = []\n        sampled_cells = 0\n        for _, group in train_rows.groupby(\"canonical_cell_id\", sort=True):\n            observed = normalize_bool(group[spec[\"mask_col\"]], spec[\"mask_col\"]).to_numpy()\n            values = group[spec[\"y_col\"]].to_numpy(dtype=np.float64)\n            observed_values = values[observed & np.isfinite(values)]\n            if observed_values.size == 0:\n                continue\n            chosen = evenly_spaced_indices(len(observed_values), TCN_TARGET_POINTS_PER_CELL)\n            sampled.append(transform_target_array(observed_values[chosen], target))\n            sampled_cells += 1\n        if not sampled:\n            state[\"targets\"][target] = {\n                \"transform\": TARGET_SPECS[target][\"transform\"],\n                \"mean\": 0.0,\n                \"std\": 1.0,\n                \"reservoir_rows\": 0,\n                \"observed_cells\": 0,\n                \"active\": False,\n                \"reason\": \"no_observed_target_in_locked_inner_train\",\n            }\n            continue\n        reservoir = np.concatenate(sampled)\n        mean = float(np.mean(reservoir))\n        std = float(np.std(reservoir))\n        if not np.isfinite(std) or std <= 1e-8:\n            std = 1.0\n        state[\"targets\"][target] = {\n            \"transform\": TARGET_SPECS[target][\"transform\"],\n            \"mean\": mean,\n            \"std\": std,\n            \"reservoir_rows\": int(len(reservoir)),\n            \"observed_cells\": int(sampled_cells),\n            \"active\": True,\n            \"reason\": \"\",\n        }\n    return state",
+      "source_sha256": "84ade74587f021775beafb0c9af9852b318bbf73d614c50ef3637e9fbf3eeca9"
+    },
+    {
+      "name": "make_window_inputs",
+      "cell": 15,
+      "original_start_line": 155,
+      "source": "def make_window_inputs(cycle_frame: pd.DataFrame, sample_frame: pd.DataFrame, scaler: dict[str, Any]) -> np.ndarray:\n    cycles = cycle_frame[\"cycle_index\"].to_numpy(dtype=np.int64)\n    require(len(cycles) > 0 and np.all(np.diff(cycles) > 0), \"Cycle shard index must be non-empty and strictly increasing\")\n    values = cycle_frame[VALUE_CHANNELS].to_numpy(dtype=np.float32, copy=False)\n    masks = cycle_frame[VALUE_MASK_COLUMNS].to_numpy(dtype=np.uint8, copy=False)\n    t_cycles = sample_frame[\"t_cycle\"].to_numpy(dtype=np.int64)\n    grid = t_cycles[:, None] - np.arange(29, -1, -1, dtype=np.int64)[None, :]\n    positions = np.searchsorted(cycles, grid)\n    safe_positions = np.minimum(positions, len(cycles) - 1)\n    observed = (positions < len(cycles)) & (cycles[safe_positions] == grid)\n    require(observed[:, -1].all(), \"A TCN sample is missing its causal endpoint cycle t\")\n    raw_values = values[safe_positions]\n    raw_masks = masks[safe_positions].astype(bool) & observed[:, :, None]\n    valid = raw_masks & np.isfinite(raw_values)\n    mean = np.asarray(scaler[\"mean\"], dtype=np.float32)[None, None, :]\n    std = np.asarray(scaler[\"std\"], dtype=np.float32)[None, None, :]\n    standardized = np.zeros(raw_values.shape, dtype=np.float32)\n    z_values = (raw_values - mean) / std\n    standardized[valid] = z_values[valid]\n    logical_window = np.concatenate([standardized, raw_masks.astype(np.float32)], axis=2)\n    require(logical_window.shape[1:] == (30, 96), f\"Invalid logical TCN batch shape: {logical_window.shape}\")\n    require(np.isfinite(logical_window).all(), \"TCN input contains NaN/inf after masked standardization\")\n    return logical_window",
+      "source_sha256": "e5fd84b59852e7314339559b65c12c1cd7d2cee0bc8b14583d949eb53004085e"
+    },
+    {
+      "name": "encode_multitask_targets",
+      "cell": 15,
+      "original_start_line": 180,
+      "source": "def encode_multitask_targets(sample_frame: pd.DataFrame, target_scaler: dict[str, Any]) -> tuple[np.ndarray, np.ndarray]:\n    y = np.zeros((len(sample_frame), len(TCN_TARGET_ORDER)), dtype=np.float32)\n    masks = np.zeros_like(y, dtype=bool)\n    for target_index, target in enumerate(TCN_TARGET_ORDER):\n        spec = TARGET_SPECS[target]\n        values = sample_frame[spec[\"y_col\"]].to_numpy(dtype=np.float64)\n        active = bool(target_scaler[\"targets\"][target].get(\"active\", True))\n        observed = (\n            normalize_bool(sample_frame[spec[\"mask_col\"]], spec[\"mask_col\"]).to_numpy()\n            & np.isfinite(values)\n            & active\n        )\n        if observed.any():\n            transformed = transform_target_array(values[observed], target)\n            state = target_scaler[\"targets\"][target]\n            y[observed, target_index] = ((transformed - state[\"mean\"]) / state[\"std\"]).astype(np.float32)\n            masks[observed, target_index] = True\n    require(masks.any(axis=1).all(), \"A multitask batch contains a row without any observed target\")\n    require(np.isfinite(y).all(), \"Encoded multitask targets contain NaN/inf\")\n    return y, masks",
+      "source_sha256": "4c187b261ee058dd596b404b49897f047dd2ad20a4d050793ae03aa03193f3d6"
+    },
+    {
+      "name": "inverse_scaled_target",
+      "cell": 15,
+      "original_start_line": 202,
+      "source": "def inverse_scaled_target(values: np.ndarray, target: str, target_scaler: dict[str, Any]) -> np.ndarray:\n    state = target_scaler[\"targets\"][target]\n    restored = np.asarray(values, dtype=np.float64) * float(state[\"std\"]) + float(state[\"mean\"])\n    if state[\"transform\"] == \"log1p\":\n        restored = np.expm1(restored)\n    if target == \"soh30\":\n        return np.clip(restored, 0.0, 1.5)\n    return np.maximum(restored, 0.0)",
+      "source_sha256": "f55c6f60ef15d07dcd2496404c63b126945a049d0f94e765d6724cf8f643293d"
+    },
+    {
+      "name": "active_target_row_mask",
+      "cell": 15,
+      "original_start_line": 212,
+      "source": "def active_target_row_mask(rows: pd.DataFrame, target_scaler: dict[str, Any]) -> pd.Series:\n    active_any = pd.Series(False, index=rows.index, dtype=bool)\n    for target in TCN_TARGET_ORDER:\n        if bool(target_scaler[\"targets\"][target].get(\"active\", True)):\n            spec = TARGET_SPECS[target]\n            active_any |= normalize_bool(rows[spec[\"mask_col\"]], spec[\"mask_col\"])\n    return active_any",
+      "source_sha256": "9db3f62596313bb757e5444e4296b6f8dc366fe94d7f559d9c82f45f799c2620"
+    },
+    {
+      "name": "MultitaskCycleWindowIterator",
+      "cell": 15,
+      "original_start_line": 221,
+      "source": "class MultitaskCycleWindowIterator:\n    def __init__(self, rows: pd.DataFrame, cycle_scaler: dict[str, Any], target_scaler: dict[str, Any]):\n        active_any = active_target_row_mask(rows, target_scaler)\n        self.rows = (\n            rows.loc[active_any]\n            .sort_values([\"canonical_cell_id\", \"t_cycle\"], kind=\"mergesort\")\n            .reset_index(drop=True)\n        )\n        self.cycle_scaler = cycle_scaler\n        self.target_scaler = target_scaler\n        self.groups = {\n            str(cell): group.reset_index(drop=True)\n            for cell, group in self.rows.groupby(\"canonical_cell_id\", sort=True)\n        }\n        require(self.groups, \"Multitask iterator has no cell groups\")\n\n    def _materialize(self, cycle_frame: pd.DataFrame, rows: pd.DataFrame) -> tuple[np.ndarray, np.ndarray, np.ndarray]:\n        x = make_window_inputs(cycle_frame, rows, self.cycle_scaler)\n        y, masks = encode_multitask_targets(rows, self.target_scaler)\n        return x, y, masks\n\n    def iter_cell_balanced_microbatches(\n        self, *, epoch: int\n    ) -> Iterator[tuple[np.ndarray, np.ndarray, np.ndarray, pd.DataFrame]]:\n        rng = np.random.default_rng(SEED + 1009 * int(epoch))\n        cells = np.asarray(sorted(self.groups), dtype=object)\n        rng.shuffle(cells)\n        padding = (-len(cells)) % TCN_GRAD_ACCUM_STEPS\n        if padding:\n            cells = np.concatenate([cells, cells[:padding]])\n        for cell_id_value in cells:\n            cell_id = str(cell_id_value)\n            rows = self.groups[cell_id]\n            replace = len(rows) < TCN_MICRO_BATCH_SIZE\n            selected = rng.choice(len(rows), size=TCN_MICRO_BATCH_SIZE, replace=replace)\n            batch_rows = rows.iloc[selected].reset_index(drop=True)\n            cycle_frame = load_cycle_shard(cell_id)\n            x, y, masks = self._materialize(cycle_frame, batch_rows)\n            yield x, y, masks, batch_rows\n            del cycle_frame\n\n    def iter_prediction_batches(\n        self,\n    ) -> Iterator[tuple[np.ndarray, np.ndarray, np.ndarray, pd.DataFrame]]:\n        for ordinal, (cell_id, rows) in enumerate(self.groups.items(), start=1):\n            cycle_frame = load_cycle_shard(cell_id)\n            for start in range(0, len(rows), TCN_PREDICTION_BATCH_SIZE):\n                batch_rows = rows.iloc[start:start + TCN_PREDICTION_BATCH_SIZE].reset_index(drop=True)\n                x, y, masks = self._materialize(cycle_frame, batch_rows)\n                yield x, y, masks, batch_rows\n            del cycle_frame\n            if ordinal % 50 == 0:\n                gc.collect()",
+      "source_sha256": "4a872d76994428df898472540473d8aba5cfdfaa8370b404cd77fc0337a2b5ed"
+    },
+    {
+      "name": "CausalConv1d",
+      "cell": 15,
+      "original_start_line": 277,
+      "source": "class CausalConv1d(nn.Conv1d):\n    def __init__(self, in_channels: int, out_channels: int, kernel_size: int, dilation: int):\n        self.left_padding = (kernel_size - 1) * dilation\n        super().__init__(\n            in_channels,\n            out_channels,\n            kernel_size,\n            padding=self.left_padding,\n            dilation=dilation,\n        )\n\n    def forward(self, x: torch.Tensor) -> torch.Tensor:\n        output = super().forward(x)\n        return output[:, :, :-self.left_padding] if self.left_padding else output",
+      "source_sha256": "d9930081af064a3fa3764c5e1b706277d5ebb7bb687e13a6c74d6df28aa8b2b4"
+    },
+    {
+      "name": "ResidualTCNBlock",
+      "cell": 15,
+      "original_start_line": 293,
+      "source": "class ResidualTCNBlock(nn.Module):\n    def __init__(self, in_channels: int, out_channels: int, kernel_size: int, dilation: int, dropout: float):\n        super().__init__()\n        self.conv1 = CausalConv1d(in_channels, out_channels, kernel_size, dilation)\n        self.conv2 = CausalConv1d(out_channels, out_channels, kernel_size, dilation)\n        self.dropout = nn.Dropout(dropout)\n        self.projection = nn.Conv1d(in_channels, out_channels, 1) if in_channels != out_channels else nn.Identity()\n\n    def forward(self, x: torch.Tensor) -> torch.Tensor:\n        residual = self.projection(x)\n        hidden = self.dropout(F.relu(self.conv1(x)))\n        hidden = self.dropout(F.relu(self.conv2(hidden)))\n        return F.relu(hidden + residual)",
+      "source_sha256": "d0d24cbd3bae39f9054746f671afbb206fb5bd76904b018a1fbf06d52fc4c3f6"
+    },
+    {
+      "name": "OrderedQuantileHead",
+      "cell": 15,
+      "original_start_line": 308,
+      "source": "class OrderedQuantileHead(nn.Module):\n    def __init__(self, in_features: int):\n        super().__init__()\n        self.projection = nn.Linear(in_features, 3)\n\n    def forward(self, hidden: torch.Tensor) -> torch.Tensor:\n        raw = self.projection(hidden)\n        q50 = raw[:, 0]\n        lower_gap = F.softplus(raw[:, 1])\n        upper_gap = F.softplus(raw[:, 2])\n        return torch.stack([q50 - lower_gap, q50, q50 + upper_gap], dim=1)",
+      "source_sha256": "835cc351674a6960b5b381a8b6ba496617b46b40d3bec7b90196d2c1dce08e4a"
+    },
+    {
+      "name": "MultitaskQuantileTCN",
+      "cell": 15,
+      "original_start_line": 321,
+      "source": "class MultitaskQuantileTCN(nn.Module):\n    def __init__(self):\n        super().__init__()\n        blocks: list[nn.Module] = []\n        in_channels = 96\n        for out_channels, dilation in zip(TCN_BLOCK_CHANNELS, TCN_DILATIONS):\n            blocks.append(\n                ResidualTCNBlock(\n                    in_channels,\n                    out_channels,\n                    TCN_KERNEL_SIZE,\n                    dilation=dilation,\n                    dropout=TCN_DROPOUT,\n                )\n            )\n            in_channels = out_channels\n        self.shared_trunk = nn.Sequential(*blocks)\n        self.task_heads = nn.ModuleDict({\n            target: OrderedQuantileHead(TCN_BLOCK_CHANNELS[-1]) for target in TCN_TARGET_ORDER\n        })\n\n    def forward(self, logical_window: torch.Tensor) -> dict[str, torch.Tensor]:\n        if logical_window.ndim != 3 or logical_window.shape[1:] != (30, 96):\n            raise RuntimeError(f\"Expected [batch,30,96], received {tuple(logical_window.shape)}\")\n        channels_first = logical_window.transpose(1, 2)\n        if channels_first.shape[1:] != (96, 30):\n            raise RuntimeError(f\"Conv1d input must be [batch,96,30], received {tuple(channels_first.shape)}\")\n        hidden = self.shared_trunk(channels_first)[:, :, -1]\n        return {target: self.task_heads[target](hidden) for target in TCN_TARGET_ORDER}",
+      "source_sha256": "f4b4e7c3eb01db5a3ca0f79de70e9da7cf02f0b22a33b4173b7ad8ba4fb174f0"
+    },
+    {
+      "name": "multitask_pinball_loss",
+      "cell": 15,
+      "original_start_line": 352,
+      "source": "def multitask_pinball_loss(\n    predictions: dict[str, \"torch.Tensor\"],\n    targets: \"torch.Tensor\",\n    observed_masks: \"torch.Tensor\",\n) -> tuple[\"torch.Tensor\", dict[str, float]]:\n    quantiles = torch.tensor(TCN_QUANTILES, device=targets.device, dtype=torch.float32).view(1, -1)\n    weighted_loss: torch.Tensor | None = None\n    active_weight = 0.0\n    task_losses: dict[str, float] = {}\n    for target_index, target in enumerate(TCN_TARGET_ORDER):\n        observed = observed_masks[:, target_index].bool()\n        if not bool(observed.any()):\n            continue\n        prediction = predictions[target][observed].float()\n        truth = targets[observed, target_index].float().view(-1, 1)\n        error = truth - prediction\n        task_loss = torch.maximum(quantiles * error, (quantiles - 1.0) * error).mean()\n        weight = float(TCN_TASK_WEIGHTS[target])\n        weighted_loss = task_loss * weight if weighted_loss is None else weighted_loss + task_loss * weight\n        active_weight += weight\n        task_losses[target] = float(task_loss.detach().cpu())\n    if weighted_loss is None or active_weight <= 0.0:\n        raise RuntimeError(\"A training microbatch contains no observed target\")\n    return weighted_loss / active_weight, task_losses",
+      "source_sha256": "5a386e41065c43559b55e287b18b051cf8a9cd784eae79f41baa6319740f66d4"
+    },
+    {
+      "name": "autocast_context",
+      "cell": 15,
+      "original_start_line": 378,
+      "source": "def autocast_context(device: \"torch.device\"):\n    if device.type == \"cuda\":\n        return torch.autocast(device_type=\"cuda\", dtype=torch.float16)\n    return nullcontext()",
+      "source_sha256": "96263da50fecd93592a53241e7d6872c4c9a359a3b4539a3d2d14ce0beb97098"
+    },
+    {
+      "name": "make_grad_scaler",
+      "cell": 15,
+      "original_start_line": 384,
+      "source": "def make_grad_scaler(enabled: bool):\n    try:\n        return torch.amp.GradScaler(\"cuda\", enabled=enabled)\n    except (AttributeError, TypeError):\n        return torch.cuda.amp.GradScaler(enabled=enabled)",
+      "source_sha256": "ff1177c0659fecf566aca7a05de9a79522d31e93f8962cdb6307b9709131a482"
+    },
+    {
+      "name": "safe_torch_load",
+      "cell": 15,
+      "original_start_line": 391,
+      "source": "def safe_torch_load(path: Path, device: \"torch.device\") -> dict[str, Any]:\n    try:\n        return torch.load(path, map_location=device, weights_only=True)\n    except TypeError:\n        return torch.load(path, map_location=device)",
+      "source_sha256": "98b7990d690dc254e2385b9fefc31fd0ff9c3955a00d55de92b8d49941f2f089"
+    },
+    {
+      "name": "deterministic_fold_seed",
+      "cell": 15,
+      "original_start_line": 441,
+      "source": "def deterministic_fold_seed(mode: str, entity: str, inner_fold: int) -> int:\n    token = f\"{SEED}|{mode}|{entity}|{inner_fold}|multitask\"\n    return SEED + int(hashlib.sha256(token.encode(\"utf-8\")).hexdigest()[:8], 16) % 1_000_000",
+      "source_sha256": "b1ebbc2698d6facbf4140dc60e435eeccfeb10fa299543d21b6182b38eec2263"
+    },
+    {
+      "name": "evaluate_tcn_rul90_macro_cell_rmsle",
+      "cell": 15,
+      "original_start_line": 446,
+      "source": "def evaluate_tcn_rul90_macro_cell_rmsle(\n    model: \"nn.Module\",\n    iterator: MultitaskCycleWindowIterator,\n    target_scaler: dict[str, Any],\n    device: \"torch.device\",\n) -> tuple[float, dict[str, Any]]:\n    \"\"\"Select epochs using only inner-validation RUL90 q50; source-balanced after cell means.\"\"\"\n    model.eval()\n    cell_squared_errors: dict[str, list[float]] = {}\n    cell_sources: dict[str, str] = {}\n    with torch.no_grad():\n        for x_np, _, mask_np, rows in iterator.iter_prediction_batches():\n            x = torch.from_numpy(x_np).to(device)\n            with autocast_context(device):\n                prediction = model(x)[\"rul90\"].detach().float().cpu().numpy()\n            observed = mask_np[:, TCN_TARGET_ORDER.index(\"rul90\")].astype(bool)\n            if not observed.any():\n                continue\n            predicted_cycles = inverse_scaled_target(prediction[observed, 1], \"rul90\", target_scaler)\n            true_cycles = rows.loc[observed, \"rul90_cycles\"].to_numpy(dtype=np.float64)\n            require(np.isfinite(predicted_cycles).all(), \"RUL90 epoch-selection predictions contain NaN/inf\")\n            require(np.isfinite(true_cycles).all() and (true_cycles >= 0.0).all(), \"RUL90 validation labels are invalid\")\n            selected_rows = rows.loc[observed].reset_index(drop=True)\n            squared = (np.log1p(predicted_cycles) - np.log1p(true_cycles)) ** 2\n            for cell_id, group in selected_rows.groupby(\"canonical_cell_id\", sort=True):\n                key = str(cell_id)\n                cell_squared_errors.setdefault(key, []).extend(squared[group.index].tolist())\n                source_values = group[\"source\"].astype(str).unique().tolist()\n                require(len(source_values) == 1, f\"Cell {key} maps to multiple sources\")\n                cell_sources[key] = source_values[0]\n    require(cell_squared_errors, \"NO_RUL90_VALIDATION_SUPPORT\")\n    cell_scores = {cell: float(np.sqrt(np.mean(values))) for cell, values in cell_squared_errors.items()}\n    source_scores: dict[str, list[float]] = {}\n    for cell, score in cell_scores.items():\n        source_scores.setdefault(cell_sources[cell], []).append(score)\n    source_means = {source: float(np.mean(scores)) for source, scores in source_scores.items()}\n    score = float(np.mean(list(source_means.values())))\n    return score, {\n        \"rul90_cells\": int(len(cell_scores)),\n        \"rul90_sources\": int(len(source_means)),\n        \"rul90_source_scores\": source_means,\n    }",
+      "source_sha256": "3703e8887c2023b28695be1c9f6782bddf193440c420bc2728767515e8df74b2"
+    },
+    {
+      "name": "checkpoint_integrity_path",
+      "cell": 15,
+      "original_start_line": 490,
+      "source": "def checkpoint_integrity_path(checkpoint_path: Path) -> Path:\n    return checkpoint_path.with_suffix(checkpoint_path.suffix + \".integrity.json\")",
+      "source_sha256": "19035c21cf617aa919c5b5c18f6e2abfc7906e59a9301c2bf14c52c383a69f93"
+    },
+    {
+      "name": "write_checkpoint_integrity",
+      "cell": 15,
+      "original_start_line": 494,
+      "source": "def write_checkpoint_integrity(checkpoint_path: Path, checkpoint_role: str) -> None:\n    require(checkpoint_path.is_file(), f\"Checkpoint is missing: {checkpoint_path}\")\n    atomic_write_json(checkpoint_integrity_path(checkpoint_path), {\n        \"checkpoint_path\": str(checkpoint_path),\n        \"checkpoint_role\": checkpoint_role,\n        \"size_bytes\": int(checkpoint_path.stat().st_size),\n        \"sha256\": sha256_file(checkpoint_path),\n        \"pipeline_config_hash\": PIPELINE_CONFIG_HASH,\n        \"input_hashes_sha256\": sha256_json(INPUT_HASHES),\n        \"created_at_utc\": pd.Timestamp.utcnow().isoformat(),\n    })",
+      "source_sha256": "a1a36db43c7aabea830d0c1052f6f98c0f25c260fcc8a62d4eca5aefbf9465a7"
+    },
+    {
+      "name": "checkpoint_integrity_is_valid",
+      "cell": 15,
+      "original_start_line": 507,
+      "source": "def checkpoint_integrity_is_valid(checkpoint_path: Path) -> bool:\n    sidecar = checkpoint_integrity_path(checkpoint_path)\n    if not checkpoint_path.is_file() or not sidecar.is_file():\n        return False\n    try:\n        payload = json.loads(sidecar.read_text(encoding=\"utf-8\"))\n    except Exception:\n        return False\n    return (\n        payload.get(\"pipeline_config_hash\") == PIPELINE_CONFIG_HASH\n        and payload.get(\"input_hashes_sha256\") == sha256_json(INPUT_HASHES)\n        and int(payload.get(\"size_bytes\", -1)) == int(checkpoint_path.stat().st_size)\n        and payload.get(\"sha256\") == sha256_file(checkpoint_path)\n    )",
+      "source_sha256": "800c230d8b577b9f61d2348bdd3363295698f699a1cec5f7f2f21a0258aaa3ad"
+    },
+    {
+      "name": "select_tcn_inner_epoch",
+      "cell": 15,
+      "original_start_line": 523,
+      "source": "def select_tcn_inner_epoch(\n    train_iterator: MultitaskCycleWindowIterator,\n    validation_iterator: MultitaskCycleWindowIterator,\n    best_checkpoint_path: Path,\n    progress_checkpoint_path: Path,\n    device: \"torch.device\",\n    fold_seed: int,\n    checkpoint_metadata: dict[str, Any],\n) -> tuple[\"nn.Module\", int, float, list[dict[str, Any]]]:\n    torch.manual_seed(fold_seed)\n    if torch.cuda.is_available():\n        torch.cuda.manual_seed_all(fold_seed)\n    model = MultitaskQuantileTCN().to(device)\n    optimizer = torch.optim.AdamW(model.parameters(), lr=TCN_LEARNING_RATE, weight_decay=TCN_WEIGHT_DECAY)\n    grad_scaler = make_grad_scaler(device.type == \"cuda\")\n    best_score = float(\"inf\")\n    best_epoch = 0\n    stale_epochs = 0\n    start_epoch = 1\n    epoch_history: list[dict[str, Any]] = []\n\n    if progress_checkpoint_path.is_file():\n        progress_integrity_ok = checkpoint_integrity_is_valid(progress_checkpoint_path)\n        progress = safe_torch_load(progress_checkpoint_path, device) if progress_integrity_ok else {}\n        best_required = int(progress.get(\"best_epoch\", 0)) > 0\n        best_integrity_ok = (not best_required) or checkpoint_integrity_is_valid(best_checkpoint_path)\n        progress_is_consistent = (\n            progress_integrity_ok\n            and best_integrity_ok\n            and progress.get(\"pipeline_config_hash\") == PIPELINE_CONFIG_HASH\n            and progress.get(\"epoch_selection_metric\") == TCN_EPOCH_SELECTION_METRIC\n        )\n        if progress_is_consistent:\n            model.load_state_dict(progress[\"model_state_dict\"])\n            optimizer.load_state_dict(progress[\"optimizer_state_dict\"])\n            if \"grad_scaler_state_dict\" in progress:\n                grad_scaler.load_state_dict(progress[\"grad_scaler_state_dict\"])\n            start_epoch = int(progress[\"epoch\"]) + 1\n            best_score = float(progress[\"best_validation_rul90_macro_cell_rmsle\"])\n            best_epoch = int(progress[\"best_epoch\"])\n            stale_epochs = int(progress[\"stale_epochs\"])\n            epoch_history = list(progress.get(\"epoch_history\", []))\n            print(f\"[RESUME EPOCH] starting at epoch={start_epoch}; best_epoch={best_epoch}; metric={TCN_EPOCH_SELECTION_METRIC}\")\n        else:\n            print(\"[WARN] Checkpoint hash/config/input integrity failed; this fold will restart deterministically.\")\n\n    for epoch in range(start_epoch, MAX_EPOCHS + 1):\n        model.train()\n        optimizer.zero_grad(set_to_none=True)\n        microbatch_count = 0\n        train_loss_sum = 0.0\n        for x_np, y_np, mask_np, _ in train_iterator.iter_cell_balanced_microbatches(epoch=epoch):\n            x = torch.from_numpy(x_np).to(device)\n            y = torch.from_numpy(y_np).to(device)\n            masks = torch.from_numpy(mask_np).to(device)\n            with autocast_context(device):\n                predictions = model(x)\n            loss, _ = multitask_pinball_loss(predictions, y, masks)\n            grad_scaler.scale(loss / TCN_GRAD_ACCUM_STEPS).backward()\n            microbatch_count += 1\n            train_loss_sum += float(loss.detach().cpu())\n            if microbatch_count % TCN_GRAD_ACCUM_STEPS == 0:\n                grad_scaler.unscale_(optimizer)\n                torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=TCN_GRADIENT_CLIP_NORM)\n                grad_scaler.step(optimizer)\n                grad_scaler.update()\n                optimizer.zero_grad(set_to_none=True)\n        require(microbatch_count > 0, \"TCN cell-balanced iterator produced no microbatches\")\n        require(microbatch_count % TCN_GRAD_ACCUM_STEPS == 0, \"Effective batch ended with an incomplete accumulation group\")\n        validation_score, validation_details = evaluate_tcn_rul90_macro_cell_rmsle(\n            model, validation_iterator, validation_iterator.target_scaler, device\n        )\n        train_loss = float(train_loss_sum / microbatch_count)\n        epoch_history.append({\n            \"epoch\": int(epoch),\n            \"train_multitask_pinball\": train_loss,\n            \"epoch_selection_metric\": TCN_EPOCH_SELECTION_METRIC,\n            \"validation_rul90_source_balanced_macro_cell_rmsle\": float(validation_score),\n            \"rul90_cells\": int(validation_details[\"rul90_cells\"]),\n            \"rul90_sources\": int(validation_details[\"rul90_sources\"]),\n        })\n        print(\n            f\"[TCN INNER EPOCH] epoch={epoch} train_loss={train_loss:.6g} \"\n            f\"{TCN_EPOCH_SELECTION_METRIC}={validation_score:.6g} details={validation_details}\"\n        )\n        if validation_score < best_score - TCN_MINIMUM_IMPROVEMENT:\n            best_score = validation_score\n            best_epoch = epoch\n            stale_epochs = 0\n            atomic_torch_save({\n                \"model_state_dict\": {name: value.detach().cpu() for name, value in model.state_dict().items()},\n                \"best_epoch\": best_epoch,\n                \"best_validation_rul90_macro_cell_rmsle\": best_score,\n                \"epoch_selection_metric\": TCN_EPOCH_SELECTION_METRIC,\n                \"epoch_selection_details\": validation_details,\n                \"epoch_history\": epoch_history,\n                \"pipeline_config_hash\": PIPELINE_CONFIG_HASH,\n                **checkpoint_metadata,\n            }, best_checkpoint_path)\n            write_checkpoint_integrity(best_checkpoint_path, \"best\")\n        else:\n            stale_epochs += 1\n        atomic_torch_save({\n            \"model_state_dict\": {name: value.detach().cpu() for name, value in model.state_dict().items()},\n            \"optimizer_state_dict\": optimizer.state_dict(),\n            \"grad_scaler_state_dict\": grad_scaler.state_dict(),\n            \"epoch\": epoch,\n            \"best_epoch\": best_epoch,\n            \"best_validation_rul90_macro_cell_rmsle\": best_score,\n            \"epoch_selection_metric\": TCN_EPOCH_SELECTION_METRIC,\n            \"epoch_history\": epoch_history,\n            \"stale_epochs\": stale_epochs,\n            \"pipeline_config_hash\": PIPELINE_CONFIG_HASH,\n            **checkpoint_metadata,\n        }, progress_checkpoint_path)\n        write_checkpoint_integrity(progress_checkpoint_path, \"progress\")\n        if stale_epochs >= PATIENCE:\n            print(f\"[TCN INNER EARLY STOP] epoch={epoch} best_epoch={best_epoch}\")\n            break\n\n    require(best_epoch > 0 and checkpoint_integrity_is_valid(best_checkpoint_path), \"TCN failed to select an integrity-verified inner epoch\")\n    best_payload = safe_torch_load(best_checkpoint_path, device)\n    require(best_payload.get(\"epoch_selection_metric\") == TCN_EPOCH_SELECTION_METRIC, \"TCN checkpoint metric mismatch\")\n    model.load_state_dict(best_payload[\"model_state_dict\"])\n    return model, int(best_epoch), float(best_score), epoch_history",
+      "source_sha256": "fb6e75162824e5ce6c1c86bd4eeef55b0773ea02281a0c663462c4d31f70e818"
+    },
+    {
+      "name": "predict_multitask_tcn",
+      "cell": 15,
+      "original_start_line": 650,
+      "source": "def predict_multitask_tcn(\n    model: \"nn.Module\",\n    iterator: MultitaskCycleWindowIterator,\n    target_scaler: dict[str, Any],\n    split_role: str,\n    device: \"torch.device\",\n    mode: str,\n    entity: str,\n    inner_fold: int,\n    best_epoch: int,\n) -> dict[str, pd.DataFrame]:\n    model.eval()\n    parts: dict[str, list[pd.DataFrame]] = {target: [] for target in TCN_TARGET_ORDER}\n    with torch.no_grad():\n        for x_np, _, mask_np, rows in iterator.iter_prediction_batches():\n            x = torch.from_numpy(x_np).to(device)\n            with autocast_context(device):\n                prediction_tensors = model(x)\n            for target_index, target in enumerate(TCN_TARGET_ORDER):\n                observed = mask_np[:, target_index].astype(bool)\n                if not observed.any():\n                    continue\n                transformed_prediction = prediction_tensors[target].detach().float().cpu().numpy()[observed]\n                prediction = inverse_scaled_target(transformed_prediction, target, target_scaler)\n                require(np.isfinite(prediction).all(), f\"{target}: inverse TCN predictions contain NaN/inf\")\n                require(\n                    np.all(prediction[:, 0] <= prediction[:, 1]) and np.all(prediction[:, 1] <= prediction[:, 2]),\n                    f\"{target}: ordered quantile head contract was violated\",\n                )\n                selected_rows = rows.loc[observed].reset_index(drop=True)\n                y_true = selected_rows[TARGET_SPECS[target][\"y_col\"]].to_numpy(dtype=np.float64)\n                part = selected_rows[METADATA_COLUMNS].copy()\n                part[\"evaluation_mode\"] = mode\n                part[\"outer_entity\"] = entity\n                part[\"inner_fold\"] = int(inner_fold)\n                part[\"target\"] = target\n                part[\"model_id\"] = \"quantile_tcn_locked\"\n                part[\"split_role\"] = split_role\n                part[\"best_epoch\"] = int(best_epoch)\n                part[\"y_true\"] = y_true.astype(np.float32)\n                part[\"q10\"] = prediction[:, 0].astype(np.float32)\n                part[\"q50\"] = prediction[:, 1].astype(np.float32)\n                part[\"q90\"] = prediction[:, 2].astype(np.float32)\n                part[\"pipeline_config_hash\"] = PIPELINE_CONFIG_HASH\n                parts[target].append(part)\n    outputs: dict[str, pd.DataFrame] = {}\n    for target, target_parts in parts.items():\n        if not target_parts:\n            outputs[target] = pd.DataFrame()\n            continue\n        output = pd.concat(target_parts, ignore_index=True)\n        require(output[\"sample_id\"].is_unique, f\"TCN predictions are not unique for {target}:{split_role}\")\n        outputs[target] = output\n    return outputs",
+      "source_sha256": "6d6b44a7c9cdd53b0d4e30788e8934e2f41ba8377a7c4b9a6f7b6dfebe34633a"
+    }
+  ],
+  "literal_constants": {
+    "SEED": 2026,
+    "TCN_BLOCK_CHANNELS": [
+      32,
+      32,
+      64,
+      64
+    ],
+    "TCN_DILATIONS": [
+      1,
+      2,
+      4,
+      8
+    ],
+    "TCN_MICRO_BATCH_SIZE": 32,
+    "TCN_GRAD_ACCUM_STEPS": 8,
+    "TCN_PREDICTION_BATCH_SIZE": 256,
+    "MAX_EPOCHS": 30,
+    "PATIENCE": 5,
+    "TCN_KERNEL_SIZE": 3,
+    "TCN_DROPOUT": 0.1,
+    "TCN_LEARNING_RATE": 0.001,
+    "TCN_WEIGHT_DECAY": 1e-05,
+    "TCN_QUANTILES": [
+      0.1,
+      0.5,
+      0.9
+    ],
+    "TCN_TASK_WEIGHTS": {
+      "soh30": 1.0,
+      "rul90": 1.0,
+      "rul80": 0.5
+    },
+    "TCN_EPOCH_SELECTION_METRIC": "inner_validation_rul90_source_balanced_macro_cell_rmsle_on_q50",
+    "TCN_MINIMUM_IMPROVEMENT": 1e-08,
+    "TCN_SCALER_POINTS_PER_CELL": 256,
+    "TCN_TARGET_POINTS_PER_CELL": 256,
+    "TCN_GRADIENT_CLIP_NORM": 1.0,
+    "CQR_ALPHA": 0.2,
+    "TARGET_SPECS": {
+      "soh30": {
+        "y_col": "soh_t_plus_30",
+        "mask_col": "soh30_loss_mask",
+        "transform": "identity",
+        "threshold": null
+      },
+      "rul90": {
+        "y_col": "rul90_cycles",
+        "mask_col": "rul90_loss_mask",
+        "transform": "log1p",
+        "threshold": 0.9
+      },
+      "rul80": {
+        "y_col": "rul80_cycles",
+        "mask_col": "rul80_loss_mask",
+        "transform": "log1p",
+        "threshold": 0.8
+      }
+    },
+    "METADATA_COLUMNS": [
+      "sample_id",
+      "canonical_cell_id",
+      "t_cycle",
+      "duplicate_family_id",
+      "source",
+      "protocol_id"
+    ],
+    "TARGET_COLUMNS": [
+      "soh_t_plus_30",
+      "soh30_loss_mask",
+      "rul90_cycles",
+      "rul90_loss_mask",
+      "rul80_cycles",
+      "rul80_loss_mask"
+    ],
+    "TCN_TARGET_ORDER": [
+      "soh30",
+      "rul90",
+      "rul80"
+    ]
+  },
+  "no_historical_top_level_code_executed": true,
+  "missing_clean_templates_disclosed": true,
+  "inherited_microbatch_sampler_seed_rule": "SEED + 1009*epoch (historical inner rule); not outer fold_seed sampler",
+  "source_notebooks": [
+    {
+      "path": "notebook_archive_before_stage8_two_shards_20260917/batteryscope-stage6-sourceblocked-inner-all-shardA.ipynb",
+      "sha256": "304f72b8ac2127155ec29490db4c3cef7daf9ef22a25004ff7bf60471b661107",
+      "bytes": 402934,
+      "bundle_path": "provenance/executed_inner_0.ipynb"
+    },
+    {
+      "path": "notebook_archive_before_stage8_two_shards_20260917/batteryscope-stage6-sourceblocked-inner-all-shardB.ipynb",
+      "sha256": "df47de8d43e2975362f6beafaa241b3e613ca9a01dea9c87b49e162ad91c1b08",
+      "bytes": 420835,
+      "bundle_path": "provenance/executed_inner_1.ipynb"
+    }
+  ]
+}

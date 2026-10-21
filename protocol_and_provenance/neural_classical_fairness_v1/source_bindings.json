@@ -1,0 +1,164 @@
+{
+  "schema": "nfr1-source-bindings-v1",
+  "config": {
+    "path": "phase2-ouput/batteryscope_corrected_inner_v2_kaggle/batteryscope_corrected_inner_v2/inner_config.frozen.json",
+    "bytes": 17978,
+    "sha256": "0e290d60d1e8207865ea6bd0e7dbb7fd48c7e27a381f5438daab9a248beec357"
+  },
+  "inputs": [
+    {
+      "path": "phase2-ouput/batteryscope_corrected_inner_v2_kaggle/batteryscope_corrected_inner_v2/phase2/feature_spec.json",
+      "bytes": 13292,
+      "sha256": "e385cb9c501c2303254f0d6cb91ed71cf669943ba3bd790f8fae4179b7ce68b5"
+    },
+    {
+      "path": "phase2-ouput/batteryscope_corrected_inner_v2_kaggle/batteryscope_corrected_inner_v2/phase2/sample_target_index.parquet",
+      "bytes": 14914579,
+      "sha256": "b04ea720a7e59e135a2d4c6a1dbef96fdc48d00025c6fd27d86d8fe86a50aa16"
+    },
+    {
+      "path": "phase2-ouput/batteryscope_corrected_inner_v2_kaggle/batteryscope_corrected_inner_v2/phase2/window_index.parquet",
+      "bytes": 19799437,
+      "sha256": "1651fe5f86f00782e96df39549349c6bd76a20245aef40cc5f1d5d92dd37d132"
+    },
+    {
+      "path": "phase2-ouput/batteryscope_corrected_inner_v2_kaggle/batteryscope_corrected_inner_v2/phase2/battery_phase2_fold_membership.parquet",
+      "bytes": 672571,
+      "sha256": "fa16d88c392707801edc8629ae1740c664e04ced57d4c091f9265cb9447980f3"
+    },
+    {
+      "path": "phase2-ouput/batteryscope_corrected_inner_v2_kaggle/batteryscope_corrected_inner_v2/phase2/multisensor_cycle_store_index.parquet",
+      "bytes": 160096,
+      "sha256": "e5d5fd8bb98c44f7a42683aa6c7078a7adc0c703feadb2347208f3b670989298"
+    }
+  ],
+  "acceptances": {
+    "TCN2026": {
+      "acceptance": {
+        "path": "paper/audits/corrected_outer_results_review_2026-10-04_v1/returned_outer_acceptance.json",
+        "bytes": 126900,
+        "sha256": "3147015aed62254b95fbc4f1d75057b2e6329b62c6ad7ddcb3537894ebab530a"
+      },
+      "partial_acceptances": [],
+      "archives": [
+        {
+          "path": "notebook/duration-corrected-official-v1/batteryscope_corrected_outer_v2_A_results.zip",
+          "bytes": 221344937,
+          "sha256": "1f8f3aabe221fc990a7f55dbf72ffaea7cd2195052c5b190775aaa33ccc691b7"
+        },
+        {
+          "path": "notebook/duration-corrected-official-v1/batteryscope_corrected_outer_v2_B_results.zip",
+          "bytes": 238384701,
+          "sha256": "e8a06fe1b01ca09ec6a75b578170c5e69edf3c0ae0fff211969aeb3c52590b5c"
+        },
+        {
+          "path": "notebook/duration-corrected-official-v1/batteryscope_corrected_outer_v2_C_results.zip",
+          "bytes": 238127554,
+          "sha256": "20f4c20134a853d97522643dbc170003886d69264dfed7d72b6c93e993e8b18e"
+        }
+      ]
+    },
+    "TCN2027_2028": {
+      "acceptance": {
+        "path": "paper/audits/corrected_seed_results_review_2026-10-05_v1/returned_seed_acceptance.json",
+        "bytes": 154284,
+        "sha256": "57b8ca05d69310ce045c2acf73dab1687ea9923a8be1d77b289bef4f28fcb3fb"
+      },
+      "partial_acceptances": [],
+      "archives": [
+        {
+          "path": "notebook/duration-corrected-official-v1/batteryscope_corrected_seed24_A_results.zip",
+          "bytes": 106351240,
+          "sha256": "07c1ca7c84d1694eb32c52ae5c18815380c8264452c6174e242e28d97f460238"
+        },
+        {
+          "path": "notebook/duration-corrected-official-v1/batteryscope_corrected_seed24_B_results.zip",
+          "bytes": 126018065,
+          "sha256": "d88dbb9dceaee3c5c113501f7ba6f1274ba6c6cabf98cd38e89a5c8e830c3bb3"
+        },
+        {
+          "path": "notebook/duration-corrected-official-v1/batteryscope_corrected_seed24_C_results.zip",
+          "bytes": 133134339,
+          "sha256": "b21e8d59990d7ce47062afcd5eb2e908a47891621e25145eec424ec169d9d260"
+        }
+      ]
+    },
+    "GRU2026": {
+      "acceptance": {
+        "path": "paper/audits/e06_gru_outer_results_review_2026-10-05_v1/returned_outer_acceptance.json",
+        "bytes": 91782,
+        "sha256": "70a5d71b18320e5694cf6e4633bf05cf2b66cf6cc048bdec9def469d529f6db7"
+      },
+      "partial_acceptances": [],
+      "archives": [
+        {
+          "path": "notebook/e06-gru-comparator-v1/outer-production-v1/e06_gru_Outer_A_v1_results.zip",
+          "bytes": 20273726,
+          "sha256": "4fed6cf39897aa80c4540fcca196aac32e823d0a3fd44733df45e42bbd61c6a2"
+        },
+        {
+          "path": "notebook/e06-gru-comparator-v1/outer-production-v1/e06_gru_Outer_B_v1_results.zip",
+          "bytes": 89101765,
+          "sha256": "fed2e8d546e07b75d503253e54fcc956b99700b1ed22c57e7f2199decc8ae0b8"
+        },
+        {
+          "path": "notebook/e06-gru-comparator-v1/outer-production-v1/e06_gru_Outer_C_v1_results.zip",
+          "bytes": 12255314,
+          "sha256": "9c734805078783412596e529138ac68c5be2fbf0af6874fc437f50686e4ab425"
+        },
+        {
+          "path": "notebook/e06-gru-comparator-v1/outer-production-v1/e06_gru_Outer_D_v1_results.zip",
+          "bytes": 48949362,
+          "sha256": "74ba0e99914e3c276f1fa4f34e9afe504acbbcc1293f9644b773d5f7c3a546d5"
+        }
+      ]
+    },
+    "GRU2027_2028": {
+      "acceptance": {
+        "path": "paper/audits/e06_gru_seed_A_review_2026-10-05_v1/returned_seed24_acceptance.json",
+        "bytes": 59193,
+        "sha256": "4830efad4d002d99f049397bc28a6ef37855db0a9885cf854ccb8d3cbed8bb58"
+      },
+      "partial_acceptances": [
+        {
+          "path": "paper/audits/e06_gru_seed_partial_review_2026-10-05_v1/returned_seed18_acceptance.json",
+          "bytes": 160876,
+          "sha256": "c841169382aba4d03b9ec632a4fb64ed2144e684fa1f1fe4d62cd7169d317c13"
+        },
+        {
+          "path": "paper/audits/e06_gru_seed_A_review_2026-10-05_v1/returned_seed_A6_acceptance.json",
+          "bytes": 54403,
+          "sha256": "1d5b7517fe4b2d3b092a13abcb7e05eeff3d77e1ba4e8b081a6f7ce3b869fb53"
+        }
+      ],
+      "archives": [
+        {
+          "path": "notebook/e06-gru-comparator-v1/seeds-production-v1/e06_gru_Seeds_B_v1_results.zip",
+          "bytes": 178386421,
+          "sha256": "d7754e5a034d4fccf65e313f43a335077ba39e9582e4b356d6bd905a169e87f0"
+        },
+        {
+          "path": "notebook/e06-gru-comparator-v1/seeds-production-v1/e06_gru_Seeds_C_v1_results.zip",
+          "bytes": 24583366,
+          "sha256": "f3cbc712188c79ab7b19f4794caa19ae1d413cb6b907deebfb87a257cbb3a0db"
+        },
+        {
+          "path": "notebook/e06-gru-comparator-v1/seeds-production-v1/e06_gru_Seeds_D_v1_results.zip",
+          "bytes": 97340312,
+          "sha256": "7cb7b7f53327ececcb138ff04736e4e0074d959e6351d27ad62084fda32ac552"
+        },
+        {
+          "path": "notebook/e06-gru-comparator-v1/seeds-production-v1/e06_gru_Seeds_A_v1_results.zip",
+          "bytes": 40436584,
+          "sha256": "4f8f0b9a514f6b4fce4665ce182e61fd3f76233a0cb5bb3832036db446292b8f"
+        }
+      ]
+    }
+  },
+  "classical_inner_source_status": "EXACT_INNER_EXECUTED_SOURCE_NOT_RECOVERED",
+  "inventory_receipt": {
+    "path": "paper/audits/neural_classical_fairness_2026-10-08_v1/gates/F0_inventory.json",
+    "bytes": 1159249,
+    "sha256": "5a3c3e7c61a64e1ffd29637262f35c6d411b41427626ec70ad88dde59687c38f"
+  }
+}

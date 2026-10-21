@@ -1,0 +1,466 @@
+{
+  "sources": [
+    "CALB",
+    "CALCE",
+    "HNEI",
+    "MATR",
+    "MICH",
+    "SDU",
+    "SNL",
+    "Stanford",
+    "Stanford_2",
+    "Tongji",
+    "UL_PUR",
+    "XJTU"
+  ],
+  "source_blocks": {
+    "0": [
+      "CALB",
+      "MATR",
+      "SNL",
+      "Tongji"
+    ],
+    "1": [
+      "CALCE",
+      "MICH",
+      "Stanford",
+      "UL_PUR"
+    ],
+    "2": [
+      "HNEI",
+      "SDU",
+      "Stanford_2",
+      "XJTU"
+    ]
+  },
+  "inner_contexts": [
+    {
+      "source": "CALB",
+      "inner_fold": 0,
+      "train_affected_cells": 0,
+      "validation_affected_cells": 23,
+      "train_cell_hash": "b0dffb0329d7675e656dcde9832babb3322f1fa4093a827d6bfd76045f48631a",
+      "validation_cell_hash": "2e432bd3e18ba7806a35e3555b0c5d654f1b9d3d7f95a42c4a58c590645a1d55",
+      "action": "RERUN_EPOCH_SELECTION_VALIDATION_CHANGED"
+    },
+    {
+      "source": "CALB",
+      "inner_fold": 1,
+      "train_affected_cells": 23,
+      "validation_affected_cells": 0,
+      "train_cell_hash": "1f7cedee347ffa946f60260acafc3fbdfaebe5711ac50a9111dc354123bc7dfa",
+      "validation_cell_hash": "650ee0957d046669b76298f24d313cdd36e7d692a48a868e9a1161d461474e36",
+      "action": "RERUN_TRAIN_AND_EPOCH_SELECTION"
+    },
+    {
+      "source": "CALB",
+      "inner_fold": 2,
+      "train_affected_cells": 23,
+      "validation_affected_cells": 0,
+      "train_cell_hash": "7cf108610a19c6ab79a3850df58accc7ca2b9bde5006b13fc51e904d8e10cbe0",
+      "validation_cell_hash": "2bb4d2083b955137b11c6875932d10b0af96932eacb6dc4d8cee6848b0078c80",
+      "action": "RERUN_TRAIN_AND_EPOCH_SELECTION"
+    },
+    {
+      "source": "CALCE",
+      "inner_fold": 0,
+      "train_affected_cells": 0,
+      "validation_affected_cells": 23,
+      "train_cell_hash": "6c12a68b8315380fa9d474c2c8ea7b6950b87562717d7380c36aa60922199796",
+      "validation_cell_hash": "ec80ef055f8f388500e448cc83a5f2d9565cb36e6c4a34aff42fac428da80865",
+      "action": "RERUN_EPOCH_SELECTION_VALIDATION_CHANGED"
+    },
+    {
+      "source": "CALCE",
+      "inner_fold": 1,
+      "train_affected_cells": 23,
+      "validation_affected_cells": 0,
+      "train_cell_hash": "9676ebce4585451b5260de055f08d45209bbac4b6c81ec4472fed9a0c56f14fd",
+      "validation_cell_hash": "ed6604afd9a985d6410ee5be6556dfbf70e162688819f8d174b9b65e93bff209",
+      "action": "RERUN_TRAIN_AND_EPOCH_SELECTION"
+    },
+    {
+      "source": "CALCE",
+      "inner_fold": 2,
+      "train_affected_cells": 23,
+      "validation_affected_cells": 0,
+      "train_cell_hash": "d041a860b471fc5e5f768e30717ed3943b0e20fa4a37fa6d70d00a7f3a1c295b",
+      "validation_cell_hash": "2bb4d2083b955137b11c6875932d10b0af96932eacb6dc4d8cee6848b0078c80",
+      "action": "RERUN_TRAIN_AND_EPOCH_SELECTION"
+    },
+    {
+      "source": "HNEI",
+      "inner_fold": 0,
+      "train_affected_cells": 0,
+      "validation_affected_cells": 23,
+      "train_cell_hash": "7b03fb49b2f0dae4f2f497845afaf454e7f720876de04607fdc1bcc9b1a9133b",
+      "validation_cell_hash": "ec80ef055f8f388500e448cc83a5f2d9565cb36e6c4a34aff42fac428da80865",
+      "action": "RERUN_EPOCH_SELECTION_VALIDATION_CHANGED"
+    },
+    {
+      "source": "HNEI",
+      "inner_fold": 1,
+      "train_affected_cells": 23,
+      "validation_affected_cells": 0,
+      "train_cell_hash": "75846e192353372162287397f151dacb29bd65617f228e6993def972b0b53c05",
+      "validation_cell_hash": "650ee0957d046669b76298f24d313cdd36e7d692a48a868e9a1161d461474e36",
+      "action": "RERUN_TRAIN_AND_EPOCH_SELECTION"
+    },
+    {
+      "source": "HNEI",
+      "inner_fold": 2,
+      "train_affected_cells": 23,
+      "validation_affected_cells": 0,
+      "train_cell_hash": "148d5add08ad8851f1d670e180c354bb6ea6a3e11f86ef2d0b9b3f9ac5a60c12",
+      "validation_cell_hash": "f7704ac482bbdcf5f567f0a2e2673764e83fd20cb82f80076630e77204a02b1d",
+      "action": "RERUN_TRAIN_AND_EPOCH_SELECTION"
+    },
+    {
+      "source": "MATR",
+      "inner_fold": 0,
+      "train_affected_cells": 0,
+      "validation_affected_cells": 0,
+      "train_cell_hash": "b0dffb0329d7675e656dcde9832babb3322f1fa4093a827d6bfd76045f48631a",
+      "validation_cell_hash": "846682e5d9541b61a9bd76f423ebfad8cf5e44c8c25b6fd30101f8aee00cb30a",
+      "action": "UNCHANGED_INNER_INPUT"
+    },
+    {
+      "source": "MATR",
+      "inner_fold": 1,
+      "train_affected_cells": 0,
+      "validation_affected_cells": 0,
+      "train_cell_hash": "3065adb6824e5e920db1d31be9ae58ac1abdd91c81bc94ac41effca8798d7a20",
+      "validation_cell_hash": "650ee0957d046669b76298f24d313cdd36e7d692a48a868e9a1161d461474e36",
+      "action": "UNCHANGED_INNER_INPUT"
+    },
+    {
+      "source": "MATR",
+      "inner_fold": 2,
+      "train_affected_cells": 0,
+      "validation_affected_cells": 0,
+      "train_cell_hash": "6b723da2c57174306d756a2011820e6889efc8fd92c2fc3fc6c0c7207d0024f8",
+      "validation_cell_hash": "2bb4d2083b955137b11c6875932d10b0af96932eacb6dc4d8cee6848b0078c80",
+      "action": "UNCHANGED_INNER_INPUT"
+    },
+    {
+      "source": "MICH",
+      "inner_fold": 0,
+      "train_affected_cells": 0,
+      "validation_affected_cells": 23,
+      "train_cell_hash": "97e24a3f5f5aa6f20402df5ba69a67e9c18538c0714d6f3bac2d5950c81deca5",
+      "validation_cell_hash": "ec80ef055f8f388500e448cc83a5f2d9565cb36e6c4a34aff42fac428da80865",
+      "action": "RERUN_EPOCH_SELECTION_VALIDATION_CHANGED"
+    },
+    {
+      "source": "MICH",
+      "inner_fold": 1,
+      "train_affected_cells": 23,
+      "validation_affected_cells": 0,
+      "train_cell_hash": "9676ebce4585451b5260de055f08d45209bbac4b6c81ec4472fed9a0c56f14fd",
+      "validation_cell_hash": "bd3e37d76304d0cc00669184e6db96c7d50fda8cdb87321c01a9bfa3431e7171",
+      "action": "RERUN_TRAIN_AND_EPOCH_SELECTION"
+    },
+    {
+      "source": "MICH",
+      "inner_fold": 2,
+      "train_affected_cells": 23,
+      "validation_affected_cells": 0,
+      "train_cell_hash": "5cd0091033d7149b9a4255d12f1a2772dc86cb58de86f37c1e380ecc1e11efef",
+      "validation_cell_hash": "2bb4d2083b955137b11c6875932d10b0af96932eacb6dc4d8cee6848b0078c80",
+      "action": "RERUN_TRAIN_AND_EPOCH_SELECTION"
+    },
+    {
+      "source": "SDU",
+      "inner_fold": 0,
+      "train_affected_cells": 0,
+      "validation_affected_cells": 23,
+      "train_cell_hash": "1e3a4469811fd1ce27badffdbb5dc5879ffc0dedfa8233a75b03faca77359075",
+      "validation_cell_hash": "ec80ef055f8f388500e448cc83a5f2d9565cb36e6c4a34aff42fac428da80865",
+      "action": "RERUN_EPOCH_SELECTION_VALIDATION_CHANGED"
+    },
+    {
+      "source": "SDU",
+      "inner_fold": 1,
+      "train_affected_cells": 23,
+      "validation_affected_cells": 0,
+      "train_cell_hash": "4f4117ccad3e7023b6477a66a509ae2a00a61c312c3e0359212f094c6f6c2326",
+      "validation_cell_hash": "650ee0957d046669b76298f24d313cdd36e7d692a48a868e9a1161d461474e36",
+      "action": "RERUN_TRAIN_AND_EPOCH_SELECTION"
+    },
+    {
+      "source": "SDU",
+      "inner_fold": 2,
+      "train_affected_cells": 23,
+      "validation_affected_cells": 0,
+      "train_cell_hash": "148d5add08ad8851f1d670e180c354bb6ea6a3e11f86ef2d0b9b3f9ac5a60c12",
+      "validation_cell_hash": "736ad953024d4bf281b740e5d1c215808595cbce7162525468f3ac87b8a256e6",
+      "action": "RERUN_TRAIN_AND_EPOCH_SELECTION"
+    },
+    {
+      "source": "SNL",
+      "inner_fold": 0,
+      "train_affected_cells": 0,
+      "validation_affected_cells": 23,
+      "train_cell_hash": "b0dffb0329d7675e656dcde9832babb3322f1fa4093a827d6bfd76045f48631a",
+      "validation_cell_hash": "1dc74400913bcd3c574b9b9e20f3d35fd4f8a6bf47863c3d02471a184ad83ee3",
+      "action": "RERUN_EPOCH_SELECTION_VALIDATION_CHANGED"
+    },
+    {
+      "source": "SNL",
+      "inner_fold": 1,
+      "train_affected_cells": 23,
+      "validation_affected_cells": 0,
+      "train_cell_hash": "551f0bc4b786391435c2f5acd3ab646c1809a029df3e41b32e6401ace5ef8288",
+      "validation_cell_hash": "650ee0957d046669b76298f24d313cdd36e7d692a48a868e9a1161d461474e36",
+      "action": "RERUN_TRAIN_AND_EPOCH_SELECTION"
+    },
+    {
+      "source": "SNL",
+      "inner_fold": 2,
+      "train_affected_cells": 23,
+      "validation_affected_cells": 0,
+      "train_cell_hash": "ab5984f6bb8cbba23f4b122b76a0897479d1604582ff538f5e5bb5a78e37859d",
+      "validation_cell_hash": "2bb4d2083b955137b11c6875932d10b0af96932eacb6dc4d8cee6848b0078c80",
+      "action": "RERUN_TRAIN_AND_EPOCH_SELECTION"
+    },
+    {
+      "source": "Stanford",
+      "inner_fold": 0,
+      "train_affected_cells": 0,
+      "validation_affected_cells": 23,
+      "train_cell_hash": "04f9a63f052fe97304672d5602f57f55c5c36e6262446fd32e51955b94bdc712",
+      "validation_cell_hash": "ec80ef055f8f388500e448cc83a5f2d9565cb36e6c4a34aff42fac428da80865",
+      "action": "RERUN_EPOCH_SELECTION_VALIDATION_CHANGED"
+    },
+    {
+      "source": "Stanford",
+      "inner_fold": 1,
+      "train_affected_cells": 23,
+      "validation_affected_cells": 0,
+      "train_cell_hash": "9676ebce4585451b5260de055f08d45209bbac4b6c81ec4472fed9a0c56f14fd",
+      "validation_cell_hash": "01e065ae9d4cac2a211ae45e79c1aca64feefa0df38122dec24d466c02b14aaa",
+      "action": "RERUN_TRAIN_AND_EPOCH_SELECTION"
+    },
+    {
+      "source": "Stanford",
+      "inner_fold": 2,
+      "train_affected_cells": 23,
+      "validation_affected_cells": 0,
+      "train_cell_hash": "e26137634ac4f915e6f73d1ecb7efda5c27c3860d6ffd21a85d915b09b9fb66d",
+      "validation_cell_hash": "2bb4d2083b955137b11c6875932d10b0af96932eacb6dc4d8cee6848b0078c80",
+      "action": "RERUN_TRAIN_AND_EPOCH_SELECTION"
+    },
+    {
+      "source": "Stanford_2",
+      "inner_fold": 0,
+      "train_affected_cells": 0,
+      "validation_affected_cells": 23,
+      "train_cell_hash": "47b81afc1a8f9a07df5fbd6dcc2910962d156e38bb4467421e6e6feed4415ca9",
+      "validation_cell_hash": "ec80ef055f8f388500e448cc83a5f2d9565cb36e6c4a34aff42fac428da80865",
+      "action": "RERUN_EPOCH_SELECTION_VALIDATION_CHANGED"
+    },
+    {
+      "source": "Stanford_2",
+      "inner_fold": 1,
+      "train_affected_cells": 23,
+      "validation_affected_cells": 0,
+      "train_cell_hash": "22903b1c371f66a45b89559019ea02005d3fae8d5720805451dac9c76e84aa34",
+      "validation_cell_hash": "650ee0957d046669b76298f24d313cdd36e7d692a48a868e9a1161d461474e36",
+      "action": "RERUN_TRAIN_AND_EPOCH_SELECTION"
+    },
+    {
+      "source": "Stanford_2",
+      "inner_fold": 2,
+      "train_affected_cells": 23,
+      "validation_affected_cells": 0,
+      "train_cell_hash": "148d5add08ad8851f1d670e180c354bb6ea6a3e11f86ef2d0b9b3f9ac5a60c12",
+      "validation_cell_hash": "5cf736a018e335236064dc5714f072c84fd0801c2909dc33d0e8759835bf7d32",
+      "action": "RERUN_TRAIN_AND_EPOCH_SELECTION"
+    },
+    {
+      "source": "Tongji",
+      "inner_fold": 0,
+      "train_affected_cells": 0,
+      "validation_affected_cells": 23,
+      "train_cell_hash": "b0dffb0329d7675e656dcde9832babb3322f1fa4093a827d6bfd76045f48631a",
+      "validation_cell_hash": "db44ed53278bea580b4a97b9cc5f84621bd8e1dd1ecc887b5ab5ec2c93db593b",
+      "action": "RERUN_EPOCH_SELECTION_VALIDATION_CHANGED"
+    },
+    {
+      "source": "Tongji",
+      "inner_fold": 1,
+      "train_affected_cells": 23,
+      "validation_affected_cells": 0,
+      "train_cell_hash": "faac3233f98157d4ca1d3baf2e8fd77e846a9bc925104721f40f803e11249bb4",
+      "validation_cell_hash": "650ee0957d046669b76298f24d313cdd36e7d692a48a868e9a1161d461474e36",
+      "action": "RERUN_TRAIN_AND_EPOCH_SELECTION"
+    },
+    {
+      "source": "Tongji",
+      "inner_fold": 2,
+      "train_affected_cells": 23,
+      "validation_affected_cells": 0,
+      "train_cell_hash": "fbe668942d93d5ff2bce30009dcd03ed7acbe64e83fe298dcb3b37aa6db4abdf",
+      "validation_cell_hash": "2bb4d2083b955137b11c6875932d10b0af96932eacb6dc4d8cee6848b0078c80",
+      "action": "RERUN_TRAIN_AND_EPOCH_SELECTION"
+    },
+    {
+      "source": "UL_PUR",
+      "inner_fold": 0,
+      "train_affected_cells": 0,
+      "validation_affected_cells": 23,
+      "train_cell_hash": "10bc8fc48c4456117cb325060f7b6958f31899d27dfd845de9a9a37fba580a89",
+      "validation_cell_hash": "ec80ef055f8f388500e448cc83a5f2d9565cb36e6c4a34aff42fac428da80865",
+      "action": "RERUN_EPOCH_SELECTION_VALIDATION_CHANGED"
+    },
+    {
+      "source": "UL_PUR",
+      "inner_fold": 1,
+      "train_affected_cells": 23,
+      "validation_affected_cells": 0,
+      "train_cell_hash": "9676ebce4585451b5260de055f08d45209bbac4b6c81ec4472fed9a0c56f14fd",
+      "validation_cell_hash": "349ba1dca43451a02d3feb4b718a45f10d90eec17400a5a08b483e1fb3c7f817",
+      "action": "RERUN_TRAIN_AND_EPOCH_SELECTION"
+    },
+    {
+      "source": "UL_PUR",
+      "inner_fold": 2,
+      "train_affected_cells": 23,
+      "validation_affected_cells": 0,
+      "train_cell_hash": "cc2547fe4516196268dc347f6f4fa3ee0e2123055fb78905eeebe964df62a6b3",
+      "validation_cell_hash": "2bb4d2083b955137b11c6875932d10b0af96932eacb6dc4d8cee6848b0078c80",
+      "action": "RERUN_TRAIN_AND_EPOCH_SELECTION"
+    },
+    {
+      "source": "XJTU",
+      "inner_fold": 0,
+      "train_affected_cells": 0,
+      "validation_affected_cells": 23,
+      "train_cell_hash": "49c9f12f77de8683bb3f304e2f0ad47f30372e6edac9ce91827a5f436691a36c",
+      "validation_cell_hash": "ec80ef055f8f388500e448cc83a5f2d9565cb36e6c4a34aff42fac428da80865",
+      "action": "RERUN_EPOCH_SELECTION_VALIDATION_CHANGED"
+    },
+    {
+      "source": "XJTU",
+      "inner_fold": 1,
+      "train_affected_cells": 23,
+      "validation_affected_cells": 0,
+      "train_cell_hash": "19b664584d955c16f8c6c8e8b4e209de3a683ee89dab330dcedd8deb566f9a36",
+      "validation_cell_hash": "650ee0957d046669b76298f24d313cdd36e7d692a48a868e9a1161d461474e36",
+      "action": "RERUN_TRAIN_AND_EPOCH_SELECTION"
+    },
+    {
+      "source": "XJTU",
+      "inner_fold": 2,
+      "train_affected_cells": 23,
+      "validation_affected_cells": 0,
+      "train_cell_hash": "148d5add08ad8851f1d670e180c354bb6ea6a3e11f86ef2d0b9b3f9ac5a60c12",
+      "validation_cell_hash": "7d8838aafbbef270e19bbab4a9a71dd8024b39b823f81ee317b8443123d912e2",
+      "action": "RERUN_TRAIN_AND_EPOCH_SELECTION"
+    }
+  ],
+  "environment_reference": {
+    "packages": {
+      "python": "3.13.15",
+      "numpy": "2.1.3",
+      "pandas": "2.3.3",
+      "pyarrow": "23.0.1",
+      "scikit_learn": "1.6.1",
+      "torch": "2.11.0+cu128"
+    },
+    "cuda_available": true,
+    "torch_cuda_version": "12.8",
+    "cudnn_version": 91900,
+    "gpu_name": "Tesla T4",
+    "gpu_count": 2
+  },
+  "environment_profile_id": "batteryscope-kaggle-t4-observed-2026-10-04-r1",
+  "environment_profile_file_sha256": "f0b1aa3201eb73942a5b989586ffc5aeaab8dc8c9749eb9acfd78081bcceca80",
+  "input_manifest_sha256": "f3009e7586827cb20641f51224cdfffd7290b2502d4231be938bd026db3c9f3a",
+  "input_hashes": {
+    "feature_spec.json": "e385cb9c501c2303254f0d6cb91ed71cf669943ba3bd790f8fae4179b7ce68b5",
+    "sample_target_index.parquet": "b04ea720a7e59e135a2d4c6a1dbef96fdc48d00025c6fd27d86d8fe86a50aa16",
+    "window_index.parquet": "1651fe5f86f00782e96df39549349c6bd76a20245aef40cc5f1d5d92dd37d132",
+    "battery_phase2_fold_membership.parquet": "fa16d88c392707801edc8629ae1740c664e04ced57d4c091f9265cb9447980f3",
+    "multisensor_cycle_store_index.parquet": "e5d5fd8bb98c44f7a42683aa6c7078a7adc0c703feadb2347208f3b670989298"
+  },
+  "approved_protocol": {
+    "path": "paper/audits/snl_scope_and_corrected_protocol_2026-10-04_v1/execution_protocol.draft.json",
+    "sha256": "75fbf1877d7b62cc530af31be7ad3f448959a5da41d020d77048083f6128c2b1",
+    "bytes": 60540
+  },
+  "membership_hash_rule": "sha256 of newline-joined sorted canonical cell IDs, as in trace25",
+  "schema": "corrected-inner-production-config-v1",
+  "campaign_id": "batteryscope-corrected-inner-2026-10-04-v1",
+  "enabled_phases": [
+    "inner"
+  ],
+  "seed_bases": [
+    2026,
+    2027,
+    2028
+  ],
+  "active_seed_base": 2026,
+  "max_epochs": 30,
+  "patience": 5,
+  "gpu_workers": 1,
+  "session_wall_seconds": 32400,
+  "resume_enabled": false,
+  "outer_scoring_enabled": false,
+  "calibration_enabled": false,
+  "scientific_recipe_sha256": "82763759f01a452911599d5cdeddee2cec85149cbca9177f71f0b8d565921413",
+  "production_profile_id": "batteryscope-corrected-production-t4-2026-10-04-r1",
+  "production_environment_file_sha256": "77fead75439bd63d58d24d9cf8fba81dd76e0508286c6e14015b6954fc60b7c0",
+  "returned_smoke_acceptance": {
+    "path": "paper/audits/corrected_inner_production_2026-10-04_v1/returned_smoke_acceptance.json",
+    "sha256": "6afd762df70106741f51153b1cab286dadaa8bc329dae53801f8aeb8bb23a322",
+    "bytes": 1506
+  },
+  "shards": {
+    "A": [
+      "inner.CALB.0",
+      "inner.CALB.1",
+      "inner.CALB.2",
+      "inner.CALCE.0",
+      "inner.CALCE.1",
+      "inner.CALCE.2",
+      "inner.HNEI.0",
+      "inner.HNEI.1",
+      "inner.HNEI.2",
+      "inner.MATR.0",
+      "inner.MATR.1",
+      "inner.MATR.2"
+    ],
+    "B": [
+      "inner.MICH.0",
+      "inner.MICH.1",
+      "inner.MICH.2",
+      "inner.SDU.0",
+      "inner.SDU.1",
+      "inner.SDU.2",
+      "inner.SNL.0",
+      "inner.SNL.1",
+      "inner.SNL.2",
+      "inner.Stanford.0",
+      "inner.Stanford.1",
+      "inner.Stanford.2"
+    ],
+    "C": [
+      "inner.Stanford_2.0",
+      "inner.Stanford_2.1",
+      "inner.Stanford_2.2",
+      "inner.Tongji.0",
+      "inner.Tongji.1",
+      "inner.Tongji.2",
+      "inner.UL_PUR.0",
+      "inner.UL_PUR.1",
+      "inner.UL_PUR.2",
+      "inner.XJTU.0",
+      "inner.XJTU.1",
+      "inner.XJTU.2"
+    ]
+  },
+  "incomplete_fit_counts_as_production": false,
+  "completed_fit_requires_returned_review": true,
+  "outer_and_seed_delivery_pending_accepted_inner_outputs": true
+}

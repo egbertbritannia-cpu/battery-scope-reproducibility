@@ -1,0 +1,23 @@
+__pycache__/
+*.py[cod]
+.venv*/
+.env
+.env.*
+!.env.example
+kaggle.json
+access_token
+*.zip
+*.pkl
+*.pickle
+*.pt
+*.pth
+*.joblib
+*.parquet
+*.log
+build/
+datasets/
+returns/
+
+# Explicit public scope: code and aggregate results only.
+paper/
+supplement/

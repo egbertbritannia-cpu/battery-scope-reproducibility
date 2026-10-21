@@ -1,0 +1,524 @@
+{
+  "snapshot": "2026-10-21",
+  "scope": "Code, configuration and source-level aggregate results only; manuscript, appendix text and figures omitted by user instruction",
+  "files": [
+    {
+      "path": ".gitattributes",
+      "bytes": 82,
+      "sha256": "4f0b054db65d3f0448c8a7b1c5288feb325afaf6900933d8b44e94a947a9d395"
+    },
+    {
+      "path": ".gitignore",
+      "bytes": 247,
+      "sha256": "e4f08f3559609992845c221cd6ba4d380a1f24af01b4ad630f13899976f8cfa3"
+    },
+    {
+      "path": "CITATION.cff",
+      "bytes": 490,
+      "sha256": "e2cf1db9e6c6f2e3e9ea3eee5bb49d154275e43100aa8fd6664fbd8aeaf8c179"
+    },
+    {
+      "path": "configs/common_input/training_contract.json",
+      "bytes": 5654,
+      "sha256": "085d032c05169386f96d102b9719bc6acfba8b837489c8c4bc70c1b51398d648"
+    },
+    {
+      "path": "configs/external_inputs.json",
+      "bytes": 1806,
+      "sha256": "921f674897f940c7aa663a9580d153692c5a443cf67e52954051b022951f632a"
+    },
+    {
+      "path": "configs/primary/selected_configurations.json",
+      "bytes": 403048,
+      "sha256": "974aaa84076fd082d8890fddab01f6a0d172395a6e8789e2338948f16fb7b1d0"
+    },
+    {
+      "path": "configs/primary/training_contract.json",
+      "bytes": 7444,
+      "sha256": "de11a470542edd2b030d364349c2bdc0946e93df839f17fd1691f3fc89caa4ef"
+    },
+    {
+      "path": "configs/primary/training_environment_observed.json",
+      "bytes": 1059,
+      "sha256": "570922a4f22e861bd4e9c9f8bf05ddab65e88e18d1811cd3c72d14809236280a"
+    },
+    {
+      "path": "docs/references.bib",
+      "bytes": 13127,
+      "sha256": "8fb768af62a9bf698468d2210e39f01d4bbcd24539685ac6b27b2a524a73c8eb"
+    },
+    {
+      "path": "NOTICE.md",
+      "bytes": 1352,
+      "sha256": "7a42a7ed40609138e690d609a8293eb874d29183d20fd313aca7d6b40d6d7171"
+    },
+    {
+      "path": "phase2-ouput/batteryscope_corrected_inner_v2_kaggle/batteryscope_corrected_inner_v2/code/corrected_environment.py",
+      "bytes": 6298,
+      "sha256": "9c1e1859993609beeb4263329249bbca228d7f55c097bb06274a1a364f2155d9"
+    },
+    {
+      "path": "phase2-ouput/batteryscope_corrected_inner_v2_kaggle/batteryscope_corrected_inner_v2/code/inner_recipe.json",
+      "bytes": 65982,
+      "sha256": "5fadf8b785af7b01e51e66e12ef73573f580cc7eb45dd81fc280e05fbe8f690b"
+    },
+    {
+      "path": "phase2-ouput/batteryscope_corrected_inner_v2_kaggle/batteryscope_corrected_inner_v2/code/smoke_reference_runtime.py",
+      "bytes": 19196,
+      "sha256": "6a04913a6a99cf0cc3488969af03774d8a5e8d737ff8b9730f5212fe05efdde0"
+    },
+    {
+      "path": "phase2-ouput/batteryscope_corrected_inner_v2_kaggle/batteryscope_corrected_inner_v2/inner_config.frozen.json",
+      "bytes": 17512,
+      "sha256": "a567eeffdb7151d82f91c27055cafa1073083fa94fe5aae3a692522295a46879"
+    },
+    {
+      "path": "phase2-ouput/batteryscope_corrected_inner_v2_kaggle/batteryscope_corrected_inner_v2/phase2/feature_spec.json",
+      "bytes": 13292,
+      "sha256": "e385cb9c501c2303254f0d6cb91ed71cf669943ba3bd790f8fae4179b7ce68b5"
+    },
+    {
+      "path": "phase2-ouput/batteryscope_stage7_programmatic_v6/stage8_outer_model_executor.py",
+      "bytes": 63259,
+      "sha256": "e93cf3978bee5b5e8f39d5b7214c6f2a4ce70925371365da1bd9a1c044f690e4"
+    },
+    {
+      "path": "protocol_and_provenance/data_integrity/e06_gru_model.py",
+      "bytes": 2177,
+      "sha256": "b4b02f774aae8159d78d3fe3ebbe3c87c80360e618e637875e5ecc3cef219a8a"
+    },
+    {
+      "path": "protocol_and_provenance/data_integrity/e07_calibration_ablation.py",
+      "bytes": 20314,
+      "sha256": "288f114903809b8a0dd6eb7ea29dcac7aa495c5a6a53c3671aa8b6ede4ab5a9f"
+    },
+    {
+      "path": "protocol_and_provenance/neural_classical_fairness_v1/audit_coverage_extension.py",
+      "bytes": 17009,
+      "sha256": "24fab01661bf6e90d2e2830ac994f0cc10609f4b00ceb2509d82959e7a9083e7"
+    },
+    {
+      "path": "protocol_and_provenance/neural_classical_fairness_v1/audit_hcp_family_window.py",
+      "bytes": 8756,
+      "sha256": "c9b2344941eda82c0418ce21e90a4350103e8510d14fda47db15a7efc4f1baf1"
+    },
+    {
+      "path": "protocol_and_provenance/neural_classical_fairness_v1/audit_multisource_inner_return.py",
+      "bytes": 36429,
+      "sha256": "b91d0c755509bbe00ed9e974278a6a8d9482c6ab1eb628b7be42211bd6dc3a93"
+    },
+    {
+      "path": "protocol_and_provenance/neural_classical_fairness_v1/audit_remaining_cpu_return.py",
+      "bytes": 23071,
+      "sha256": "12d560e1c81be817a72dfd65645dd0703790c0b46644ef4d5c49e8f2d23f635e"
+    },
+    {
+      "path": "protocol_and_provenance/neural_classical_fairness_v1/build_remaining_cpu_notebook.py",
+      "bytes": 14147,
+      "sha256": "c094b4fe169fb1bad237204aee67a437dac2f9ae2078f7518ba7348e6c863c83"
+    },
+    {
+      "path": "protocol_and_provenance/neural_classical_fairness_v1/diagnose_coverage_seed_width.py",
+      "bytes": 10639,
+      "sha256": "c79c5f2e0e3ee6c70ce58da6d1f83425abddbb1a1dfee3cf6257c24b66b3a687"
+    },
+    {
+      "path": "protocol_and_provenance/neural_classical_fairness_v1/hcp_family_window.py",
+      "bytes": 16767,
+      "sha256": "508be4a6015f082dcc35a5cd7076ff4cd12ebcf3850cd54b9aba15300f6844f4"
+    },
+    {
+      "path": "protocol_and_provenance/neural_classical_fairness_v1/inner_checkpoint_inputs.py",
+      "bytes": 4540,
+      "sha256": "42ad304b4d7808da5130d5c77e90cd3488156e29a5bd7ca8a1fe39ef706e65b9"
+    },
+    {
+      "path": "protocol_and_provenance/neural_classical_fairness_v1/report_multisource_outer.py",
+      "bytes": 12948,
+      "sha256": "7f90998ef3334697b1a940e29a0e18e17d98cb2b7c5c25c1c9236e74d3f58754"
+    },
+    {
+      "path": "protocol_and_provenance/neural_classical_fairness_v1/runtime/calb_outer_contract.py",
+      "bytes": 5965,
+      "sha256": "3731b5b4090da8cfa3de5a5df6ce5640fc1c1756d16f9bdc0da427a48d5c118a"
+    },
+    {
+      "path": "protocol_and_provenance/neural_classical_fairness_v1/runtime/calb_outer_core.py",
+      "bytes": 27240,
+      "sha256": "ecc8aad9ab31384d62d13aec5d6a9737531ec88fea7ca2bd137a2d311a363a4e"
+    },
+    {
+      "path": "protocol_and_provenance/neural_classical_fairness_v1/runtime/calb_outer_kaggle.py",
+      "bytes": 11717,
+      "sha256": "ca7b1fbd5c4c70082722f32e5c180988f1f6d2f940ac18d54597cd4ed6308c84"
+    },
+    {
+      "path": "protocol_and_provenance/neural_classical_fairness_v1/runtime/capacity_repair_full_inner.py",
+      "bytes": 18941,
+      "sha256": "bab8c7ea55c6fd1864261fdd01f1cacfad219209a194dcd1a7a9ec4e65aa5ab3"
+    },
+    {
+      "path": "protocol_and_provenance/neural_classical_fairness_v1/runtime/capacity_repair_pilot.py",
+      "bytes": 14242,
+      "sha256": "96188bcca8686f1a621b34ca3e27d975ae03bbd2d3e9f46d54147511519288d8"
+    },
+    {
+      "path": "protocol_and_provenance/neural_classical_fairness_v1/runtime/capacity_scale_repair.py",
+      "bytes": 3596,
+      "sha256": "3cd5708404854e93458f1bcbbc2eb2452757be34329fb685253b0d5d2dfc19c8"
+    },
+    {
+      "path": "protocol_and_provenance/neural_classical_fairness_v1/runtime/common_sequence_scale_inner.py",
+      "bytes": 29633,
+      "sha256": "e833340a86fec97a83c917864c7f1de90ec24d913ceba02cbf6a83e5da3ab99e"
+    },
+    {
+      "path": "protocol_and_provenance/neural_classical_fairness_v1/runtime/common_sequence_split_inner.py",
+      "bytes": 2814,
+      "sha256": "3b2fac5df86e1f65ced6a4ddb026af5ac41d33692a31abd66b2dc4dbe6823c00"
+    },
+    {
+      "path": "protocol_and_provenance/neural_classical_fairness_v1/runtime/coverage_extension_infer.py",
+      "bytes": 13509,
+      "sha256": "42b9f508b0128bd1facad586af99009f63283aa6ae97a643b11198fed85a9670"
+    },
+    {
+      "path": "protocol_and_provenance/neural_classical_fairness_v1/runtime/environment_identity.py",
+      "bytes": 1915,
+      "sha256": "b52d923de6569de8a66a8d3424be5b3890dcb2b512c0fe63927d8ff3441b15d0"
+    },
+    {
+      "path": "protocol_and_provenance/neural_classical_fairness_v1/runtime/f2_kaggle_pilot.py",
+      "bytes": 15522,
+      "sha256": "60c72b0807285f69912e43ff8cdd328d458728509e271a10d78b1b1fdae30456"
+    },
+    {
+      "path": "protocol_and_provenance/neural_classical_fairness_v1/runtime/f2_trajectory.py",
+      "bytes": 19287,
+      "sha256": "6b57891a22666c4ff40c8903e04d1776b7eb81ad38713dad7f12513075dd142c"
+    },
+    {
+      "path": "protocol_and_provenance/neural_classical_fairness_v1/runtime/forensic_checks.py",
+      "bytes": 11585,
+      "sha256": "b35afd974b137e8684a235f51ae4b3dea5528657f5eee4ff6bea0379a8cb83e8"
+    },
+    {
+      "path": "protocol_and_provenance/neural_classical_fairness_v1/runtime/full_inner_contract.py",
+      "bytes": 4296,
+      "sha256": "707042cffbdea9dccdc6ce43f4cbd47332be06c2f5e7c01a7ae8e499d1907b41"
+    },
+    {
+      "path": "protocol_and_provenance/neural_classical_fairness_v1/runtime/full_inner_kaggle.py",
+      "bytes": 15980,
+      "sha256": "9785c3c07d1e46d679d55672ae48a44f1569042fa7c71b5e8f02a0e819c65679"
+    },
+    {
+      "path": "protocol_and_provenance/neural_classical_fairness_v1/runtime/kaggle_classical_remaining.py",
+      "bytes": 19102,
+      "sha256": "2c3e78d86a12a8259db8b18d54fa7484d5f911590b71da2bfe6af4bc9cc4b41a"
+    },
+    {
+      "path": "protocol_and_provenance/neural_classical_fairness_v1/runtime/local_cpu_pilots.py",
+      "bytes": 33658,
+      "sha256": "8a171f18379d4a57d04b2fc95d6765a9ff5674010d5f37cf6921fbc50143d51d"
+    },
+    {
+      "path": "protocol_and_provenance/neural_classical_fairness_v1/runtime/multisource_inner_contract.py",
+      "bytes": 6778,
+      "sha256": "196775a3a892a6231bde9fbf4d6560e94a795f25f2bc1070480793ea01449908"
+    },
+    {
+      "path": "protocol_and_provenance/neural_classical_fairness_v1/runtime/multisource_inner_kaggle.py",
+      "bytes": 16237,
+      "sha256": "d5da8fe0e6fd73c08224dac2af850783ab17bdf2a01686f9c92692d7bf005d5e"
+    },
+    {
+      "path": "protocol_and_provenance/neural_classical_fairness_v1/runtime/multisource_outer_contract.py",
+      "bytes": 6084,
+      "sha256": "d2b2db8f01ef45bd0eed0b0ce99fe668a2341e1a6151a115b2cd85c58e71d3ee"
+    },
+    {
+      "path": "protocol_and_provenance/neural_classical_fairness_v1/runtime/multisource_outer_core.py",
+      "bytes": 27537,
+      "sha256": "ac12c22d4a6e1e15c397d17e13b62ed8e7a847b4ec4e74e01a083d541b2005f1"
+    },
+    {
+      "path": "protocol_and_provenance/neural_classical_fairness_v1/runtime/multisource_outer_kaggle.py",
+      "bytes": 11890,
+      "sha256": "d5e76a60915f2d125ac3ed361c71144f46e8ad196e442f377c8a0f5c956b5ca6"
+    },
+    {
+      "path": "protocol_and_provenance/neural_classical_fairness_v1/runtime/multisource_outer_lease.py",
+      "bytes": 6201,
+      "sha256": "1cc8ea4cfd545ff6c5ef1dc34b309056448520480c294447668e9803cd4b8bce"
+    },
+    {
+      "path": "protocol_and_provenance/neural_classical_fairness_v1/runtime/outer_continuation.py",
+      "bytes": 4544,
+      "sha256": "98eb75cb84605105161d610ec80f4139412d458f0fa512da9b78af0b03eeca05"
+    },
+    {
+      "path": "protocol_and_provenance/neural_classical_fairness_v1/runtime/rul_representation_inner.py",
+      "bytes": 16408,
+      "sha256": "2a3643572d24a4b2a22fa41de27bb4ac714bc6b5a86c57c53baeca0acf6568c6"
+    },
+    {
+      "path": "protocol_and_provenance/neural_classical_fairness_v1/runtime/rul_task_ablation.py",
+      "bytes": 1732,
+      "sha256": "2266ea1ac4472e370acbd60dfabf94d3c3784d96c97f80afaa60f06f763a0c94"
+    },
+    {
+      "path": "protocol_and_provenance/neural_classical_fairness_v1/runtime/selection_controls.py",
+      "bytes": 7399,
+      "sha256": "afcc341a6fb328a26dfa4e316e9af9c551071949c1fa5aa65e6978e161049cae"
+    },
+    {
+      "path": "protocol_and_provenance/neural_classical_fairness_v1/runtime/shared_input_kaggle_cpu.py",
+      "bytes": 8815,
+      "sha256": "ca9a7e9eb2071194dd1f2a7ce8de4614eb1a83f069c79b0bdb64882cc29592f9"
+    },
+    {
+      "path": "protocol_and_provenance/neural_classical_fairness_v1/runtime/shared_input_quantile_support_cpu.py",
+      "bytes": 17358,
+      "sha256": "9e105e208715f40563af6fe21574ce9f142fd97b688b02d50a357341a015ae89"
+    },
+    {
+      "path": "protocol_and_provenance/neural_classical_fairness_v1/runtime/shared_input_robustness_cpu.py",
+      "bytes": 20482,
+      "sha256": "ba9b933fbc4fc69036283038c0e33e35b59f69292016bae3ffbc9d2c7c9c9545"
+    },
+    {
+      "path": "protocol_and_provenance/neural_classical_fairness_v1/runtime/soh_residual_inner.py",
+      "bytes": 16613,
+      "sha256": "13015bdca5c6653520ae2600b66554d8ae33904084ef70b2b8d36352b7e50679"
+    },
+    {
+      "path": "protocol_and_provenance/neural_classical_fairness_v1/score_coverage_extension.py",
+      "bytes": 17305,
+      "sha256": "acfc9918931f8f0332b7c7ac93eccce5db4b95ad8560e598910d223faa5eb9d9"
+    },
+    {
+      "path": "protocol_and_provenance/neural_classical_fairness_v1/score_multisource_outer.py",
+      "bytes": 19540,
+      "sha256": "f8a67359852189e4709773f75248d3fcb2a895a317da144b69bad7d92f1a9b97"
+    },
+    {
+      "path": "protocol_and_provenance/neural_classical_fairness_v1/seal_multisource_outer_selection.py",
+      "bytes": 10420,
+      "sha256": "38ac181978ed6f53658e058b00875481deeb96407b8dc82adb9e5a83448b4793"
+    },
+    {
+      "path": "protocol_and_provenance/neural_classical_fairness_v1/snl_proxy_censoring_sensitivity.py",
+      "bytes": 13514,
+      "sha256": "b350ef4802d93d3b373614a1beb35b6f51e3820e610685e95d63a8fd680c74b9"
+    },
+    {
+      "path": "protocol_and_provenance/neural_classical_fairness_v1/source_bindings.json",
+      "bytes": 7113,
+      "sha256": "a06ea9a924e6cf2168f9bd59b8527cbece345d54de2fae45d475de4dd80b6aa2"
+    },
+    {
+      "path": "README.md",
+      "bytes": 3127,
+      "sha256": "6d0267577847bdf686a1b26d7a3fa60680ddd9edb24a6100c79079e1facbdfd0"
+    },
+    {
+      "path": "recompute_common_input.py",
+      "bytes": 2666,
+      "sha256": "52177a77704705d3b6e8282d539c812f07acc7c7b9a8cc0606d5b8c3e7e5d46d"
+    },
+    {
+      "path": "recompute_summary.py",
+      "bytes": 2701,
+      "sha256": "6e22b761f4e811d96cc7a5fe23c9c1cec367a2df538845f66317cae3038d375c"
+    },
+    {
+      "path": "REPRODUCIBILITY.md",
+      "bytes": 3175,
+      "sha256": "c913287ca839c888dbe272c4fc2d49878083f27d411f1751091a7260c6c073b4"
+    },
+    {
+      "path": "results/censoring_and_snl/aggregate_sensitivity.csv",
+      "bytes": 9633,
+      "sha256": "851d7ea027e166091aecfae9fc9961e72c9a2e7daa567bb814f101e5d9a8a26b"
+    },
+    {
+      "path": "results/censoring_and_snl/censoring_by_source.csv",
+      "bytes": 707,
+      "sha256": "63fbe90835d73659b6af5901e3b32dc85dac378992456f393956ba026cecdbf8"
+    },
+    {
+      "path": "results/censoring_and_snl/seed_sensitivity.csv",
+      "bytes": 27382,
+      "sha256": "3be76292644e648336d10067f574ae7e4c4bc589e459750d115b1b43b51feb73"
+    },
+    {
+      "path": "results/censoring_and_snl/selected_configurations.csv",
+      "bytes": 42717,
+      "sha256": "58fa40d455437438ec487b9d9a476827ef41f33b8aa859ea338be9e4ac25c6f5"
+    },
+    {
+      "path": "results/censoring_and_snl/source_seed_sensitivity.csv",
+      "bytes": 329718,
+      "sha256": "b027eb6b321012a26b2cd564a33a76801aa613dd85ae5b0b92bdb8a471ec3f03"
+    },
+    {
+      "path": "results/common_input/checkpoint_sensitivity.json",
+      "bytes": 2265,
+      "sha256": "e58b3675123a7e779dddfea9f4d42147f2a8f9fc64f6f8a129ec524ace30e0a0"
+    },
+    {
+      "path": "results/common_input/epoch_source_metrics.csv",
+      "bytes": 269095,
+      "sha256": "2493f8db19c056282db768f47c88b82ced4e7a837d587046976a1bf47b1d9921"
+    },
+    {
+      "path": "results/common_input/selected_source_metrics.csv",
+      "bytes": 8897,
+      "sha256": "16b56850dde684c0c96e4b7e2d321253cc14959a5c60c3f93cf034930182342d"
+    },
+    {
+      "path": "results/common_input/summaries.json",
+      "bytes": 1624,
+      "sha256": "86eb59b99e42e5f68305b3461ca8aa31f091ae74b413df4ce6cbc172f6586a86"
+    },
+    {
+      "path": "results/coverage/historical_calibration_grid_audit.csv",
+      "bytes": 1215,
+      "sha256": "30117c9fb81f55e5afdc8e25c34feb23a6bc9cc69922328b3c4d53df65a4072d"
+    },
+    {
+      "path": "results/coverage/historical_calibration_precision_audit.csv",
+      "bytes": 1268,
+      "sha256": "1b116307dbba7049317d10c1693d795b08e50d7b897eac478eab35b437de4227"
+    },
+    {
+      "path": "results/coverage/interval_metrics_by_source.csv",
+      "bytes": 203917,
+      "sha256": "40aa7ed0b54652fd27cb5f80140a0cc527382bf97d115a398b86f0ca4a265c3d"
+    },
+    {
+      "path": "results/coverage/relative_width_support.csv",
+      "bytes": 50221,
+      "sha256": "fbce6b23ef1052734d7229467d659003a2a0172c9e3f96f86203ce2b9b487513"
+    },
+    {
+      "path": "results/coverage/source_balanced_summary.csv",
+      "bytes": 18900,
+      "sha256": "408d6859e7112dabbd5108145e07f2d1e756c39379d0ac5ce85a04dcc12dea74"
+    },
+    {
+      "path": "results/coverage/summary_metric_source_counts.csv",
+      "bytes": 5269,
+      "sha256": "8f6ac8a9894b7a9555bd112d7dd2252721846d86157f44a0d1d521b2ebcd91c5"
+    },
+    {
+      "path": "results/coverage/support.csv",
+      "bytes": 907,
+      "sha256": "0b0a59e3620f953d0369f052d115ae7fe5d1f189c70350616dce32e406d0ded6"
+    },
+    {
+      "path": "results/hcp/interval_metrics_by_source.csv",
+      "bytes": 330973,
+      "sha256": "e22b494b30df9bfdf85da60156eaa6d3a8e8a13bc2e29421e92cde75c88144f1"
+    },
+    {
+      "path": "results/hcp/source_balanced_summary.csv",
+      "bytes": 30693,
+      "sha256": "2eb5a3126a838b5f12e4e1ae956ddfb7b0128507c657c59721a7d4e951a98110"
+    },
+    {
+      "path": "results/hcp/summary_metric_source_counts.csv",
+      "bytes": 8481,
+      "sha256": "51c590cddd53e4cee9bf740e8e00749c6915761fab95feb3d5195a9d0133d328"
+    },
+    {
+      "path": "results/hcp/support_by_subgroup.csv",
+      "bytes": 82427,
+      "sha256": "c17009b15337c8376e17d2ffa72c46a3206c18de0a9bab4f313374db9057c013"
+    },
+    {
+      "path": "results/inner_train_validation/direction_summary.csv",
+      "bytes": 309,
+      "sha256": "d9fde35f2e3a2b8f7bb3ca9fdf341e485f9a8d77ca77855b2371af9e76b5fde3"
+    },
+    {
+      "path": "results/inner_train_validation/paired_selected_vs_epoch30.csv",
+      "bytes": 3734,
+      "sha256": "3882c96a93a861625417f828bfcf0c20ce4b42337d11d345414ab68dfe6c3dfd"
+    },
+    {
+      "path": "results/inner_train_validation/secondary_metric_replay_mismatches.csv",
+      "bytes": 384,
+      "sha256": "580e6c42ac8c410600f61105ce736b25d841b91680a997362ef25f0042ad2d5c"
+    },
+    {
+      "path": "results/inner_train_validation/source_level_metrics.csv",
+      "bytes": 109924,
+      "sha256": "e5f94ea2cab22af7f091ad4ac0a8f7870535bc7e8fdb40d9914b152c22a900e4"
+    },
+    {
+      "path": "results/primary/aggregate_metrics.csv",
+      "bytes": 4132,
+      "sha256": "d01a6612748ec33d28ab06a472553ff5e40a65c9f890f9cd1fc0ff205ecad23b"
+    },
+    {
+      "path": "results/primary/leave_one_source_out.csv",
+      "bytes": 64034,
+      "sha256": "16800ffd98600e041cbc664f48b507d3755862f62aa45afe92b462d3595723b3"
+    },
+    {
+      "path": "results/primary/paired_source_deltas.csv",
+      "bytes": 93454,
+      "sha256": "1b060b5d88bce310dab10d26718eae269c8af1088e082b37d18c04abcc00c3e5"
+    },
+    {
+      "path": "results/primary/pairwise_summary.csv",
+      "bytes": 7544,
+      "sha256": "0a921fd44a259b2b553c29cc450ed60b2d2c71274d94ca84fefe65f11a12d23d"
+    },
+    {
+      "path": "results/primary/seed_macro_metrics.csv",
+      "bytes": 8894,
+      "sha256": "33926a29a7fac41babe2f34dcde4b54ec507f597d64ed15229a98d2e81025fb6"
+    },
+    {
+      "path": "results/primary/snl_exclusion.csv",
+      "bytes": 1872,
+      "sha256": "b42cf2a5fb706bffa7e28c3546c38b4f447390c95c566f06d301e7062507818e"
+    },
+    {
+      "path": "results/primary/source_seed_metrics.csv",
+      "bytes": 158215,
+      "sha256": "53c5c60ba2bcc036a1c09a7506f55c76803fb356c2a6ea2492afb421cc91bc7f"
+    },
+    {
+      "path": "results/primary/source_summary.csv",
+      "bytes": 38498,
+      "sha256": "b3aec8c5a34df780d96fd3bd67ad69f329f9868b20c9b187213e2a512961741b"
+    },
+    {
+      "path": "results/primary/support.csv",
+      "bytes": 4588,
+      "sha256": "1f23bd2428dbeb626d9e428d5f6397a2d14ca20e55677bcdbdb16385d0a8d4a6"
+    },
+    {
+      "path": "tests/test_neural_fairness_f1.py",
+      "bytes": 21825,
+      "sha256": "f802f25b7aa05b075674d4353f7180b88fd9249419972ceec1c8bf377f6453d2"
+    },
+    {
+      "path": "verify_release.py",
+      "bytes": 577,
+      "sha256": "ef31ee81af69d2e9bf16f212183c5af947c765b1fd0e5da9447b15dab80e6f9a"
+    }
+  ],
+  "total_bytes": 3227579,
+  "raw_data_included": false,
+  "model_weights_included": false,
+  "cell_metrics_included": false,
+  "manuscript_included": false,
+  "appendix_included": false,
+  "figures_included": false,
+  "full_rerun_claimed": false
+}

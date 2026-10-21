@@ -1,0 +1,36 @@
+{
+  "scope": "Representative accepted CALB L001 session, not a newly executed fit or observation of every session.",
+  "archive_sha256": "3cdc58d2d30dbcc53926b22200efd4c66e59a50bc54ab0a2f5e621cb3dd478e6",
+  "member": "batteryscope_nfr1_outer_CALB_v1/environment_check.json",
+  "member_sha256": "0c58e6b8e03fe6b1c9a65f9389f6c4bc896e6ab7704683b73abeefa570a76c09",
+  "numerical_device_profile": {
+    "python": "3.13.15",
+    "numpy": "2.1.3",
+    "pandas": "2.3.3",
+    "pyarrow": "23.0.1",
+    "scikit_learn": "1.6.1",
+    "torch": "2.11.0+cu128",
+    "cuda_available": true,
+    "torch_cuda_version": "12.8",
+    "cudnn_version": 91900,
+    "gpu_name": "Tesla T4"
+  },
+  "packages": {
+    "numpy": "2.1.3",
+    "pandas": "2.3.3",
+    "pyarrow": "23.0.1",
+    "scikit-learn": "1.6.1",
+    "torch": "2.11.0+cu128",
+    "psutil": "5.9.5"
+  },
+  "runtime_flags": {
+    "gpu_count": 2,
+    "device": "cuda:0",
+    "deterministic_algorithms": true,
+    "cudnn_benchmark": false,
+    "amp": false,
+    "tf32": false,
+    "threads": 2,
+    "interop_threads": 1
+  }
+}

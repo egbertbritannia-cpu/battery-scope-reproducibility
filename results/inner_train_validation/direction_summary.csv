@@ -1,0 +1,7 @@
+architecture,endpoint,folds,train_improves,train_worsens,validation_improves,validation_worsens,train_improves_validation_worsens,validation_above_train_at_selected
+TCN,soh30,3,3,0,1,2,2,2
+TCN,rul90,3,3,0,1,2,2,3
+TCN,rul80,3,3,0,0,3,3,2
+GRU,soh30,3,3,0,1,2,2,3
+GRU,rul90,3,3,0,1,2,2,3
+GRU,rul80,3,3,0,0,3,3,2

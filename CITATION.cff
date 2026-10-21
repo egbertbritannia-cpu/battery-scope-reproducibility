@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "Please cite the BatteryScope study when using these research materials. Author and publication metadata will be updated when finalized."
+title: "BatteryScope reproducibility materials"
+authors:
+  - name: "BatteryScope contributors"
+type: software
+url: "https://github.com/egbertbritannia-cpu/battery-scope-reproducibility"
+repository-code: "https://github.com/egbertbritannia-cpu/battery-scope-reproducibility"
+version: "2026-10-21"
+date-released: "2026-10-21"

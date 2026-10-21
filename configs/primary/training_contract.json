@@ -1,0 +1,332 @@
+{
+  "expected_environment": {
+    "cuda_available": true,
+    "cudnn_version": 91900,
+    "gpu_name": "Tesla T4",
+    "numpy": "2.1.3",
+    "pandas": "2.3.3",
+    "pyarrow": "23.0.1",
+    "python": "3.13.15",
+    "scikit_learn": "1.6.1",
+    "torch": "2.11.0+cu128",
+    "torch_cuda_version": "12.8"
+  },
+  "classical_grid": {
+    "et_10": {
+      "family": "extra_trees",
+      "params": {
+        "bootstrap": false,
+        "max_depth": 16,
+        "max_features": 0.7,
+        "min_samples_leaf": 10,
+        "n_estimators": 128,
+        "n_jobs": 2,
+        "random_state": 2026
+      }
+    },
+    "et_20": {
+      "family": "extra_trees",
+      "params": {
+        "bootstrap": false,
+        "max_depth": 16,
+        "max_features": 0.7,
+        "min_samples_leaf": 20,
+        "n_estimators": 128,
+        "n_jobs": 2,
+        "random_state": 2026
+      }
+    },
+    "et_5": {
+      "family": "extra_trees",
+      "params": {
+        "bootstrap": false,
+        "max_depth": 16,
+        "max_features": 0.7,
+        "min_samples_leaf": 5,
+        "n_estimators": 128,
+        "n_jobs": 2,
+        "random_state": 2026
+      }
+    },
+    "hgb_15": {
+      "family": "hist_gradient_boosting",
+      "params": {
+        "early_stopping": false,
+        "l2_regularization": 0.01,
+        "learning_rate": 0.05,
+        "max_iter": 200,
+        "max_leaf_nodes": 15,
+        "random_state": 2026
+      }
+    },
+    "hgb_31": {
+      "family": "hist_gradient_boosting",
+      "params": {
+        "early_stopping": false,
+        "l2_regularization": 0.01,
+        "learning_rate": 0.05,
+        "max_iter": 200,
+        "max_leaf_nodes": 31,
+        "random_state": 2026
+      }
+    },
+    "hgb_63": {
+      "family": "hist_gradient_boosting",
+      "params": {
+        "early_stopping": false,
+        "l2_regularization": 0.01,
+        "learning_rate": 0.05,
+        "max_iter": 200,
+        "max_leaf_nodes": 63,
+        "random_state": 2026
+      }
+    },
+    "ridge_1": {
+      "family": "ridge",
+      "params": {
+        "alpha": 1,
+        "fit_intercept": true,
+        "max_iter": 10000,
+        "solver": "lsqr",
+        "tol": 1e-06
+      }
+    },
+    "ridge_10": {
+      "family": "ridge",
+      "params": {
+        "alpha": 10,
+        "fit_intercept": true,
+        "max_iter": 10000,
+        "solver": "lsqr",
+        "tol": 1e-06
+      }
+    },
+    "ridge_100": {
+      "family": "ridge",
+      "params": {
+        "alpha": 100,
+        "fit_intercept": true,
+        "max_iter": 10000,
+        "solver": "lsqr",
+        "tol": 1e-06
+      }
+    }
+  },
+  "neural_recipes": {
+    "P0": {
+      "head_weights": {
+        "rul80": 0.5,
+        "rul90": 1.0,
+        "soh30": 1.0
+      },
+      "interval_eligible": false,
+      "learning_rate": 0.001,
+      "objective": "point_q50",
+      "quantiles": [
+        0.1,
+        0.5,
+        0.9
+      ]
+    },
+    "P1": {
+      "head_weights": {
+        "rul80": 0.5,
+        "rul90": 1.0,
+        "soh30": 1.0
+      },
+      "interval_eligible": false,
+      "learning_rate": 0.0003,
+      "objective": "point_q50",
+      "quantiles": [
+        0.1,
+        0.5,
+        0.9
+      ]
+    },
+    "Q0": {
+      "head_weights": {
+        "rul80": 0.5,
+        "rul90": 1.0,
+        "soh30": 1.0
+      },
+      "interval_eligible": true,
+      "learning_rate": 0.001,
+      "objective": "joint_pinball",
+      "quantiles": [
+        0.1,
+        0.5,
+        0.9
+      ]
+    }
+  },
+  "budgets": {
+    "candidates_per_family": 3,
+    "inner_counts_per_context": {
+      "classical": 81,
+      "learned": 99,
+      "neural": 18,
+      "neural_epochs": 540,
+      "reference_executions": 24,
+      "reference_jobs": 9
+    },
+    "inner_per_context": {
+      "job_seconds": 3600,
+      "output_bytes": 4294967296,
+      "replay_seconds": 300,
+      "reserve_seconds": 1800,
+      "synthetic_seconds": 900,
+      "wall_seconds": 28800,
+      "workers": 1
+    },
+    "outer_per_session": {
+      "job_seconds": 5400,
+      "output_bytes": 8589934592,
+      "replay_seconds": 1800,
+      "reserve_seconds": 1800,
+      "synthetic_seconds": 900,
+      "wall_seconds": 28800,
+      "workers": 1
+    },
+    "total_inner_counts": {
+      "classical": 972,
+      "learned": 1188,
+      "neural": 216,
+      "neural_epochs": 6480,
+      "notebooks": 48,
+      "reference_jobs": 108
+    }
+  },
+  "inner_selection": {
+    "S2": false,
+    "automatic_selection_on_kaggle": false,
+    "candidate_tolerance": 1e-08,
+    "checkpoint_score": "cell_macro_then_source_macro_within_fold",
+    "classical_selector": "equal_evaluable_validation_source",
+    "folds": [
+      0,
+      1,
+      2
+    ],
+    "min_improvement": 1e-08,
+    "neural_epoch_cap": 30,
+    "neural_selector": "equal_evaluable_validation_source_at_S1_checkpoint",
+    "outer_epochs": "median_selected_fold_epochs",
+    "patience": 5,
+    "policies": [
+      "S0",
+      "S1"
+    ],
+    "primary_policy": "S1",
+    "seed": 2026,
+    "sensitivity": "equal_fold_same_checkpoints_no_reselection",
+    "validation_scope": "full_eligible_inner"
+  },
+  "literal_constants": {
+    "SEED": 2026,
+    "TCN_BLOCK_CHANNELS": [
+      32,
+      32,
+      64,
+      64
+    ],
+    "TCN_DILATIONS": [
+      1,
+      2,
+      4,
+      8
+    ],
+    "TCN_MICRO_BATCH_SIZE": 32,
+    "TCN_GRAD_ACCUM_STEPS": 8,
+    "TCN_PREDICTION_BATCH_SIZE": 256,
+    "MAX_EPOCHS": 30,
+    "PATIENCE": 5,
+    "TCN_KERNEL_SIZE": 3,
+    "TCN_DROPOUT": 0.1,
+    "TCN_LEARNING_RATE": 0.001,
+    "TCN_WEIGHT_DECAY": 1e-05,
+    "TCN_QUANTILES": [
+      0.1,
+      0.5,
+      0.9
+    ],
+    "TCN_TASK_WEIGHTS": {
+      "soh30": 1.0,
+      "rul90": 1.0,
+      "rul80": 0.5
+    },
+    "TCN_EPOCH_SELECTION_METRIC": "inner_validation_rul90_source_balanced_macro_cell_rmsle_on_q50",
+    "TCN_MINIMUM_IMPROVEMENT": 1e-08,
+    "TCN_SCALER_POINTS_PER_CELL": 256,
+    "TCN_TARGET_POINTS_PER_CELL": 256,
+    "TCN_GRADIENT_CLIP_NORM": 1.0,
+    "CQR_ALPHA": 0.2,
+    "TARGET_SPECS": {
+      "soh30": {
+        "y_col": "soh_t_plus_30",
+        "mask_col": "soh30_loss_mask",
+        "transform": "identity",
+        "threshold": null
+      },
+      "rul90": {
+        "y_col": "rul90_cycles",
+        "mask_col": "rul90_loss_mask",
+        "transform": "log1p",
+        "threshold": 0.9
+      },
+      "rul80": {
+        "y_col": "rul80_cycles",
+        "mask_col": "rul80_loss_mask",
+        "transform": "log1p",
+        "threshold": 0.8
+      }
+    },
+    "METADATA_COLUMNS": [
+      "sample_id",
+      "canonical_cell_id",
+      "t_cycle",
+      "duplicate_family_id",
+      "source",
+      "protocol_id"
+    ],
+    "TARGET_COLUMNS": [
+      "soh_t_plus_30",
+      "soh30_loss_mask",
+      "rul90_cycles",
+      "rul90_loss_mask",
+      "rul80_cycles",
+      "rul80_loss_mask"
+    ],
+    "TCN_TARGET_ORDER": [
+      "soh30",
+      "rul90",
+      "rul80"
+    ]
+  },
+  "source_blocks": [
+    [
+      "CALB",
+      "MATR",
+      "SNL",
+      "Tongji"
+    ],
+    [
+      "CALCE",
+      "MICH",
+      "Stanford",
+      "UL_PUR"
+    ],
+    [
+      "HNEI",
+      "SDU",
+      "Stanford_2",
+      "XJTU"
+    ]
+  ],
+  "representation": "R0; neural 30x96, classical 112 tabular features",
+  "sampling": "Inherited joint-eligible/cell-balanced neural sampler and classical eligible rows; differs by family",
+  "prediction_policies": {
+    "extra_trees": "sklearn_predict_single_worker_fixed_tree_order_v1",
+    "hist_gradient_boosting": "native_predict_v1",
+    "ridge": "native_predict_v1"
+  }
+}
