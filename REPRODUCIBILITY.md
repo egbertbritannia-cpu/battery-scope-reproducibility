@@ -6,6 +6,8 @@ Run the three standard-library commands in the README from the repository root. 
 
 The primary script uses equal source weights within each seed and then averages seed-level scores. Standard deviations use the sample definition. The common-input script uses 11 validation sources per seed, reports three-seed means/SDs and checks the selected/final/best epoch summaries. Historical, primary and diagnostic results remain separate evidence.
 
+The separate NumPy-based `recompute_paired_bootstrap.py` reconstructs the 29 October Extra Trees minus Trend source bootstrap from `results/primary/source_summary.csv`. The added diagnostic tables in `results/diagnostics/` include saved-table summaries and their provenance; they do not establish independent reproduction.
+
 ## Implementation entry points
 
 - Primary inner training: `protocol_and_provenance/neural_classical_fairness_v1/runtime/multisource_inner_kaggle.py`.

@@ -2,7 +2,7 @@
 
 Research code, configurations and source-level aggregate results for BatteryScope.
 
-Snapshot: **21 October 2026**. This release is limited to code, results and supporting reproduction documentation. The manuscript, appendix text and paper figures are not published in this repository.
+The core release is a **21 October 2026** snapshot; additional diagnostic summaries and the bootstrap review were added on **29 October 2026**. This release is limited to code, results and supporting reproduction documentation. The manuscript, appendix text and paper figures are not published in this repository.
 
 ## Contents
 
@@ -16,6 +16,7 @@ Snapshot: **21 October 2026**. This release is limited to code, results and supp
 | `results/coverage/`, `results/hcp/` | Earlier quantile-model intervals and hierarchical calibration results |
 | `results/inner_train_validation/` | Source-level inner training/validation diagnostic summaries |
 | `results/common_input/` | Completed 54-fit common-input SoH diagnostic and validation histories by source |
+| `results/diagnostics/` | Leakage control, joint Stanford, residual SoH and historical selected interval summaries, and paired source bootstrap; see its README for provenance and limits |
 | `docs/references.bib` | Research and data-source attribution |
 
 ## Reconstruct aggregate results
@@ -29,6 +30,8 @@ python -B recompute_common_input.py
 ```
 
 The commands check file hashes, reconstruct primary source/seed means and sample standard deviations, and reconstruct common-input and checkpoint-sensitivity summaries. They do not read a manuscript, train models, require a GPU, read raw battery data or use account tokens. These checks establish aggregate consistency, not independent prediction reproduction.
+
+For the paired Extra Trees versus Trend source bootstrap, run `python -B recompute_paired_bootstrap.py` with NumPy 2.3.5. This separate command resamples released seed-averaged source scores and does not train or score models.
 
 ## Full training
 

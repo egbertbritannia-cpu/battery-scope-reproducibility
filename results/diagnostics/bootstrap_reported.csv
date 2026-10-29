@@ -1,0 +1,3 @@
+target,contrast,mean_delta,percentile_2_5,percentile_97_5,extra_trees_wins,sources,seed,resamples
+soh30,Extra Trees minus Trend,0.0045250847,0.0013093449,0.0081015811,4,12,20260914,10000
+rul90,Extra Trees minus Trend,-0.2375317749,-0.3720249172,-0.1017416366,10,11,20260914,10000

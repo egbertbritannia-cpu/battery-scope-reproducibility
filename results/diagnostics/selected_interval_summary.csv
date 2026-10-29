@@ -1,0 +1,7 @@
+target,system,pointwise_coverage_percent,all_group_coverage_percent,mean_width
+soh30,Selected classical,98.14,68.34,0.1685
+soh30,TCN seed 2026,92.32,56.53,0.2245
+rul90,Selected classical,86.36,37.66,436.92
+rul90,TCN seed 2026,97.55,62.45,2435.28
+rul80,Selected classical,83.89,30.99,741.10
+rul80,TCN seed 2026,97.17,68.46,4029.61

@@ -1,0 +1,18 @@
+target,configuration,stanford_separate,stanford_joint,stanford_2_separate,stanford_2_joint
+soh30,HGB,0.0070,0.0289,0.0081,0.0293
+soh30,Persistence,0.0235,0.0235,0.0227,0.0227
+soh30,Ridge alpha 1,0.0077,0.0095,0.0086,0.0096
+soh30,Ridge alpha 100,0.0078,0.0096,0.0086,0.0097
+soh30,Trend,0.0092,0.0092,0.0093,0.0093
+rul90,Fixed Extra Trees,0.2293,0.5479,0.2643,0.5654
+rul90,HGB,0.2212,0.6508,0.2644,0.6664
+rul90,Log-mean,0.9950,0.9964,0.9982,0.9993
+rul90,Ridge alpha 1,0.3914,0.5080,0.4854,0.5582
+rul90,Ridge alpha 100,0.3951,0.5052,0.4978,0.5632
+rul90,Trend,0.7223,0.7239,0.7370,0.7377
+rul80,Fixed Extra Trees,0.2677,0.4016,0.3311,0.4819
+rul80,HGB,0.2514,0.5146,0.3262,0.5726
+rul80,Log-mean,0.9936,1.0004,1.0201,1.0238
+rul80,Ridge alpha 1,0.3794,0.3698,0.4388,0.4671
+rul80,Ridge alpha 100,0.3785,0.3617,0.4429,0.4641
+rul80,Trend,1.0120,1.0169,0.9544,0.9561

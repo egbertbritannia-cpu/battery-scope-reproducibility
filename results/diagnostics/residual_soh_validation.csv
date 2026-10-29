@@ -1,0 +1,4 @@
+system,soh30_mae,sources_better_than_direct_tcn,sources_better_than_trend
+Direct TCN,0.048019,,0
+TCN residual over Trend,0.012974,11,3
+Trend,0.011597,11,
