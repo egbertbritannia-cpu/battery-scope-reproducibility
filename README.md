@@ -17,9 +17,12 @@ The core release is a **21 October 2026** snapshot; additional diagnostic summar
 | `results/inner_train_validation/` | Source-level inner training/validation diagnostic summaries |
 | `results/common_input/` | Completed 54-fit common-input SoH diagnostic and validation histories by source |
 | `results/diagnostics/` | Leakage control, joint Stanford, residual SoH and historical selected interval summaries, and paired source bootstrap; see its README for provenance and limits |
+| `results/submission/` | Additional source-level evidence for the 14-page submission, XJTU diagnostics and export provenance |
 | `docs/references.bib` | Research and data-source attribution |
 
 ## Reconstruct aggregate results
+
+For the exact submission-to-evidence mapping and commands to reconstruct Tables 2-5 and Figures 2-3, see [docs/SUBMISSION_MAP.md](docs/SUBMISSION_MAP.md).
 
 Python **3.11 or later**, standard library only:
 

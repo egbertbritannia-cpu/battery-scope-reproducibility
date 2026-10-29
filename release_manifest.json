@@ -24,13 +24,18 @@
     },
     {
       "path": "README.md",
-      "bytes": 3657,
-      "sha256": "09a8bba8b3a612bb0c0d36f9f0c6bcecbc7f1e73f3f5009536703fa9210fad86"
+      "bytes": 3941,
+      "sha256": "b68f374b24b8513361044b15910464674293e60706d793c9b6150d6c8cb9c0ed"
     },
     {
       "path": "REPRODUCIBILITY.md",
-      "bytes": 3499,
-      "sha256": "980efa9abcb64f347c3c1d2f36011832d7f572e67c93af84faeadee90c5b1bd3"
+      "bytes": 3758,
+      "sha256": "923773cdb77fa10426cf319cc983a89ddcf2d3c5922b16316a88b163e3128ce3"
+    },
+    {
+      "path": "build_submission_results.py",
+      "bytes": 10883,
+      "sha256": "c7cadf6479b544c8454e50576bc5f44f8dfcbb2014bf68629a80772d84e45d76"
     },
     {
       "path": "configs/common_input/training_contract.json",
@@ -56,6 +61,11 @@
       "path": "configs/primary/training_environment_observed.json",
       "bytes": 1059,
       "sha256": "570922a4f22e861bd4e9c9f8bf05ddab65e88e18d1811cd3c72d14809236280a"
+    },
+    {
+      "path": "docs/SUBMISSION_MAP.md",
+      "bytes": 5204,
+      "sha256": "256a2987572cae4ddf6f6eb1a4415e4aba4ecb26f7f3ec53c8422aa0d5e23bae"
     },
     {
       "path": "docs/references.bib",
@@ -538,6 +548,56 @@
       "sha256": "1f23bd2428dbeb626d9e428d5f6397a2d14ca20e55677bcdbdb16385d0a8d4a6"
     },
     {
+      "path": "results/submission/leakage_overall_metrics.csv",
+      "bytes": 1697,
+      "sha256": "da64f260d4beefcbf40861eb29a6ec658f03651371242823b3aef2d7f6116255"
+    },
+    {
+      "path": "results/submission/leakage_source_metrics.csv",
+      "bytes": 20864,
+      "sha256": "fe412f3d6822b83e8ba2e586c5f5cb77bc1014a0d916d939c6cb1897894a9753"
+    },
+    {
+      "path": "results/submission/provenance.json",
+      "bytes": 4190,
+      "sha256": "42117a1b4465467a9a20a3bd4401809ad2664603e1cc6c85986caf95b5d8419a"
+    },
+    {
+      "path": "results/submission/residual_paired_deltas.csv",
+      "bytes": 1323,
+      "sha256": "7c706785b6abde1159098548888ebd39ff99c2ef744190bbedb6f1910ae0a45f"
+    },
+    {
+      "path": "results/submission/residual_rows.csv",
+      "bytes": 1461,
+      "sha256": "82e92abbca9e6817d91d2ce05d7ce66e89e53cec2beb7e04bc8bd537ffa94df6"
+    },
+    {
+      "path": "results/submission/selected_classical_by_source.csv",
+      "bytes": 6330,
+      "sha256": "526a6de0359e678497cb91912d29888c4e6a696105bfdc0c2688613f7027bf9e"
+    },
+    {
+      "path": "results/submission/stanford_components_full_precision.csv",
+      "bytes": 5776,
+      "sha256": "dff81fd974dabf3b9ffdee308fd64328c6463ff88a3af7ab7618e25ff4f18955"
+    },
+    {
+      "path": "results/submission/width_decomposition_by_source.csv",
+      "bytes": 74538,
+      "sha256": "d1a87504aad7412493ea190014a3182b2a3ba632766718b58b8cf941141b58cf"
+    },
+    {
+      "path": "results/submission/xjtu_group_score_summary.csv",
+      "bytes": 519,
+      "sha256": "af57bede271abd80e04a41b2ad332ff3bd87e0a53a5c2cdc2b3e44d21c159450"
+    },
+    {
+      "path": "results/submission/xjtu_rul90_fixed_prediction_qhat_swaps.csv",
+      "bytes": 1709,
+      "sha256": "db440441957cba0eeeade855120c985439f7fe4c2cb2297b94c7213c1a2fe445"
+    },
+    {
       "path": "tests/test_neural_fairness_f1.py",
       "bytes": 21825,
       "sha256": "f802f25b7aa05b075674d4353f7180b88fd9249419972ceec1c8bf377f6453d2"
@@ -548,7 +608,7 @@
       "sha256": "ef31ee81af69d2e9bf16f212183c5af947c765b1fd0e5da9447b15dab80e6f9a"
     }
   ],
-  "total_bytes": 3234589,
+  "total_bytes": 3369626,
   "raw_data_included": false,
   "model_weights_included": false,
   "cell_metrics_included": false,

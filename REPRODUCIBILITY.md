@@ -2,6 +2,8 @@
 
 ## Aggregate reconstruction
 
+The 14-page submission is mapped to source-level evidence and reconstruction commands in `docs/SUBMISSION_MAP.md`. `results/submission/provenance.json` identifies the submitted PDF by hash and traces each additional export to its retained research artifact.
+
 Run the three standard-library commands in the README from the repository root. `release_manifest.json` binds the released bytes. This verifies file identity and aggregate consistency, not the correctness of raw measurements or independent prediction replay.
 
 The primary script uses equal source weights within each seed and then averages seed-level scores. Standard deviations use the sample definition. The common-input script uses 11 validation sources per seed, reports three-seed means/SDs and checks the selected/final/best epoch summaries. Historical, primary and diagnostic results remain separate evidence.

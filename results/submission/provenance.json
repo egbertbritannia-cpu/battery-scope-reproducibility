@@ -1,0 +1,72 @@
+{
+  "submission_pdf_sha256": "6899159335776453c2c604a15c05d2d989438406cf905ad3aa48ab661e2f4f35",
+  "submission_pages": 14,
+  "exported": "2026-10-29",
+  "records": [
+    {
+      "file": "results/submission/selected_classical_by_source.csv",
+      "rows": 36,
+      "source": "phase2-ouput/batteryscope_final_reporting_freeze_2026-10-02_v1/tables/S10_selection_uncertainty_per_source.csv",
+      "source_sha256": "0b8262d8e445a0043b179b7c5f88406bf915aa1b5d6aeed8adc90d22d36e9d72",
+      "note": "Historical selected classical protocol; equal source averages reproduce Table 4 and Figure 3. NOT_EVALUABLE rows retained."
+    },
+    {
+      "file": "results/submission/leakage_source_metrics.csv",
+      "rows": 210,
+      "source": "phase2-ouput/batteryscope_proposal_alignment_2026-10-02_v4/leakage/source_metrics.parquet",
+      "source_sha256": "550272f43f7cb8645108dccd26281dd9dd98ace27335efa7821a6b598161543f",
+      "note": "Bounded three-fold family-disjoint versus shared-history negative control; not primary LODO."
+    },
+    {
+      "file": "results/submission/leakage_overall_metrics.csv",
+      "rows": 18,
+      "source": "phase2-ouput/batteryscope_proposal_alignment_2026-10-02_v4/leakage/overall_metrics.parquet",
+      "source_sha256": "822a53e0f16ac1d11dda0a4f51630454677171096296c62e07bf4dfdde4c6503",
+      "note": "Bounded three-fold family-disjoint versus shared-history negative control; not primary LODO."
+    },
+    {
+      "file": "results/submission/residual_rows.csv",
+      "rows": 22,
+      "source": "paper/audits/neural_classical_fairness_2026-10-08_v1/soh_residual_inner_research_20261017_v1/return_audit/source_scores.json",
+      "source_sha256": "e427bee74b0a88f486d8db2e11ccea6ae01b53dc35514534aa367927fd18eede",
+      "note": "One seed, three inner folds excluding CALB; 11 validation sources, not outer-test evidence."
+    },
+    {
+      "file": "results/submission/residual_paired_deltas.csv",
+      "rows": 11,
+      "source": "paper/audits/neural_classical_fairness_2026-10-08_v1/soh_residual_inner_research_20261017_v1/return_audit/source_scores.json",
+      "source_sha256": "e427bee74b0a88f486d8db2e11ccea6ae01b53dc35514534aa367927fd18eede",
+      "note": "One seed, three inner folds excluding CALB; 11 validation sources, not outer-test evidence."
+    },
+    {
+      "file": "results/submission/width_decomposition_by_source.csv",
+      "rows": 210,
+      "source": "paper/audits/neural_classical_fairness_2026-10-08_v1/coverage_seed_width_diagnostic_20261017_v1/width_decomposition_by_source.csv",
+      "source_sha256": "0758b7796cdaaefdf172cc40f96f7e482560cd10426d486c649979bf11d92eab",
+      "note": "Post-hoc arithmetic diagnosis of previously scored frozen intervals; swaps are diagnostics, not model candidates."
+    },
+    {
+      "file": "results/submission/xjtu_rul90_fixed_prediction_qhat_swaps.csv",
+      "rows": 8,
+      "source": "paper/audits/neural_classical_fairness_2026-10-08_v1/coverage_seed_width_diagnostic_20261017_v1/xjtu_rul90_fixed_prediction_qhat_swaps.csv",
+      "source_sha256": "f9af6f7cfa96a52bda1d52998a37fd7bd469498f009b4c460e945a3ece4f316c",
+      "note": "Post-hoc arithmetic diagnosis of previously scored frozen intervals; swaps are diagnostics, not model candidates."
+    },
+    {
+      "file": "results/submission/xjtu_group_score_summary.csv",
+      "rows": 6,
+      "source": "paper/audits/neural_classical_fairness_2026-10-08_v1/coverage_seed_width_diagnostic_20261017_v1/xjtu_rul90_family_failures.csv",
+      "source_sha256": "23ed427a6fd5c5640a01e1b59689ff5a80f4972183348175271468ab395ea121",
+      "note": "Aggregated over history groups; identifiers and group-level records are omitted."
+    },
+    {
+      "file": "results/submission/stanford_components_full_precision.csv",
+      "rows": 34,
+      "source": "phase2-ouput/batteryscope_grouped_oof_review_2026-10-01/31b_stanford_joint_full_cpu_vs_separate.csv",
+      "source_sha256": "6ca50c8304d0520fc5c83c0f9d4cc7ccf0936e5949f68ecd382eff7535b2d8e9",
+      "note": "Fixed-reference separate/joint comparisons; selected primary five-seed models use a different protocol."
+    }
+  ],
+  "new_training": false,
+  "new_prediction_scoring": false
+}
