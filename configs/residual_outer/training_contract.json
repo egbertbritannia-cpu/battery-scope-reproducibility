@@ -1,0 +1,185 @@
+{
+  "schema": "batteryscope-fixed-p0-residual-outer-v1",
+  "post_hoc": true,
+  "primary_endpoint": "soh30",
+  "candidate": "P0",
+  "learning_rate": 0.001,
+  "objective": {
+    "soh30": "L1 of (observed SoH30 minus causal Trend) divided by training-target std",
+    "rul90": "L2 of log1p transformed, training-standardised target",
+    "rul80": "L2 of log1p transformed, training-standardised target"
+  },
+  "head_weights": {
+    "soh30": 1.0,
+    "rul90": 1.0,
+    "rul80": 0.5
+  },
+  "prediction": "clip(causal Trend plus unscaled predicted residual, 0, 1.5)",
+  "selection": {
+    "seed": 2026,
+    "folds": 3,
+    "metric": "equal-cell then equal-validation-source SoH30 MAE",
+    "epoch_cap": 30,
+    "patience": 5,
+    "min_improvement": 1e-08,
+    "outer_epochs": "median of three selected inner epochs"
+  },
+  "seeds": [
+    2026,
+    2027,
+    2028,
+    2029,
+    2030
+  ],
+  "source_blocks": [
+    [
+      "CALB",
+      "MATR",
+      "SNL",
+      "Tongji"
+    ],
+    [
+      "CALCE",
+      "MICH",
+      "Stanford",
+      "UL_PUR"
+    ],
+    [
+      "HNEI",
+      "SDU",
+      "Stanford_2",
+      "XJTU"
+    ]
+  ],
+  "source_selections": {
+    "CALB": {
+      "inner_epochs": [
+        10,
+        5,
+        6
+      ],
+      "outer_epochs": 6,
+      "selection_member_sha256": "08bc6a7c0160c0ad5e1ec64393228da049aba84f8e3188139799a913dbc16085"
+    },
+    "CALCE": {
+      "inner_epochs": [
+        1,
+        6,
+        7
+      ],
+      "outer_epochs": 6,
+      "selection_member_sha256": "a8cf01b888b2e36ebebc2bf21534cd3230f03e51e3528a8e2b7a6f7ecb7b47b7"
+    },
+    "HNEI": {
+      "inner_epochs": [
+        1,
+        2,
+        2
+      ],
+      "outer_epochs": 2,
+      "selection_member_sha256": "9502fe5f38ad80aa98dca2bd28eeeb3bb0947a587d6b3390884851b9dd4c52a7"
+    },
+    "MATR": {
+      "inner_epochs": [
+        1,
+        9,
+        2
+      ],
+      "outer_epochs": 2,
+      "selection_member_sha256": "089967864bfb107c2e5ca2c224610cd224a2841fc9987e67fb2ce6cf99791aba"
+    },
+    "MICH": {
+      "inner_epochs": [
+        15,
+        4,
+        10
+      ],
+      "outer_epochs": 10,
+      "selection_member_sha256": "13ecf1bf791ac642d3788a5a43f6571045ecbf8cb12e4cde75187da387c4c5f1"
+    },
+    "SDU": {
+      "inner_epochs": [
+        1,
+        7,
+        14
+      ],
+      "outer_epochs": 7,
+      "selection_member_sha256": "734b9f80845df89d1c6286ca7317e1793d5d0562c554f32c991e3e09ee5dba9c"
+    },
+    "SNL": {
+      "inner_epochs": [
+        2,
+        5,
+        9
+      ],
+      "outer_epochs": 5,
+      "selection_member_sha256": "37bd1dcba46f445aa54d0f14d2854b0d3de84b05f68f920258bc39292a2f91f6"
+    },
+    "Stanford": {
+      "inner_epochs": [
+        8,
+        2,
+        8
+      ],
+      "outer_epochs": 8,
+      "selection_member_sha256": "86793c1dd20f40a3e9020b5943fe3b451462dc516c1874d86cd76464c16019ce"
+    },
+    "Stanford_2": {
+      "inner_epochs": [
+        2,
+        2,
+        15
+      ],
+      "outer_epochs": 2,
+      "selection_member_sha256": "f069c28980cba6ca73fb8002b1e7cfcc183dade4e4d90ba368c96e76b0ee4787"
+    },
+    "Tongji": {
+      "inner_epochs": [
+        3,
+        3,
+        4
+      ],
+      "outer_epochs": 3,
+      "selection_member_sha256": "17b98bb24d17dc435e6439c965650ec9ef9bf8dd98b909b07510e0e9cc4546e9"
+    },
+    "UL_PUR": {
+      "inner_epochs": [
+        8,
+        4,
+        6
+      ],
+      "outer_epochs": 6,
+      "selection_member_sha256": "eba3350a80bfab975a050e8395f4b1d914101ef318160b6598ec887985f892f3"
+    },
+    "XJTU": {
+      "inner_epochs": [
+        2,
+        3,
+        9
+      ],
+      "outer_epochs": 3,
+      "selection_member_sha256": "bb6497b732d8d2711e6bd8a7e243166b33d63539c4d9908452e6b27cfd973f54"
+    }
+  },
+  "expected_environment": {
+    "cuda_available": true,
+    "cudnn_version": 91900,
+    "gpu_name": "Tesla T4",
+    "numpy": "2.1.3",
+    "pandas": "2.3.3",
+    "pyarrow": "23.0.1",
+    "python": "3.13.15",
+    "scikit_learn": "1.6.1",
+    "torch": "2.11.0+cu128",
+    "torch_cuda_version": "12.8"
+  },
+  "neural_precision": "float32; AMP and TF32 disabled",
+  "input_requirements": "Same corrected inputs and roles as configs/external_inputs.json and the primary point comparison",
+  "outer_fit_roles": "development only; calibration labels unused; test predictions frozen before scoring",
+  "evaluated_targets": [
+    "soh30"
+  ],
+  "rul_scoring": false,
+  "interval_scoring": false,
+  "required_external_materials": "Authorised processed data, cycle shards and hash-bound deployment manifests are not bundled"
+}

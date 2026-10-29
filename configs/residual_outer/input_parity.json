@@ -1,0 +1,33 @@
+{
+  "schema": "processed-input-parity-summary-v1",
+  "files_per_bundle": 1574,
+  "bytes_per_bundle": 471431735,
+  "compared_bundles": [
+    "primary_point",
+    "quantile_tcn",
+    "quantile_gru_inner",
+    "quantile_gru_outer"
+  ],
+  "changed_missing_or_extra_files": 0,
+  "neural_outer_contexts": 24,
+  "neural_scaler_artifacts": 255,
+  "role_or_scaler_differences": 0,
+  "shared_core_environment": {
+    "python": "3.13.15",
+    "numpy": "2.1.3",
+    "pandas": "2.3.3",
+    "pyarrow": "23.0.1",
+    "scikit_learn": "1.6.1",
+    "torch": "2.11.0+cu128",
+    "torch_cuda_version": "12.8",
+    "cudnn_version": 91900,
+    "gpu_name": "Tesla T4"
+  },
+  "quantile_environment_records": 19,
+  "limits": [
+    "Core package parity is not full installed-package or historical classical environment parity.",
+    "Equal scaler mean/std and roles do not establish identical training trajectories.",
+    "Existing result acceptances supply archive bindings; this audit freshly hashes JSON members only.",
+    "No raw-data physical validation or causal attribution of score differences."
+  ]
+}

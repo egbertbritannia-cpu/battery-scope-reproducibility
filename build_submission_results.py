@@ -78,6 +78,11 @@ def main():
                 row[target + '_skill_percent'] = 100 * (1 - row[target] / float(ref['primary']))
         table3.append(row)
     check('Extra Trees RUL90', float(one(agg,system='Extra Trees',endpoint='rul90')['primary']), .6247, 4)
+    from recompute_residual_outer import reconstruct
+    residual_outer = reconstruct()
+    # The retained baseline rows remain unchanged. The post hoc extension only
+    # contributes SoH30; empty RUL fields mean not assessed, never zero.
+    table3.insert(1, residual_outer['table3_row'])
     save('table3.csv', table3)
 
     classical = read('submission/selected_classical_by_source.csv')
@@ -105,6 +110,8 @@ def main():
             check('classical pointwise '+r['target'],actual['pointwise'],float(r['pointwise_coverage_percent']),2)
             check('classical all-history '+r['target'],actual['all_history'],float(r['all_group_coverage_percent']),2)
     fig2 = [r for r in read('primary/source_summary.csv') if r['system'] in ('TCN','GRU','Extra Trees','Trend') and r['endpoint'] in ('soh30','rul90')]
+    figure_fields=list(fig2[0])
+    fig2.extend({key:r.get(key,'') for key in figure_fields} for r in residual_outer['sources'])
     save('figure2.csv', fig2)
 
     sensitivity = read('censoring_and_snl/aggregate_sensitivity.csv')
@@ -155,6 +162,9 @@ def main():
             for model,marker in [('TCN','o'),('GRU','s'),('Extra Trees','^'),('Trend','D')]:
                 values=[float(one(fig2,source=s,endpoint=target,system=model)['primary']) for s in ss]
                 ax.scatter(values,range(len(ss)),label=model,marker=marker,s=25)
+            if target=='soh30':
+                values=[float(one(fig2,source=s,endpoint=target,system='Trend-residual TCN')['primary']) for s in ss]
+                ax.scatter(values,range(len(ss)),label='Trend-residual TCN',marker='P',color='#2e8b57',s=30)
             ax.set_yticks(range(len(ss)),ss); ax.set_xlabel('SoH30 MAE' if target=='soh30' else 'RUL90 RMSLE')
             if target=='soh30': ax.set_xscale('log')
             ax.grid(axis='x',alpha=.2)

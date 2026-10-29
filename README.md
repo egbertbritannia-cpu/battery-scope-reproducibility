@@ -2,7 +2,7 @@
 
 Research code, configurations and source-level aggregate results for BatteryScope.
 
-The core release is a **21 October 2026** snapshot; additional diagnostic summaries and the bootstrap review were added on **29 October 2026**. This release is limited to code, results and supporting reproduction documentation. The manuscript, appendix text and paper figures are not published in this repository.
+The core release is a **21 October 2026** snapshot; additional diagnostics, the bootstrap review and a fixed-P0 residual outer extension were added on **29 October 2026**. This release is limited to code, results and supporting reproduction documentation. The manuscript, appendix text and paper figures are not published in this repository.
 
 ## Contents
 
@@ -12,6 +12,7 @@ The core release is a **21 October 2026** snapshot; additional diagnostic summar
 | `phase2-ouput/` | Small inherited runtime/configuration dependencies, not battery data; original spelling retained for code compatibility |
 | `configs/` | Configurations, recorded environment and expected external-input hashes |
 | `results/primary/` | Primary refit source/seed metrics and aggregate comparisons |
+| `results/residual_outer/` | Post hoc Trend-residual TCN SoH30 results on 12 outer sources and five seeds, including MAE, RMSE, bias and provenance |
 | `results/censoring_and_snl/` | Source censoring and evaluation-only SNL exclusions |
 | `results/coverage/`, `results/hcp/` | Earlier quantile-model intervals and hierarchical calibration results |
 | `results/inner_train_validation/` | Source-level inner training/validation diagnostic summaries |
@@ -30,11 +31,14 @@ Python **3.11 or later**, standard library only:
 python -B verify_release.py
 python -B recompute_summary.py
 python -B recompute_common_input.py
+python -B recompute_residual_outer.py
 ```
 
 The commands check file hashes, reconstruct primary source/seed means and sample standard deviations, and reconstruct common-input and checkpoint-sensitivity summaries. They do not read a manuscript, train models, require a GPU, read raw battery data or use account tokens. These checks establish aggregate consistency, not independent prediction reproduction.
 
 For the paired Extra Trees versus Trend source bootstrap, run `python -B recompute_paired_bootstrap.py` with NumPy 2.3.5. This separate command resamples released seed-averaged source scores and does not train or score models.
+
+For the four residual-versus-reference bootstrap comparisons, run `python -B recompute_residual_outer.py --bootstrap` with NumPy. The residual extension has SoH30 MAE **0.0224 ± 0.0030**, RMSE **0.0307** and signed bias **+0.0078**. Its Skill against Persistence is **−6.9%**. See [results/residual_outer/README.md](results/residual_outer/README.md) for the fixed recipe, selection and evaluation scope.
 
 ## Full training
 
@@ -43,6 +47,7 @@ See [REPRODUCIBILITY.md](REPRODUCIBILITY.md). Full execution needs authorized ex
 ## Interpretation
 
 - Primary point results cover 12 sources and five outer seeds; inner selection uses seed 2026. Model families do not have fully matched input representations or tuning budgets.
+- The residual outer extension uses fixed P0 and only evaluates SoH30. It supplements the original selected systems rather than replacing their results. The earlier one-seed, 11-source residual validation control remains separate.
 - Coverage results use separate, earlier quantile models; they are not intervals of the primary refit systems.
 - The common-input SoH diagnostic has 54 fits: three families × three folds × three seeds × two input variants. CALB is excluded from training and validation. This is a post hoc inner diagnostic, not a new outer-test comparison or evidence that CALB data are invalid.
 - RUL is scored only where the threshold event is observed. CALB/RUL90 is not evaluable; unavailable errors are not zero.

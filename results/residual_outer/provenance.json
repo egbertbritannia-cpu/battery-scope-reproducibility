@@ -1,0 +1,332 @@
+{
+  "schema": "residual-outer-public-provenance-v1",
+  "exported": "2026-10-29",
+  "source_aggregate_hashes": {
+    "residual_source_seed_metrics.csv": "c61922942a911c7c4cebc6dc0fbe2f37416232b0ad585fccc9cab08907731c20",
+    "residual_summary.json": "3953fc31511402a309290b7d289c5deed6126f9b0fef29b0193cd4d478162a4c",
+    "residual_soh_secondary_source_seed.csv": "a14357cadd2afba4e71cad4aac105bfa5db0cec884e9038578245b63c5607c7b",
+    "residual_soh_secondary_summary.json": "f2339e4e1d0b523ca4f23d5067afad2948b913a414b35b3700361313336bb287"
+  },
+  "original_training_runtime_sha256": "50779308e689b4749bce624a1f9ebc2882c19190531c8a7bf75294d377971813",
+  "published_training_runtime_sha256": "50779308e689b4749bce624a1f9ebc2882c19190531c8a7bf75294d377971813",
+  "public_runtime_transformation": "CRLF line endings normalised to LF; executable statements unchanged",
+  "reused_outer_fits": 5,
+  "additional_outer_fits": 55,
+  "reused_p0_inner_folds": 6,
+  "additional_p0_inner_folds": 30,
+  "prediction_bindings": [
+    {
+      "source": "CALB",
+      "seed": 2026,
+      "sha256": "e42372fdb218ee02f185811e065f8fc4c92435c082b8963619661ee1dc360bce"
+    },
+    {
+      "source": "CALB",
+      "seed": 2027,
+      "sha256": "17d65eaaa82691abbadcb1193ad5ca2252fb55fbed67bd1d57ffa36e036c2c18"
+    },
+    {
+      "source": "CALB",
+      "seed": 2028,
+      "sha256": "1afec47b5bff0e44288e8f90e370925e329a8997f09869c69d32a61b14fe7ebc"
+    },
+    {
+      "source": "CALB",
+      "seed": 2029,
+      "sha256": "cb4c7611aab524766425577fd5eb3abc5601b95931a62e06d0e86fa36739c35a"
+    },
+    {
+      "source": "CALB",
+      "seed": 2030,
+      "sha256": "9f5501a154dea6eebc1176047be5d0fa55289bf1cf53a662cf085a0611c12c33"
+    },
+    {
+      "source": "MATR",
+      "seed": 2026,
+      "sha256": "e86f6972a01cc57d50efb05dd4f0fed1d57743b498a2a3df5fec5a83326a5c33"
+    },
+    {
+      "source": "MATR",
+      "seed": 2027,
+      "sha256": "5f5dd6b9ff08a2ac0d1f2642cfb4d1204e571fae346e1e95c89ddf64b4f81c61"
+    },
+    {
+      "source": "MATR",
+      "seed": 2028,
+      "sha256": "57d6659585273e1bad813a32022b3fc65f505a39d587a028238dde98042b382d"
+    },
+    {
+      "source": "MATR",
+      "seed": 2029,
+      "sha256": "164fc9cf382496df23e87f96e76046742b2c902f37c38983e4f26af9af80dcd6"
+    },
+    {
+      "source": "MATR",
+      "seed": 2030,
+      "sha256": "b135b4aff3878d7470ba4c13d7457c67e862c08954aaf2bf26647a909bd4f4ab"
+    },
+    {
+      "source": "SDU",
+      "seed": 2026,
+      "sha256": "0d27812f45c875f2ef76a10f3a71ac39e879f637a212d8556632223d66646e1c"
+    },
+    {
+      "source": "SDU",
+      "seed": 2027,
+      "sha256": "8324abbd85e69ae6a61849b253e331007ba3a36b035ddca1020d0965b1d703ce"
+    },
+    {
+      "source": "SDU",
+      "seed": 2028,
+      "sha256": "232948dbeaed648bfeb958c56972409f6795e2422099dc36d5decc9c179ab7a6"
+    },
+    {
+      "source": "SDU",
+      "seed": 2029,
+      "sha256": "3961fe1f273feae867bfa1997ecb8765ce6d6c3da6dadde8ec4ce0d209ee712c"
+    },
+    {
+      "source": "SDU",
+      "seed": 2030,
+      "sha256": "790f21f34bd8a808954acc5f4b177a8d6c7f502f67d50bf86b1c538c171e25de"
+    },
+    {
+      "source": "Stanford",
+      "seed": 2026,
+      "sha256": "8dc5d604371b3e04a99e533874d4750e994f5c0922c2f6be16280906cfad0a48"
+    },
+    {
+      "source": "Stanford",
+      "seed": 2027,
+      "sha256": "b8e222924d64e8da4d7828b12c98cdb8cb1b58760231f3e375b311e1abedd5da"
+    },
+    {
+      "source": "Stanford",
+      "seed": 2028,
+      "sha256": "7b7b0f3c5a64d9d5848a28285bbf9c28a55cea7d32fad2d823d5551753ec6a42"
+    },
+    {
+      "source": "Stanford",
+      "seed": 2029,
+      "sha256": "2d2d565175322b3e976079f55596bfdb3d2eedef1401b673c4c8e621f74a632a"
+    },
+    {
+      "source": "Stanford",
+      "seed": 2030,
+      "sha256": "009dcacbe2adf9693296827ca2cf4c6952900e566957ea6349a2882856a99226"
+    },
+    {
+      "source": "XJTU",
+      "seed": 2026,
+      "sha256": "4fe5166cf71df91be8eb00688bc9b5d248fe01c077602759dc54ae3accac0318"
+    },
+    {
+      "source": "XJTU",
+      "seed": 2027,
+      "sha256": "c3ab9ce01b4f2d63dfe9127ed7ea262185ffc3c8f2471a5d5b1d7e35f31d25be"
+    },
+    {
+      "source": "XJTU",
+      "seed": 2028,
+      "sha256": "e05685745f6935e221c4a832e21e2f8b308d23199bbe2690eba09575b6b0c9b0"
+    },
+    {
+      "source": "XJTU",
+      "seed": 2029,
+      "sha256": "e354f10b6d23d9f05e2f41794dcd34f3103f2e96f00d2deef2f0d2e908838860"
+    },
+    {
+      "source": "XJTU",
+      "seed": 2030,
+      "sha256": "1667b944e25db9ad22447a977d42d6600bb19b21745f5fc7bbcb490445121470"
+    },
+    {
+      "source": "SNL",
+      "seed": 2026,
+      "sha256": "17302516a4fff3df14efd74b5aa186155b234557e6653b0002d1d5b208c4f875"
+    },
+    {
+      "source": "SNL",
+      "seed": 2027,
+      "sha256": "d581ea6c2cc32a2d64330e89b1f810b0a19b9e5461f970f07f11ff23a2270315"
+    },
+    {
+      "source": "SNL",
+      "seed": 2028,
+      "sha256": "40d9807f0ab42797ee4a6d94970473fd1be405fe33caebeac8be1a59ae2bab84"
+    },
+    {
+      "source": "SNL",
+      "seed": 2029,
+      "sha256": "53a48b7c363277fee116bb56e4ba9be74282b4bb2a653259e1d7874d0bf8224e"
+    },
+    {
+      "source": "SNL",
+      "seed": 2030,
+      "sha256": "26972c848d397982181461cc6a1b90dd1250d7e13d0fd0e5d907e796ffa20e96"
+    },
+    {
+      "source": "CALCE",
+      "seed": 2026,
+      "sha256": "e9d5c62bcc40ff5f1a8fa5f45573d7f8ec019c29b6650e333ddc25c59ab8119e"
+    },
+    {
+      "source": "CALCE",
+      "seed": 2027,
+      "sha256": "c5bef86d434db53e820ab0026476ecda9960cc6ed73a011efeca0245a9232f83"
+    },
+    {
+      "source": "CALCE",
+      "seed": 2028,
+      "sha256": "4ea79af3ac7c19d703e4ddfa49f00469bdd6e05b6114bb8b9410449e0ef172d5"
+    },
+    {
+      "source": "CALCE",
+      "seed": 2029,
+      "sha256": "0705a1af4d92dd591f41fec0801c568a3bee705a6565613e3fa7483d68e129fd"
+    },
+    {
+      "source": "CALCE",
+      "seed": 2030,
+      "sha256": "98665930641b459d5f97b43dfefd32f28c8ca6be8ff80337fb88031b1b9ebea2"
+    },
+    {
+      "source": "HNEI",
+      "seed": 2026,
+      "sha256": "e25e93009ebaaf2cbee1e125954916b877a227b2d005617c93b8be8d627d844f"
+    },
+    {
+      "source": "HNEI",
+      "seed": 2027,
+      "sha256": "8fa12572bc9c78f84d3ebba073bfbe591056a1c6703d6ff818a8672f3d59cf02"
+    },
+    {
+      "source": "HNEI",
+      "seed": 2028,
+      "sha256": "01caf5751f736608e49d82a727b167e241c38e7bc210a8b69ef7bf100982d553"
+    },
+    {
+      "source": "HNEI",
+      "seed": 2029,
+      "sha256": "ef2a7315f598d7927995d32c28cfc3484d099c165fb81c3dadfb61ca2b108940"
+    },
+    {
+      "source": "HNEI",
+      "seed": 2030,
+      "sha256": "b220a2c78127f66beff23c05390b01d6034c63def292e7b750fd4017f75dfde2"
+    },
+    {
+      "source": "MICH",
+      "seed": 2026,
+      "sha256": "f78ab6508feb1f5436d5ba1ba96f70cd3971d62349c9290f4438ae29756aea4c"
+    },
+    {
+      "source": "MICH",
+      "seed": 2027,
+      "sha256": "6b38e9b068e0e13f4120e38b7b342c186d67f1272a8a68103ee5c35888af0322"
+    },
+    {
+      "source": "MICH",
+      "seed": 2028,
+      "sha256": "79a4195fd5ec72de3e29f794ac76c0a11c21ee0fab5d8c6c834498cbc39d839c"
+    },
+    {
+      "source": "MICH",
+      "seed": 2029,
+      "sha256": "368e11d12265b7402204d0ed7fc2b65a8c1896308ffa6384b16336fe973e6a8d"
+    },
+    {
+      "source": "MICH",
+      "seed": 2030,
+      "sha256": "e0509fd467db6a91eda4933c29944e24704406a2350e0b577edc5026416b9ae2"
+    },
+    {
+      "source": "Stanford_2",
+      "seed": 2026,
+      "sha256": "c0c1ffca9f8e902d053b609154283aefdae2e3a8bf39f0ed6920333b6b404153"
+    },
+    {
+      "source": "Stanford_2",
+      "seed": 2027,
+      "sha256": "45bf6ccd640b39e3fe1745535fcd15bbacf9bceba5c0b3d71f770a3db73577eb"
+    },
+    {
+      "source": "Stanford_2",
+      "seed": 2028,
+      "sha256": "eb7163f6343689111cd463cf677f8686321e52bbf7d91c424b61a59e2fef94a3"
+    },
+    {
+      "source": "Stanford_2",
+      "seed": 2029,
+      "sha256": "8b94c9152d8e58d81177a3b0878f8e1d23d29ced3edf8239bae3a100cb1c9bf7"
+    },
+    {
+      "source": "Stanford_2",
+      "seed": 2030,
+      "sha256": "61a6299f70686974545f7122c1be5eaa1f863fbf4441acd982e1de98303c948b"
+    },
+    {
+      "source": "UL_PUR",
+      "seed": 2026,
+      "sha256": "910c58e9b575037de6f07755b8654df179f709956e9d98932add6fcf0457f566"
+    },
+    {
+      "source": "UL_PUR",
+      "seed": 2027,
+      "sha256": "4a85e3fdc3d92117ba61dd74eaa66f63f2f14c3512aa76a76b4faeb0221bfca5"
+    },
+    {
+      "source": "UL_PUR",
+      "seed": 2028,
+      "sha256": "f25cb1663955b344c4677b9d151cb13c0f6714f08231fdf5861e5a827f14e6e5"
+    },
+    {
+      "source": "UL_PUR",
+      "seed": 2029,
+      "sha256": "034440525543f400343dc1ce4785a0af1d6d4b9e0394b5a4ab7860ef7a3e42cd"
+    },
+    {
+      "source": "UL_PUR",
+      "seed": 2030,
+      "sha256": "26a6e69d0b0f4bfb308e5f9a05870491984ba2d8d4f4cbcab669f2bfb43a7eb0"
+    },
+    {
+      "source": "Tongji",
+      "seed": 2026,
+      "sha256": "1b2c79a5ebe61cf986af72c327194cd77d6024556cabbde5e17ca7503c1e1450"
+    },
+    {
+      "source": "Tongji",
+      "seed": 2027,
+      "sha256": "8d838cfc4af43b7a0deab171f7901cc1cb82ce91a7b128ab2f9446b0330dd3aa"
+    },
+    {
+      "source": "Tongji",
+      "seed": 2028,
+      "sha256": "dca3fba9e6904e6e97d7972ebee22c436de5f8485558c9ced3d424a66c4991b3"
+    },
+    {
+      "source": "Tongji",
+      "seed": 2029,
+      "sha256": "76521e525120f1a7f4f523990c9ee26a935380e4ebaf3dd50c805c6f27f928c2"
+    },
+    {
+      "source": "Tongji",
+      "seed": 2030,
+      "sha256": "2e471907f225a0a48c411cd1984d422db98f06b499798670bb63b0601e101760"
+    }
+  ],
+  "aggregate_basis": "Same sixty accepted frozen SoH point predictions for MAE, RMSE and bias",
+  "source_level_values_exported": true,
+  "cell_identifiers_exported": false,
+  "raw_data_exported": false,
+  "weights_exported": false,
+  "predictions_exported": false,
+  "credentials_exported": false,
+  "notes": [
+    "Public system label normalised to Trend-residual TCN; numerical source/seed values unchanged.",
+    "RMSE/bias were additionally calculated from retained predictions; this did not require new fits.",
+    "The execution history includes legacy grid work; only matching P0 artifacts enter this fixed-recipe extension.",
+    "The published runtime supports legacy and fixed-P0 manifests; the released contract specifies fixed P0."
+  ]
+}

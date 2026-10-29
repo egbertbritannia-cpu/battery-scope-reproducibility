@@ -24,18 +24,18 @@
     },
     {
       "path": "README.md",
-      "bytes": 3941,
-      "sha256": "b68f374b24b8513361044b15910464674293e60706d793c9b6150d6c8cb9c0ed"
+      "bytes": 4797,
+      "sha256": "a42bbc05a5748dffc3930b129ceb148f08af1225db56b0aa2ce5a20d43c4985e"
     },
     {
       "path": "REPRODUCIBILITY.md",
-      "bytes": 3758,
-      "sha256": "923773cdb77fa10426cf319cc983a89ddcf2d3c5922b16316a88b163e3128ce3"
+      "bytes": 4605,
+      "sha256": "2c7e69456927520fb985c9ae9cfe60e240de96842c48f6c65be432cc813d1023"
     },
     {
       "path": "build_submission_results.py",
-      "bytes": 10883,
-      "sha256": "c7cadf6479b544c8454e50576bc5f44f8dfcbb2014bf68629a80772d84e45d76"
+      "bytes": 11562,
+      "sha256": "3a0c8aea0ebb8084afbaec686780bdbf8fab49eed3b275ba7c8bb96b043638e6"
     },
     {
       "path": "configs/common_input/training_contract.json",
@@ -63,9 +63,24 @@
       "sha256": "570922a4f22e861bd4e9c9f8bf05ddab65e88e18d1811cd3c72d14809236280a"
     },
     {
+      "path": "configs/residual_outer/input_parity.json",
+      "bytes": 1085,
+      "sha256": "c86c09048e26750b278a11741b0589aba2abdc0c12eba447d87ec7af19ab65b2"
+    },
+    {
+      "path": "configs/residual_outer/training_contract.json",
+      "bytes": 4519,
+      "sha256": "3660a7a32f55edcd734c9b225db4710ed808d6ecc7841b122d188b02b85d4f89"
+    },
+    {
+      "path": "docs/PROTOCOL_COMPARISON.md",
+      "bytes": 3096,
+      "sha256": "455c5bdeafc947c00be9428504718f239916dde04062f97eba54226ad1dd1fa5"
+    },
+    {
       "path": "docs/SUBMISSION_MAP.md",
-      "bytes": 5204,
-      "sha256": "256a2987572cae4ddf6f6eb1a4415e4aba4ecb26f7f3ec53c8422aa0d5e23bae"
+      "bytes": 6677,
+      "sha256": "84cf9853af742e0af9bb1347f96291b3ba288cad0f5605a4c0d266e4b8376b65"
     },
     {
       "path": "docs/references.bib",
@@ -278,6 +293,11 @@
       "sha256": "98eb75cb84605105161d610ec80f4139412d458f0fa512da9b78af0b03eeca05"
     },
     {
+      "path": "protocol_and_provenance/neural_classical_fairness_v1/runtime/residual_outer_followup.py",
+      "bytes": 15920,
+      "sha256": "50779308e689b4749bce624a1f9ebc2882c19190531c8a7bf75294d377971813"
+    },
+    {
       "path": "protocol_and_provenance/neural_classical_fairness_v1/runtime/rul_representation_inner.py",
       "bytes": 16408,
       "sha256": "2a3643572d24a4b2a22fa41de27bb4ac714bc6b5a86c57c53baeca0acf6568c6"
@@ -346,6 +366,11 @@
       "path": "recompute_paired_bootstrap.py",
       "bytes": 1411,
       "sha256": "3cddb86e4aee8aa5eb6bfbdf4b72856d62ed44b86ddc3463fbb61fe076054cb4"
+    },
+    {
+      "path": "recompute_residual_outer.py",
+      "bytes": 5842,
+      "sha256": "25c85114612e8f8ac82303f587dabc4b6d8e560f9c4fb6c07cc4d810244d5374"
     },
     {
       "path": "recompute_summary.py",
@@ -548,6 +573,31 @@
       "sha256": "1f23bd2428dbeb626d9e428d5f6397a2d14ca20e55677bcdbdb16385d0a8d4a6"
     },
     {
+      "path": "results/residual_outer/README.md",
+      "bytes": 4006,
+      "sha256": "25efb40e922c2437f70013cf5ed379c717ab98d05e960fbf087215b39fe875b2"
+    },
+    {
+      "path": "results/residual_outer/provenance.json",
+      "bytes": 10234,
+      "sha256": "3a1f4f3a7852fa96898e1be35ca6714a38e0019d601f284889ceb59d3490f07d"
+    },
+    {
+      "path": "results/residual_outer/source_seed_metrics.csv",
+      "bytes": 6548,
+      "sha256": "33e1a80e85bf1bbd2522eaf76043032fa037170b1cd0fcc88085d80c39b77367"
+    },
+    {
+      "path": "results/residual_outer/source_summary.csv",
+      "bytes": 1850,
+      "sha256": "3232743f20c9a751d6a3b6d942ea24e74affe0a5a52bb9769a2cb327c96a67dd"
+    },
+    {
+      "path": "results/residual_outer/summary.json",
+      "bytes": 2861,
+      "sha256": "be321fdb0074911d5b64d65fe0402a96b20435ff2304eb2a1500f800e862a4b9"
+    },
+    {
       "path": "results/submission/leakage_overall_metrics.csv",
       "bytes": 1697,
       "sha256": "da64f260d4beefcbf40861eb29a6ec658f03651371242823b3aef2d7f6116255"
@@ -603,12 +653,17 @@
       "sha256": "f802f25b7aa05b075674d4353f7180b88fd9249419972ceec1c8bf377f6453d2"
     },
     {
+      "path": "tests/test_residual_outer_release.py",
+      "bytes": 2253,
+      "sha256": "7576afe1e006bbcb09834a287c780364977c77c45896654e09e9ad9f1f0b8e83"
+    },
+    {
       "path": "verify_release.py",
       "bytes": 577,
       "sha256": "ef31ee81af69d2e9bf16f212183c5af947c765b1fd0e5da9447b15dab80e6f9a"
     }
   ],
-  "total_bytes": 3369626,
+  "total_bytes": 3431695,
   "raw_data_included": false,
   "model_weights_included": false,
   "cell_metrics_included": false,
@@ -616,5 +671,6 @@
   "appendix_included": false,
   "figures_included": false,
   "full_rerun_claimed": false,
-  "supplemental_results_added": "2026-10-29"
+  "supplemental_results_added": "2026-10-29",
+  "residual_outer_extension_added": "2026-10-29"
 }

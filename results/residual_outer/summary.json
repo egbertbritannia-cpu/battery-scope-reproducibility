@@ -1,0 +1,109 @@
+{
+  "schema": "batteryscope-residual-outer-aggregate-v1",
+  "system": "Trend-residual TCN",
+  "endpoint": "soh30",
+  "sources": 12,
+  "seeds": 5,
+  "seed_bases": [
+    2026,
+    2027,
+    2028,
+    2029,
+    2030
+  ],
+  "metrics": {
+    "mae": {
+      "mean": 0.022371865766392718,
+      "sample_seed_sd": 0.0030039641993232515,
+      "seed_means": [
+        0.02728402512976592,
+        0.023035278666861593,
+        0.019826753865491868,
+        0.020378965321145134,
+        0.02133430584869908
+      ]
+    },
+    "rmse": {
+      "mean": 0.030728762046474428,
+      "sample_seed_sd": 0.0024445320112840706,
+      "seed_means": [
+        0.03486991529572475,
+        0.030528233916320237,
+        0.029272329915068365,
+        0.03035464691722608,
+        0.028618684188032706
+      ]
+    },
+    "bias": {
+      "mean": 0.007832661490792639,
+      "sample_seed_sd": 0.004442236827014149,
+      "seed_means": [
+        0.014636966039481433,
+        0.008082337448374034,
+        0.004709822030210182,
+        0.003119918569198981,
+        0.008614263366698561
+      ]
+    }
+  },
+  "soh30_skill_percent": -6.930466668681268,
+  "comparisons": [
+    {
+      "reference": "TCN",
+      "reference_mae": 0.0812212048745431,
+      "delta": -0.058849339108150434,
+      "wins": 12,
+      "sources": 12,
+      "source_bootstrap_95": [
+        -0.13488820809093893,
+        -0.014709358307954955
+      ]
+    },
+    {
+      "reference": "Extra Trees",
+      "reference_mae": 0.0161919678634739,
+      "delta": 0.006179897902918803,
+      "wins": 6,
+      "sources": 12,
+      "source_bootstrap_95": [
+        -0.004306310864638429,
+        0.02338512810961929
+      ]
+    },
+    {
+      "reference": "Trend",
+      "reference_mae": 0.0116668831468167,
+      "delta": 0.010704982619576003,
+      "wins": 1,
+      "sources": 12,
+      "source_bootstrap_95": [
+        0.0010947145240318063,
+        0.02870567611442299
+      ]
+    },
+    {
+      "reference": "Persistence",
+      "reference_mae": 0.0209218817268523,
+      "delta": 0.001449984039540394,
+      "wins": 10,
+      "sources": 12,
+      "source_bootstrap_95": [
+        -0.01206445576302857,
+        0.023134156355938313
+      ]
+    }
+  ],
+  "source_bootstrap": {
+    "replicates": 10000,
+    "seed": 20260914,
+    "source_order": "alphabetical",
+    "contrast": "residual minus reference; seed-averaged source MAE",
+    "interpretation": "descriptive conditional on retained sources and fitted systems"
+  },
+  "aggregation": "Mean within each cell, equal cells within source, equal 12 sources within seed; mean and sample SD of five seed scores. RMSE takes square root within each cell before averaging.",
+  "bias_sign": "prediction minus observed target; positive means overprediction",
+  "units": "normalised capacity fraction",
+  "post_hoc": true,
+  "rul_evaluated": false,
+  "intervals_evaluated": false
+}
